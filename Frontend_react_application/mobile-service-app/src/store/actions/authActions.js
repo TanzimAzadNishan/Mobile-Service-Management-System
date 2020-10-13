@@ -8,6 +8,8 @@ export const createAccount = (accountInfo)=>{
         .then((data)=>{
             console.log(data)
             dispatch({type: 'CREATE_ACCOUNT', userAccount: data})
+        }, ()=>{
+            console.log('error occured')
         })
     }
 }
