@@ -1,15 +1,26 @@
 // action creator
 
-import authService from '../../services/authService'
+import authService from '../../utilities/authService'
 
 export const createAccount = (accountInfo)=>{
     return(dispatch, getState)=>{
         authService.onSignup(accountInfo)
-        .then((data)=>{
-            console.log(data)
-            dispatch({type: 'CREATE_ACCOUNT', userAccount: data})
+        .then((res)=>{
+            console.log(res)
+            if(res.data.serverMsg === 'User Already Exists'){
+                dispatch({type: 'SIGNUP_FAILED', error: res.data.serverMsg})
+            }
+            else{
+                dispatch({type: 'SIGNUP_SUCCESS', userAccount: res.data.userAccount})
+            }
         }, ()=>{
             console.log('error occured')
         })
+    }
+}
+
+export const logoutFromAccount = ()=>{
+    return{
+        type: 'LOGOUT'
     }
 }

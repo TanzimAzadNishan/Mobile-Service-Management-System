@@ -1,0 +1,54 @@
+/*.Navbar{
+    display: flex;*/
+
+    /*flex-wrap: wrap;
+    justify-content: space-between;*/
+
+    /*flex: 0 1;
+    padding-top: 50px;
+    padding-left: 10%;
+    padding-bottom: 25px;
+    border-bottom: 5px solid red;*/
+/*}
+
+.Navbar ul li{
+    font-family: 'Nunito', 'Tatsam Bengali Rnd', 'Helvetica Neue';
+    margin-right: 2%;
+    min-width: 150px;
+    flex: 0 1 1%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 20px;
+    font-weight: 540;
+    letter-spacing: 0.01071em;
+    cursor: pointer;
+}
+.Navbar ul li:hover, .Navbar ul li:focus{
+    color: red;
+    transform: translateY(-0.25em);
+}*/
+
+.left .itemStyle{
+    margin-right: 30px;
+}
+.right .itemStyle{
+    margin-left: 30px;
+}
+.itemStyle{
+    color: black;
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+.logo{
+    position: absolute;
+    z-index: 5;
+}
+.bottom-navbar{
+    padding-top: 5px;
+    padding-bottom: 65px;
+    border-bottom: 5px solid red;
+}
+.itemStyle:hover{
+    color: red;
+}

@@ -1,16 +1,34 @@
 //import validator from 'validator'
 
 const initState = {
-    userAccount: null
+    auth: null,
+    authError: null
 }
 
 const authReducer = (state = initState, action)=>{
-    if(action.type === 'CREATE_ACCOUNT'){
+    if(action.type === 'SIGNUP_SUCCESS'){
         console.log('account created')
+        console.log(action.userAccount)
         localStorage.setItem('userAccount', JSON.stringify(action.userAccount))
+        const userData = localStorage.getItem('userAccount')
+        console.log(JSON.parse(userData))
         return{
             ...state,
-            userAccount: action.userAccount
+            auth: userData ? JSON.parse(userData) : null
+        }
+    }
+    else if(action.type === 'SIGNUP_FAILED'){
+        return{
+            ...state,
+            authError: action.error
+        }
+    }
+    else if(action.type === 'LOGOUT'){
+        localStorage.removeItem('userAccount')
+        //location.reload()
+        return{
+            ...state,
+            auth: null
         }
     }
     return state

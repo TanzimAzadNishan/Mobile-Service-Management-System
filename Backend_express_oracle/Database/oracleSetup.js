@@ -3,7 +3,7 @@ const oracledb = require('oracledb')
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 oracledb.autoCommit = true;
 
-const mypw = '123'  // set mypw to the hr schema password
+const mypw = '1234'  // set mypw to the hr schema password
 
 module.exports = async function(sqlQuery, bindingVar = null) {
 
@@ -11,10 +11,11 @@ module.exports = async function(sqlQuery, bindingVar = null) {
 
   try {
     connection = await oracledb.getConnection({
-      user          : "BUET",
+      user          : "PROJECT",
       password      : mypw,
       connectString : "localhost/ORCL"
     })
+    //console.log(bindingVar)
     return await connection.execute(sqlQuery, bindingVar)
 
     /*const bindvars = {
