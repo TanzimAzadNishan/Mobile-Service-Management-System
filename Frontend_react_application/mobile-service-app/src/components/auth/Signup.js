@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {Redirect} from 'react-router-dom'
+import {Redirect, NavLink} from 'react-router-dom'
 import {createAccount} from '../../store/actions/authActions'
 import '../../styles/SignupStyle.css'
 import {
     validateName, validateMobileNumber, validatePassword, validateConfirmPassword
 } from '../../utilities/Validators/SignupValidator'
+import NProgress from 'nprogress'
 
 
 const initialState = {
@@ -35,10 +36,13 @@ const initialState = {
 
 
 class Signup extends Component{
-    /*constructor(props){
+    constructor(props){
         super(props);
-        this.state = this.initialState
-    }*/
+        NProgress.start();
+    }
+    componentDidMount(){
+        NProgress.done()
+    }
 
     /*handleClick = ()=>{
         this.props.createAccount(this.bindingVars)
@@ -234,10 +238,13 @@ class Signup extends Component{
                         </div>
                     </div>
 
-                    <div className="input-field">
+                    <div className="input-field loginText">
                         <button type="submit" className='btn waves-effect waves-light'>
                             Sign Up
                         </button>
+
+                        Already Have an Account?
+                        <NavLink to="/login" className="loginLink"> Login </NavLink>
                     </div>
 
                     <div style={{color: "red"}}>

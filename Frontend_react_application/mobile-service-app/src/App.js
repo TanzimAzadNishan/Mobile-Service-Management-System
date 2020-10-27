@@ -4,6 +4,7 @@ import Home from './components/Home'
 import Navbar from './components/Navbar'
 import Signup from './components/auth/Signup'
 import logo from './images/5.jpg'
+import 'nprogress/nprogress.css'
 
 class App extends Component{
   render() {
