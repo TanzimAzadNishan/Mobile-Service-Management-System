@@ -15,7 +15,7 @@ class Navbar extends Component{
         const links = (userAuthData) ? (
             <>
                 <li>
-                    <NavLink to="/my-account" className="itemStyle"> My Account </NavLink>
+                    <NavLink to="/dashboard" className="itemStyle"> My Account </NavLink>
                 </li>
                 <li>
                     <NavLink to="/" onClick={this.handleLogout}

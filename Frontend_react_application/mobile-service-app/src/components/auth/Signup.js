@@ -39,6 +39,8 @@ class Signup extends Component{
     constructor(props){
         super(props);
         NProgress.start();
+        NProgress.configure({ ease: 'ease', speed: 500 });
+        //NProgress.configure({trickleSpeed: 800 });
     }
     componentDidMount(){
         NProgress.done()
@@ -265,7 +267,7 @@ const mapStateToProps = (state) => {
       auth: state.auth.auth,
       authError: state.auth.authError
     }
-  }
+}
 
 const mapDispatchtoProps = (dispatch)=>{
     return{

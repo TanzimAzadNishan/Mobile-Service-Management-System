@@ -1,6 +1,6 @@
 // action creator
 
-import authService from '../../utilities/authService'
+import authService from '../../utilities/Services/authService'
 
 export const createAccount = (accountInfo)=>{
     return(dispatch, getState)=>{

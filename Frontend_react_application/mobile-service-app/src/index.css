@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#nprogress .bar {
+  background: #E74343 !important;
+}
+#nprogress .spinner-icon{
+  border-top-color: #E74343 !important;
+  border-left-color: #E74343 !important;
+}

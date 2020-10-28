@@ -1,4 +1,4 @@
-import {baseApi} from './ApiControllers/apiCaller'
+import {baseApi} from '../ApiControllers/apiCaller'
 
 export default{
     onSignup(signupInfo){
