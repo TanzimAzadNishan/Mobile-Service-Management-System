@@ -5,7 +5,7 @@ import {createAccount} from '../../store/actions/authActions'
 import '../../styles/SignupStyle.css'
 import {
     validateName, validateMobileNumber, validatePassword, validateConfirmPassword
-} from '../../utilities/Validators/SignupValidator'
+} from '../../utilities/Validators/AuthValidator'
 import NProgress from 'nprogress'
 
 
