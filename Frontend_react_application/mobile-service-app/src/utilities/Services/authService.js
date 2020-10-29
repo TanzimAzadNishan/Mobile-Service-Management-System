@@ -5,3 +5,9 @@ export default{
         return baseApi.post('/signup', signupInfo)
     }
 }
+
+export default{
+    onLogin(loginInfo){
+        return baseApi.post('/login',loginInfo)
+    }
+}

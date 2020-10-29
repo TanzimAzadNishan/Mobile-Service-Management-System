@@ -19,6 +19,7 @@ export const createAccount = (accountInfo)=>{
     }
 }
 
+
 export const logoutFromAccount = ()=>{
     return{
         type: 'LOGOUT'
