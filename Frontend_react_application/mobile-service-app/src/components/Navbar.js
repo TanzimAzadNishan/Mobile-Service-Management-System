@@ -10,12 +10,12 @@ class Navbar extends Component{
     }
 
     render() {
-        const userAuth = localStorage.getItem('userAccount')
-        const userAuthData = userAuth ? JSON.parse(userAuth) : null
-        const links = (userAuthData) ? (
+        //const userAuth = localStorage.getItem('userAccount')
+        //const userAuthData = userAuth ? JSON.parse(userAuth) : null
+        const links = (this.props.auth) ? (
             <>
                 <li>
-                    <NavLink to="/dashboard" className="itemStyle"> My Account </NavLink>
+                    <NavLink to="/dashboard" className="itemStyle"> Dashboard </NavLink>
                 </li>
                 <li>
                     <NavLink to="/" onClick={this.handleLogout}
@@ -85,6 +85,12 @@ class Navbar extends Component{
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+      auth: state.auth.auth,
+    }
+}
+
 const mapDispatchtoProps = (dispatch)=>{
     return{
         logout: ()=>{
@@ -93,4 +99,4 @@ const mapDispatchtoProps = (dispatch)=>{
     }
 }
 
-export default connect(null, mapDispatchtoProps)(withRouter(Navbar))
+export default connect(mapStateToProps, mapDispatchtoProps)(withRouter(Navbar))

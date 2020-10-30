@@ -6,6 +6,9 @@ const initState = {
 }
 
 const authReducer = (state = initState, action)=>{
+    const userAuth = localStorage.getItem('userAccount')
+    console.log('userauth: ', userAuth)
+
     if(action.type === 'SIGNUP_SUCCESS'){
         console.log('account created')
         console.log(action.userAccount)
@@ -50,7 +53,12 @@ const authReducer = (state = initState, action)=>{
             auth: null
         }
     }
-    return state
+    
+    return{
+        ...state,
+        auth: userAuth ? JSON.parse(userAuth) : null
+    }
+    //return state
 }
 
 export default authReducer;

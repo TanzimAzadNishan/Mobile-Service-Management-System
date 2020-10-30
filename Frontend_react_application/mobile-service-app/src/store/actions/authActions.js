@@ -24,7 +24,7 @@ export const loginUser = (accountInfo)=>{
         authService.onLogin(accountInfo)
         .then((res)=>{
             console.log(res)
-            if(res.data.serverMsg === 'Login Failed'){
+            if(res.data.serverMsg === 'Mobile Number or Password is wrong'){
                 dispatch({type: 'LOGIN_FAILED', error: res.data.serverMsg})
             }
             else{

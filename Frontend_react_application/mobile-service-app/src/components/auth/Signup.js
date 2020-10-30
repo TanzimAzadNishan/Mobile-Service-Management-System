@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {Redirect, NavLink} from 'react-router-dom'
 import {createAccount} from '../../store/actions/authActions'
-import '../../styles/SignupStyle.css'
+import '../../styles/auth/SignupStyle.css'
 import {
     validateName, validateMobileNumber, validatePassword, validateConfirmPassword
 } from '../../utilities/Validators/AuthValidator'
@@ -138,7 +138,7 @@ class Signup extends Component{
         //const { auth } = this.props;
         if (this.props.auth != null){
             console.log('redirected')
-            return <Redirect to='/' />
+            return <Redirect to='/dashboard' />
         } 
 
         return (

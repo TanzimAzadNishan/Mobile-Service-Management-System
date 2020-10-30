@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {Redirect, NavLink} from 'react-router-dom'
 import { loginUser } from '../../store/actions/authActions'
-import '../../styles/LoginStyle.css'
+import '../../styles/auth/LoginStyle.css'
 import {
     validateMobileNumber, validatePassword
 } from '../../utilities/Validators/AuthValidator'
@@ -106,7 +106,7 @@ class Login extends Component {
     render(){
         if (this.props.auth != null){
             console.log('redirected')
-            return <Redirect to='/' />
+            return <Redirect to='/dashboard' />
         } 
 
         return (
@@ -167,16 +167,14 @@ class Login extends Component {
                         <button type="submit" className='btn waves-effect waves-light'>
                             Log In
                         </button>
-
+                        Don't Have an Account?
+                        <NavLink to="/signup" className="loginLink"> Signup </NavLink>
                     </div>
 
                     <div style={{color: "red"}}>
                             {this.props.authError}
                     </div>
                 </form>
-                {/*<button onClick={this.handleClick}>
-                    Signup
-        </button>*/}
             </div>
         )
     }

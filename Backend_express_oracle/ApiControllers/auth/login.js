@@ -17,9 +17,7 @@ module.exports = function(app){
             password: req.body.password
         }
 
-        console.log(AccountInfo)
-
-        executeQuery(personAlreadyExistsQuery, [req.body.mobile_number])
+        executeQuery(personAlreadyExistsQuery, PersonInfo)
         .then((record)=>{
             console.log(record)
             if(record.rows.length != 0){
@@ -28,7 +26,7 @@ module.exports = function(app){
             }
             else{
                 console.log('login failed')
-                res.json({serverMsg: 'Login Failed'})
+                res.json({serverMsg: 'Mobile Number or Password is wrong'})
             }
         })
     })
