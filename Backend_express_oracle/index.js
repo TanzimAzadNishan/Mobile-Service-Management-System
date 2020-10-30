@@ -6,6 +6,7 @@ const http = require('http')
 const multer = require('multer')
 
 const signupController = require('./ApiControllers/auth/signup')
+const loginConteroller = require('./ApiControllers/auth/login')
 const accountInfoController = require('./ApiControllers/Dashboard/accountInfo')
 const editInfoController = require('./ApiControllers/Dashboard/editInfo')
 
@@ -53,5 +54,6 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 //registering api end points
 signupController(app)
+loginConteroller(app)
 accountInfoController(app)
 editInfoController(app, upload)

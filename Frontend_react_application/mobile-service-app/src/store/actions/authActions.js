@@ -19,6 +19,23 @@ export const createAccount = (accountInfo)=>{
     }
 }
 
+export const loginUser = (accountInfo)=>{
+    return(dispatch, getState)=>{
+        authService.onLogin(accountInfo)
+        .then((res)=>{
+            console.log(res)
+            if(res.data.serverMsg === 'Login Failed'){
+                dispatch({type: 'LOGIN_FAILED', error: res.data.serverMsg})
+            }
+            else{
+                dispatch({type: 'LOGIN_SUCCESS', userAccount: res.data.userAccount})
+            }
+        }, ()=>{
+            console.log('error occured')
+        })
+    }
+}
+
 
 export const logoutFromAccount = ()=>{
     return{
