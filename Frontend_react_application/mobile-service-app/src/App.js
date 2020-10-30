@@ -3,7 +3,8 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Home from './components/Home'
 import Navbar from './components/Navbar'
 import Signup from './components/auth/Signup'
-import Login from './components/auth/Login'
+import Login from './components/auth/login'
+import AdminLogin from './components/Admin/AdminLogin'
 import logo from './images/5.jpg'
 import 'nprogress/nprogress.css'
 
@@ -18,6 +19,7 @@ class App extends Component{
             <Route exact path="/" component={Home}></Route>
             <Route path="/signup" component={Signup}></Route>
             <Route path="/login" component={Login}></Route>
+            <Route path="/adminlogin" component={AdminLogin}></Route>
           </Switch>
         </div>
       </BrowserRouter>

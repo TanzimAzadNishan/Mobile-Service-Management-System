@@ -26,7 +26,7 @@ const authReducer = (state = initState, action)=>{
             authError: action.error
         }
     }
-    if(action.type === 'LOGIN_SUCCESS'){
+    else if(action.type === 'LOGIN_SUCCESS'){
         console.log('User Logged In')
         console.log(action.userAccount)
         localStorage.setItem('userAccount', JSON.stringify(action.userAccount))
