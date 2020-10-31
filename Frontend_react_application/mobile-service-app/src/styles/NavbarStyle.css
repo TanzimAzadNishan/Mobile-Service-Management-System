@@ -29,6 +29,11 @@
     transform: translateY(-0.25em);
 }*/
 
+.nav-wrapper{
+    height: 50px;
+    line-height: 50px;
+}
+
 .left .itemStyle{
     margin-right: 30px;
 }
@@ -45,8 +50,8 @@
     z-index: 5;
 }
 .bottom-navbar{
-    padding-top: 5px;
-    padding-bottom: 65px;
+    /*padding-top: 5px;*/
+    padding-bottom: 60px;
     border-bottom: 5px solid red;
 }
 .itemStyle:hover{

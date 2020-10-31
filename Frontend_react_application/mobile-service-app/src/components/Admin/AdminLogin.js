@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {Redirect, NavLink} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import { loginAdmin } from '../../store/actions/adminAction'
 import '../../styles/auth/LoginStyle.css'
 import {
@@ -180,8 +180,8 @@ class AdminLogin extends Component {
 
 const mapStateToProps = (state) => {
     return {
-      auth: state.auth.auth,
-      authError: state.auth.authError
+      auth: state.admin.auth,
+      authError: state.admin.authError
     }
 }
 

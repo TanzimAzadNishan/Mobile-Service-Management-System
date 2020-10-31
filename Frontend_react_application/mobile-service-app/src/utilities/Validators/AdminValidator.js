@@ -1,6 +1,5 @@
 import validator from 'validator'
 
-var passwordGiven = ''
 
 const validateNID = (NID)=>{
     if(validator.isEmpty(NID)){
@@ -20,7 +19,6 @@ const validateNID = (NID)=>{
 }
 
 const validatePassword = (password)=> {
-    passwordGiven = password
     if (validator.isEmpty(password)) {
       return 'Password is required';
     } 

@@ -3,8 +3,10 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Home from './components/Home'
 import Navbar from './components/Navbar'
 import Signup from './components/auth/Signup'
-import Login from './components/auth/login'
-import AdminLogin from './components/Admin/AdminLogin'
+import AdminLogin from './components/admin/AdminLogin'
+import Login from './components/auth/Login'
+import UserDashboard from './components/dashboard/UserDashboard'
+import EditPersonDetails from './components/dashboard/EditPersonDetails'
 import logo from './images/5.jpg'
 import 'nprogress/nprogress.css'
 
@@ -19,7 +21,9 @@ class App extends Component{
             <Route exact path="/" component={Home}></Route>
             <Route path="/signup" component={Signup}></Route>
             <Route path="/login" component={Login}></Route>
-            <Route path="/adminlogin" component={AdminLogin}></Route>
+            <Route path="/admin/login" component={AdminLogin}></Route>
+            <Route path="/dashboard/edit" component={EditPersonDetails}></Route>
+            <Route path="/dashboard" component={UserDashboard}></Route>
           </Switch>
         </div>
       </BrowserRouter>

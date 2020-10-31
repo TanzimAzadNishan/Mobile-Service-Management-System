@@ -74,7 +74,7 @@ class Navbar extends Component{
                             <NavLink to="/recharge" className="itemStyle"> Recharge </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/my-offers" className="itemStyle"> My Offers </NavLink>
+                            <NavLink to="/history" className="itemStyle"> My History </NavLink>
                         </li>
                     
                     </ul>
@@ -90,7 +90,6 @@ const mapStateToProps = (state) => {
       auth: state.auth.auth,
     }
 }
-
 const mapDispatchtoProps = (dispatch)=>{
     return{
         logout: ()=>{

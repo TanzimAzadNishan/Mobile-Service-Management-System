@@ -2,7 +2,9 @@
 const initState = {
     personInfo: null,
     accountInfo: null,
-    profilePic: null
+    profilePic: null,
+    current_pkg: null,
+    current_fnf_plan: null
 }
 
 const dashboardReducer = (state = initState, action)=>{
@@ -15,8 +17,9 @@ const dashboardReducer = (state = initState, action)=>{
             accountInfo: accountData ? JSON.parse(accountData) : null
         }
     }
-    else if(action.type === 'EDIT_PROFILE_DETAILS'){
-        console.log('profile details edited')
+
+    else if(action.type === 'EDIT_PERSON_DETAILS'){
+        console.log('person details edited')
         localStorage.setItem('personInfo', JSON.stringify(action.personInfo))
         const personData = localStorage.getItem('personInfo')
         return{
@@ -24,6 +27,7 @@ const dashboardReducer = (state = initState, action)=>{
             personInfo: personData ? JSON.parse(personData) : null
         }
     }
+
     else if(action.type === 'EDIT_PROFILE_PIC'){
         console.log('profile pic uploaded')
         localStorage.setItem('profilePic', JSON.stringify(action.profilePic))
@@ -31,6 +35,26 @@ const dashboardReducer = (state = initState, action)=>{
         return{
             ...state,
             profilePic: profilePicData ? JSON.parse(profilePicData) : null
+        }
+    }
+
+    else if(action.type === 'EDIT_CURRENT_PKG'){
+        console.log('current pkg edited')
+        localStorage.setItem('currentPKG', JSON.stringify(action.package))
+        const currentPKGData = localStorage.getItem('currentPKG')
+        return{
+            ...state,
+            current_pkg: currentPKGData ? JSON.parse(currentPKGData) : null
+        }
+    }
+    
+    else if(action.type === 'EDIT_CURRENT_FNF_PLAN'){
+        console.log('current fnf plan edited')
+        localStorage.setItem('currentFNF', JSON.stringify(action.fnfPlan))
+        const currentFNFData = localStorage.getItem('currentFNF')
+        return{
+            ...state,
+            current_fnf_plan: currentFNFData ? JSON.parse(currentFNFData) : null
         }
     }
 

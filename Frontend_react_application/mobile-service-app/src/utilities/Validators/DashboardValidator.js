@@ -29,10 +29,6 @@ const validatePassword = (password)=> {
     return false;
 }
 
-const validateGender = (gender)=>{
-
-}
-
 const validateEmail = (email)=>{
     if(!validator.isEmail(email)){
         return 'Invalid Email'
@@ -47,23 +43,21 @@ const validateAddress = (address)=>{
     return false    
 }
 
-const validateDOB = (dob)=>{
-
-}
-
 const validatePhoto = (photo)=>{
-    
+    if (!validator.isLength(photo, { max: 20 })) {
+        return 'File Name should be maximum 20 characters';
+    }
+    return false 
 }
 
 const validateCurrentPKG = (pkg)=>{
-
-}
-
-const validateCurrentFNFPlan = (plan)=>{
-
+    if (validator.isEmpty(pkg)) {
+        return 'Package is required';
+    }
+    return false 
 }
 
 export {
-    validateName, validatePassword, validateGender, validateEmail, validateAddress,
-    validateDOB, validatePhoto, validateCurrentPKG, validateCurrentFNFPlan
+    validateName, validatePassword, validateEmail, validateAddress,
+    validatePhoto, validateCurrentPKG
 }

@@ -3,7 +3,7 @@ import dashboardService from '../../utilities/Services/dashboardService'
 
 export const retrieveAccountInfo = ()=>{
     return(dispatch, getState)=>{
-        dashboardService.onAccountInfo()
+        dashboardService.getAccountInfo()
         .then((res)=>{
             console.log(res)
 
@@ -15,13 +15,13 @@ export const retrieveAccountInfo = ()=>{
     }
 }
 
-export const editProfileDetails = (editInfo)=>{
+export const editPersonDetails = (editInfo)=>{
     return(dispatch, getState)=>{
-        dashboardService.onEditInfo(editInfo)
+        dashboardService.onEditPersonDetails(editInfo)
         .then((res)=>{
             console.log(res)
 
-            dispatch({type: 'EDIT_PROFILE_DETAILS', personInfo: res.data.personInfo})
+            dispatch({type: 'EDIT_PERSON_DETAILS', personInfo: res.data.personInfo})
 
         }, ()=>{
             console.log('edit profile failed')
@@ -39,6 +39,34 @@ export const editProfilePic = (profilePicInfo)=>{
 
         }, ()=>{
             console.log('upload profile pic failed')
+        })
+    }
+}
+
+export const editCurrentPackage = (pkgInfo)=>{
+    return(dispatch, getState)=>{
+        dashboardService.onEditCurrentPackage(pkgInfo)
+        .then((res)=>{
+            console.log(res)
+
+            dispatch({type: 'EDIT_CURRENT_PKG', package: res.data.package})
+
+        }, ()=>{
+            console.log('edit package failed')
+        })
+    }
+}
+
+export const editCurrentFNFPlan = (fnfInfo)=>{
+    return(dispatch, getState)=>{
+        dashboardService.onEditCurrentFNFPlan(fnfInfo)
+        .then((res)=>{
+            console.log(res)
+
+            dispatch({type: 'EDIT_CURRENT_FNF_PLAN', package: res.data.fnfPlan})
+
+        }, ()=>{
+            console.log('edit fnf plan failed')
         })
     }
 }

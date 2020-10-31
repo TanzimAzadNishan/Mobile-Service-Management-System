@@ -2,15 +2,14 @@ const executeQuery = require('../../Database/oracleSetup')
 const getRandomId = require('../../Database/idGenerator')
 
 module.exports = function(app, upload){
-    app.post('/dashboard/edit-info', (req, res)=>{
+    app.post('/dashboard/edit/person-details', (req, res)=>{
         console.log(req.body)
 
         EditPersonQuery = 
         `
         UPDATE PERSON
         SET NAME = :name, PASSWORD = :password, GENDER = :gender, EMAIL = :email, 
-        ADDRESS = :address, DOB = :dob, 
-        CURRENT_FNF_PLAN = :current_fnf_plan
+        ADDRESS = :address, DOB = :dob
         WHERE MOBILE_NUMBER = :mobile_number
         `
 
@@ -21,7 +20,6 @@ module.exports = function(app, upload){
             email: req.body.email, 
             address: req.body.address, 
             dob: req.body.dob, 
-            current_fnf_plan: req.body.current_fnf_plan, 
             mobile_number: req.body.mobile_number 
         }
         
@@ -34,7 +32,7 @@ module.exports = function(app, upload){
         })
     })
 
-    app.post('/dashboard/edit-profile-Pic', upload.single('file') , (req, res)=>{
+    app.post('/dashboard/edit/profile-Pic', upload.single('file') , (req, res)=>{
         console.log(req.body)
 
         var fileExt = req.file.originalname.split('.')[1]
