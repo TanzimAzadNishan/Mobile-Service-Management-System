@@ -1,7 +1,7 @@
 
 const initState = {
-    ADMINauth: null,
-    ADMINauthError: null
+    auth: null,
+    authError: null
 }
 
 const adminReducer = (state = initState, action)=>{
@@ -17,14 +17,14 @@ const adminReducer = (state = initState, action)=>{
         console.log(JSON.parse(adminData))
         return{
             ...state,
-            ADMINauth: adminData ? JSON.parse(adminData) : null
+            auth: adminData ? JSON.parse(adminData) : null
         }
     }
 
     else if(action.type === 'ADMIN_LOGIN_FAILED'){
         return{
             ...state,
-            ADMINauthError: action.error
+            authError: action.error
         }
     }
 
@@ -33,13 +33,13 @@ const adminReducer = (state = initState, action)=>{
         //location.reload()
         return{
             ...state,
-            ADMINauth: null
+            auth: null
         }
     }
     
     return{
         ...state,
-        ADMINauth: adminAuth ? JSON.parse(JSON.stringify(adminAuth)) : null
+        auth: adminAuth ? JSON.parse(adminAuth) : null
     }
     //return state
 }
