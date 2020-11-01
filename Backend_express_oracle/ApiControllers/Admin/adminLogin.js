@@ -1,10 +1,10 @@
 const executeQuery = require('../../Database/oracleSetup')
 
 module.exports = function(app){
-    app.post('/admin-login', (req, res)=>{
+    app.post('/admin/login', (req, res)=>{
         console.log(req.body)
 
-        personAlreadyExistsQuery = 
+        AdminExistsQuery = 
         `
         SELECT ADMIN_NID, PASSWORD
         FROM ADMIN
@@ -17,15 +17,15 @@ module.exports = function(app){
             password: req.body.password
         }
 
-        executeQuery(personAlreadyExistsQuery, PersonInfo)
+        executeQuery(AdminExistsQuery, AdminInfo)
         .then((record)=>{
             console.log(record)
             if(record.rows.length != 0){
-                res.json({serverMsg: 'Logged In Successfully!', 
+                res.json({serverMsg: 'Admin Logged In Successfully!', 
                             adminAccount: AdminInfo})
             }
             else{
-                console.log('login failed')
+                console.log('Admin login failed')
                 res.json({serverMsg: 'NID or Password is wrong'})
             }
         })

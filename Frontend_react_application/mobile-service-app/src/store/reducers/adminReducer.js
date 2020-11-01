@@ -1,7 +1,7 @@
 
 const initState = {
-    auth: null,
-    authError: null
+    ADMINauth: null,
+    ADMINauthError: null
 }
 
 const adminReducer = (state = initState, action)=>{
@@ -9,7 +9,7 @@ const adminReducer = (state = initState, action)=>{
     console.log('admin: ', adminAuth)
 
     
-    if(action.type === 'LOGIN_SUCCESS'){
+    if(action.type === 'ADMIN_LOGIN_SUCCESS'){
         console.log('Admin Logged In')
         console.log(action.adminAccount)
         localStorage.setItem('adminAccount', JSON.stringify(action.adminAccount))
@@ -17,29 +17,29 @@ const adminReducer = (state = initState, action)=>{
         console.log(JSON.parse(adminData))
         return{
             ...state,
-            auth: adminData ? JSON.parse(adminData) : null
+            ADMINauth: adminData ? JSON.parse(adminData) : null
         }
     }
 
-    else if(action.type === 'LOGIN_FAILED'){
+    else if(action.type === 'ADMIN_LOGIN_FAILED'){
         return{
             ...state,
-            authError: action.error
+            ADMINauthError: action.error
         }
     }
 
-    else if(action.type === 'LOGOUT'){
+    else if(action.type === 'ADMIN_LOGOUT'){
         localStorage.removeItem('adminAccount')
         //location.reload()
         return{
             ...state,
-            auth: null
+            ADMINauth: null
         }
     }
     
     return{
         ...state,
-        auth: adminAuth ? JSON.parse(adminAuth) : null
+        ADMINauth: adminAuth ? JSON.parse(JSON.stringify(adminAuth)) : null
     }
     //return state
 }

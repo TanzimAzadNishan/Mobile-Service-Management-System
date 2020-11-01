@@ -8,10 +8,10 @@ export const loginAdmin = (accountInfo)=>{
         .then((res)=>{
             console.log(res)
             if(res.data.serverMsg === 'NID or Password is wrong'){
-                dispatch({type: 'LOGIN_FAILED', error: res.data.serverMsg})
+                dispatch({type: 'ADMIN_LOGIN_FAILED', error: res.data.serverMsg})
             }
             else{
-                dispatch({type: 'LOGIN_SUCCESS', adminAccount: res.data.adminAccount})
+                dispatch({type: 'ADMIN_LOGIN_SUCCESS', adminAccount: res.data.adminAccount})
             }
         }, ()=>{
             console.log('error occured')
@@ -19,8 +19,8 @@ export const loginAdmin = (accountInfo)=>{
     }
 }
 
-export const logoutFromAccount = ()=>{
+export const adminlogoutFromAccount = ()=>{
     return{
-        type: 'LOGOUT'
+        type: 'ADMIN_LOGOUT'
     }
 }

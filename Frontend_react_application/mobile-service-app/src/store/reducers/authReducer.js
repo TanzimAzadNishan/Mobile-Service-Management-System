@@ -56,7 +56,7 @@ const authReducer = (state = initState, action)=>{
     
     return{
         ...state,
-        auth: userAuth ? JSON.parse(userAuth) : null
+        auth: userAuth ? JSON.parse(JSON.stringify(userAuth)) : null
     }
     //return state
 }
