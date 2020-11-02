@@ -1,13 +1,41 @@
 
 import dashboardService from '../../utilities/Services/dashboardService'
 
-export const retrieveAccountInfo = ()=>{
+export const retrieveAccountInfo = (personInfo)=>{
     return(dispatch, getState)=>{
-        dashboardService.getAccountInfo()
+        dashboardService.getAccountInfo(personInfo)
         .then((res)=>{
             console.log(res)
 
-            dispatch({type: 'RETRIEVE_ACCOUNT_INFO', accountInfo: res.data.accountInfo})
+            dispatch({type: 'RETRIEVE_ACCOUNT_DETAILS', accountDetails: res.data.accountDetails})
+
+        }, ()=>{
+            console.log('retrieve info failed')
+        })
+    }
+}
+
+export const retrievePackageInfo = ()=>{
+    return(dispatch, getState)=>{
+        dashboardService.getPackageInfo()
+        .then((res)=>{
+            console.log(res)
+
+            dispatch({type: 'RETRIEVE_PACKAGE_INFO', packageInfo: res.data.packageInfo})
+
+        }, ()=>{
+            console.log('retrieve info failed')
+        })
+    }
+}
+
+export const retrieveFNFInfo = ()=>{
+    return(dispatch, getState)=>{
+        dashboardService.getFNFInfo()
+        .then((res)=>{
+            console.log(res)
+
+            dispatch({type: 'RETRIEVE_FNF_INFO', accountInfo: res.data.fnfInfo})
 
         }, ()=>{
             console.log('retrieve info failed')

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import NProgress from 'nprogress'
 import {
-    retrieveAccountInfo, editCurrentPackage, editCurrentFNFPlan
+    retrieveAccountInfo
 } from '../../store/actions/dashboardActions'
 import '../../styles/dashboard/UserDashbaordStyle.css'
 
@@ -15,13 +15,26 @@ class UserDashboard extends Component{
         NProgress.configure({ ease: 'ease', speed: 500 });
     }
 
-    componentDidMount(){       
+    componentDidMount(){  
+        console.log('before mounting ', this.props.auth) 
+        this.props.retrieveAccountInfo(this.props.auth)
         NProgress.done()
     }
     render() {
-        /*const {
-            auth, personInfo, accountInfo, profilePic, current_pkg, current_fnf_plan
-        } = this.props*/
+        const {
+            auth, accountInfo, current_pkg, current_fnf_plan
+        } = this.props
+
+       // console.log(this.props.accountInfo)
+        //console.log(this.props.accountInfo.cat)
+        if(auth == null || accountInfo == null || current_pkg == null){
+            return(
+                <>
+                </>
+            )
+        }
+        
+        else{
         return (
             <>
                 <div className="dashboard-title">
@@ -39,10 +52,10 @@ class UserDashboard extends Component{
 
                         <div className="person-info">
                             <div className="person-name">
-                                Md. Tanzim Azad Nishan
+                                {auth.name}
                             </div>
                             <div className="person-mob-num">
-                                01724729159
+                                {auth.mobile_number}
                             </div>
                         </div>
 
@@ -52,7 +65,7 @@ class UserDashboard extends Component{
                                     Points
                                 </div>
                                 <div className="points">
-                                    1234
+                                    {accountInfo.POINTS}
                                 </div>
                             </div>
 
@@ -68,18 +81,18 @@ class UserDashboard extends Component{
                                 <div className="card-title">
                                     Current Package
                                     <div className="card-subtitle">
-                                        Default
+                                        {current_pkg.PKG_NAME}
                                     </div>
                                 </div>
                                 <div className="details">
                                     <p style={{color: "#FF5733"}}>
-                                        Call Rate: {2.34} 
+                                        Call Rate: {current_pkg.CALL_RATE} 
                                     </p>
                                     <p style={{color: "#675923"}}>
-                                        SMS Rate: {2.34} 
+                                        SMS Rate: {current_pkg.SMS_RATE} 
                                     </p>
                                     <p style={{color: "#007F7A"}}>
-                                        FNF Number(Max): {20} 
+                                        FNF Number(Max): {current_pkg.FNF_NUM} 
                                     </p>
                                 </div>
                             </div>
@@ -92,15 +105,20 @@ class UserDashboard extends Component{
                                 <div className="card-title">
                                     Current FNF Plan
                                     <div className="card-subtitle">
-                                        Not Chosen
+                                        {current_fnf_plan ? (current_fnf_plan.FNF_TYPE)
+                                        : 'Not Chosen'}
                                     </div>
                                 </div>
                                 <div className="details">
                                     <p style={{color: "#FF5733"}}>
-                                        Call Rate: Empty 
+                                        Call Rate: 
+                                        {current_fnf_plan ? (current_fnf_plan.CALL_RATE)
+                                        : 'Empty'} 
                                     </p>
                                     <p style={{color: "#675923"}}>
-                                        SMS Rate: Empty 
+                                        SMS Rate:
+                                        {current_fnf_plan ? (current_fnf_plan.SMS_RATE)
+                                        : 'Empty'} 
                                     </p>
                                 </div>
                             </div>
@@ -125,7 +143,7 @@ class UserDashboard extends Component{
                                         </p>
 
                                         <p className="amount">
-                                            {1234} TK
+                                            {accountInfo.ACCOUNT_BALANCE} TK
                                         </p>
                                         <p className="remainder">
                                             Valid Till
@@ -164,7 +182,7 @@ class UserDashboard extends Component{
                                     </p>
 
                                     <p className="amount">
-                                        {0.00} MB
+                                        {accountInfo.INTERNET_BALANCE} MB
                                     </p>
                                     <p className="remainder">
                                         of 0.00 MB remaining
@@ -190,7 +208,7 @@ class UserDashboard extends Component{
                                     </p>
 
                                     <p className="amount">
-                                        {0}
+                                        {accountInfo.TALKTIME}
                                     </p>
                                 </div>
                             </div>
@@ -213,7 +231,7 @@ class UserDashboard extends Component{
                                     </p>
 
                                     <p className="amount">
-                                        {0}
+                                        {accountInfo.SMS_BALANCE}
                                     </p>
                                 </div>
                             </div>
@@ -222,6 +240,7 @@ class UserDashboard extends Component{
                 </div>
             </>
         )
+        }
     }
 }
 
@@ -239,14 +258,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchtoProps = (dispatch)=>{
     return{
-        retrieveAccountInfo: ()=>{
-            dispatch(retrieveAccountInfo())
-        },
-        editCurrentPackage: (pkg)=>{
-            dispatch(editCurrentPackage(pkg))
-        },
-        editCurrentFNFPlan: (fnf)=>{
-            dispatch(editCurrentFNFPlan(fnf))
+        retrieveAccountInfo: (personInfo)=>{
+            dispatch(retrieveAccountInfo(personInfo))
         }
     }
 }

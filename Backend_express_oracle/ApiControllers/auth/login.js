@@ -12,6 +12,13 @@ module.exports = function(app){
         AND PASSWORD = :password
         `
 
+        findNameQuery = 
+        `
+        SELECT NAME
+        FROM PERSON
+        WHERE MOBILE_NUMBER = :mobile_number
+        `
+
         PersonInfo = {
             mobile_number : req.body.mobile_number,
             password: req.body.password
@@ -21,8 +28,16 @@ module.exports = function(app){
         .then((record)=>{
             console.log(record)
             if(record.rows.length != 0){
-                res.json({serverMsg: 'Logged In Successfully!', 
-                            userAccount: PersonInfo})
+
+                executeQuery(findNameQuery, [req.body.mobile_number])
+                .then((nameRecord)=>{
+                    console.log(nameRecord)
+
+                    PersonInfo.name = nameRecord.rows[0].NAME
+
+                    res.json({serverMsg: 'Logged In Successfully!', 
+                    userAccount: PersonInfo})
+                })
             }
             else{
                 console.log('login failed')

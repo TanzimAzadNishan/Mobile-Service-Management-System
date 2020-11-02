@@ -1,8 +1,8 @@
 import {baseApi, multipartApi} from '../ApiControllers/apiCaller'
 
 export default{
-    getAccountInfo(){
-        return baseApi.get('/dashboard')
+    getAccountInfo(personInfo){
+        return baseApi.post('/dashboard/account-details', personInfo)
     },
     onEditPersonDetails(personInfo){
         return baseApi.post('/dashboard/edit/person-details', personInfo)

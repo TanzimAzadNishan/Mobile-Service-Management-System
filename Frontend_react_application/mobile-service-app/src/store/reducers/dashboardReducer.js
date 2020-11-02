@@ -8,13 +8,22 @@ const initState = {
 }
 
 const dashboardReducer = (state = initState, action)=>{
-    if(action.type === 'RETRIEVE_ACCOUNT_INFO'){
-        console.log('account info retrieved')
-        localStorage.setItem('accountInfo', JSON.stringify(action.accountInfo))
+    if(action.type === 'RETRIEVE_ACCOUNT_DETAILS'){
+        console.log('account details retrieved')
+
+        localStorage.setItem('accountInfo', JSON.stringify(action.accountDetails.accountInfo))
+        localStorage.setItem('current_pkg', JSON.stringify(action.accountDetails.packageInfo))
+        localStorage.setItem('current_fnf_plan', JSON.stringify(action.accountDetails.fnfInfo))
+        
         const accountData = localStorage.getItem('accountInfo')
+        const packageData = localStorage.getItem('current_pkg')
+        const fnfData = localStorage.getItem('current_fnf_plan')
+
         return{
             ...state,
-            accountInfo: accountData ? JSON.parse(accountData) : null
+            accountInfo: accountData ? JSON.parse(accountData) : null,
+            current_pkg: packageData ? JSON.parse(packageData) : null,
+            current_fnf_plan: fnfData ? JSON.parse(fnfData) : null
         }
     }
 
