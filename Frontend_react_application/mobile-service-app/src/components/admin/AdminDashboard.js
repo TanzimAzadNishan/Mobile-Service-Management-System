@@ -83,11 +83,11 @@ class AdminDashboard extends Component {
 
     render() {
         return (
-            <div classname="container">
+            <div className = "main-divs">
                 <div className="admin-dashboard-title">
                     Admin Dashboard
                 </div> 
-                    <div classname="find-user">
+                    <div className="find-user">
                         <form onSubmit={this.handleSubmit}>
                             <div className="input-field">
                                 <i className="material-icons prefix"
@@ -119,7 +119,7 @@ class AdminDashboard extends Component {
                 <div className="admin-dashboard-upper">
                     <div className="admin-details">
                         <div className="icons">
-                            <div classname = "admin-icon">
+                            <div className = "admin-icon">
                                 <i className="material-icons prefix" 
                                 style={{color: "blue",fontSize: "90px"}}
                                 >
@@ -127,9 +127,9 @@ class AdminDashboard extends Component {
                                 </i>
                             </div>
                             
-                            <div classname = "feedback-sub-icon">
+                            <div className = "feedback-sub-icon">
                                 <i className="material-icons prefix" 
-                                style={{color: "crimson",fontSize: "90px"}}
+                                style={{color: "crimson",fontSize: "60px"}}
                                 >
                                     dehaze
                                 </i>
@@ -141,7 +141,7 @@ class AdminDashboard extends Component {
                             <div className="admin-NID">
                                 1234567890
                             </div>
-                            <div classname = "feedback-sub">
+                            <div className = "feedback-sub">
                                 Service
                             </div>
                         </div>
@@ -153,11 +153,6 @@ class AdminDashboard extends Component {
                             <div className="card-content">
                                 <div className="card-title">
                                     Packages
-                                    <div className="card-subtitle">
-                                        <NavLink to="/admin/setpkg" className="set-pkg">
-                                            Set New Package
-                                        </NavLink>
-                                    </div>
                                 </div>
                                 <div className="details">
                                     <p style={{color: "#FF5733"}}>
@@ -168,7 +163,13 @@ class AdminDashboard extends Component {
                                             edit
                                         </NavLink>
                                     </p>
+                                   
                                 </div>
+                            </div>
+                            <div className = "card-action">
+                                <NavLink to="/admin/setpkg" className="set-pkg">
+                                    Set New Package
+                                </NavLink>
                             </div>
                         </div>
                     </div>
@@ -178,11 +179,6 @@ class AdminDashboard extends Component {
                             <div className="card-content">
                                 <div className="card-title">
                                     FNF
-                                    <div className="card-subtitle">
-                                        <NavLink to="/admin/setpkg" className="set-fnf">
-                                            Set New FNF
-                                        </NavLink>
-                                    </div>
                                 </div>
                                 <div className="details">
                                     <p style={{color: "#FF5733"}}>
@@ -195,10 +191,14 @@ class AdminDashboard extends Component {
                                     </p>
                                 </div>
                             </div>
+                            <div className = "card-action">
+                                <NavLink to="/admin/setpkg" className="set-fnf">
+                                    Set New FNF
+                                </NavLink>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <br></br>
 
                 <div className="admin-dashboard-lower">
                     
@@ -212,14 +212,44 @@ class AdminDashboard extends Component {
                                     </div>
                                 </div>
                                 <div className="details">
-                                    <p style={{color: "#FF5733"}}>
-                                        <div className="feeedback-body">
-                                        This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.
-                                        </div>
-                                        <div className="sender">
+                                    <div className="feedback-details" style={{color: "#FF5733"}}>
+                                        <p className="feeedback-body">
+                                        This is a feedback message.This is a feedback message. This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.
+                                        </p>
+                                        <br></br>
+                                        <span className="sender">
                                             Sender : 01714356432
+                                        </span>
+                                        <a className = "btn red reply modal-trigger" href = "#write-reply">
+                                            Reply
+                                        </a>
+                                        <div id="write-reply" class="modal">
+                                            <div class="modal-content">
+                                                <h4 style = {({color : "black "})}>Reply</h4>
+                                                <form>
+                                                    <div className = "input-field">
+                                                        <i className = "material-icons prefix" style = {({color : "black "})}>
+                                                            reply
+                                                        </i>
+                                                        <input type = "text" id = "reply" style = {({color : "red "})}/>
+                                                        <label style = {({color : "red "})}>
+                                                            Write a reply
+                                                        </label>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <span className = "cancel">
+                                                    <a href="#!" class="modal-close btn red">Cancel</a>
+                                                </span>
+                                                <span className = "send">
+                                                <a href="#!" class="modal-close btn green">Send</a>
+                                                </span> 
+                                            </div>
                                         </div>
-                                    </p>
+                                    </div>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
@@ -229,12 +259,7 @@ class AdminDashboard extends Component {
                         <div className="card ">
                             <div className="card-content">
                                 <div className="card-title">
-                                    offer
-                                    <div className="card-subtitle">
-                                        <NavLink to="/admin/setoffer" className="set-offer">
-                                            Set New Offer
-                                        </NavLink>
-                                    </div>
+                                    Offer
                                 </div>
                                 <div className="details">
                                     <p style={{color: "#FF5733"}}>
@@ -246,6 +271,11 @@ class AdminDashboard extends Component {
                                         </NavLink>
                                     </p>
                                 </div>
+                            </div>
+                            <div className = "card-action">
+                                <NavLink to="/admin/setoffer" className="set-offer">
+                                    Set New Offer
+                                </NavLink>
                             </div>
                         </div>
                     </div>
