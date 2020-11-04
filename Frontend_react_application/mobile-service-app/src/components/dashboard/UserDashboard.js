@@ -18,7 +18,7 @@ class UserDashboard extends Component{
     componentDidMount(){  
         console.log('before mounting ', this.props.auth) 
         this.props.retrieveAccountInfo(this.props.auth)
-        NProgress.done()
+        //NProgress.done()
     }
     render() {
         const {
@@ -35,6 +35,7 @@ class UserDashboard extends Component{
         }
         
         else{
+            NProgress.done()
         return (
             <>
                 <div className="dashboard-title">

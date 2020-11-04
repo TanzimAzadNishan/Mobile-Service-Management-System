@@ -1,5 +1,6 @@
 const executeQuery = require('../../Database/oracleSetup')
 const getRandomId = require('../../Database/idGenerator')
+const getHashPassword = require('../../Database/hashPassword')
 
 module.exports = function(app){
     app.post('/signup', (req, res)=>{
@@ -24,6 +25,9 @@ module.exports = function(app){
             current_pkg: 'Default'
         }
 
+        
+        console.log('after hashed ', PersonInfo.password)
+
         AccountQuery = 
         `
         INSERT INTO ACCOUNT (ACCOUNT_TRACKING_ID, ACCOUNT_BALANCE, INTERNET_BALANCE, 
@@ -42,16 +46,23 @@ module.exports = function(app){
 
         console.log(AccountInfo)
 
+
         executeQuery(personAlreadyExistsQuery, [req.body.mobile_number])
         .then((record)=>{
             console.log(record)
             if(record.rows.length == 0){
-                executeQuery(PersonQuery, PersonInfo)
-                .then((data)=>{
-                    executeQuery(AccountQuery, AccountInfo)
-                    console.log(data)
-                    res.json({serverMsg: 'Account Created Succesfully!', 
-                            userAccount: PersonInfo})
+
+                getHashPassword(req.body.password, 12)
+                .then((hashed)=>{
+                    PersonInfo.password = hashed
+
+                    executeQuery(PersonQuery, PersonInfo)
+                    .then((data)=>{
+                        executeQuery(AccountQuery, AccountInfo)
+                        console.log(data)
+                        res.json({serverMsg: 'Account Created Succesfully!', 
+                                userAccount: PersonInfo})
+                    })
                 })
             }
             else{

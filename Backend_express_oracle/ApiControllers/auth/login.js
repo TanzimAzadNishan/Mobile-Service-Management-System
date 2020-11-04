@@ -1,15 +1,15 @@
 const executeQuery = require('../../Database/oracleSetup')
+const compareHash = require('../../Database/compareHash')
 
 module.exports = function(app){
     app.post('/login', (req, res)=>{
-        console.log(req.body)
+        console.log('login...........', req.body)
 
         personAlreadyExistsQuery = 
         `
-        SELECT MOBILE_NUMBER, PASSWORD
+        SELECT MOBILE_NUMBER, PASSWORD, NAME
         FROM PERSON
-        WHERE MOBILE_NUMBER = :mobile_number 
-        AND PASSWORD = :password
+        WHERE MOBILE_NUMBER = :mobile_number
         `
 
         findNameQuery = 
@@ -20,16 +20,37 @@ module.exports = function(app){
         `
 
         PersonInfo = {
-            mobile_number : req.body.mobile_number,
-            password: req.body.password
+            mobile_number : req.body.mobile_number
         }
+
 
         executeQuery(personAlreadyExistsQuery, PersonInfo)
         .then((record)=>{
             console.log(record)
             if(record.rows.length != 0){
 
-                executeQuery(findNameQuery, [req.body.mobile_number])
+                var hashedPassword = record.rows[0].PASSWORD
+                PersonInfo.name = record.rows[0].NAME
+                PersonInfo.password = req.body.password
+
+                try{
+                    compareHash(PersonInfo.password, hashedPassword)
+                    .then((isMatched)=>{
+                        console.log('check matching ', isMatched)
+                        console.log('check matching ', hashedPassword)
+                        console.log('check matching ', PersonInfo.password)
+
+                        if (isMatched){
+                            res.json({serverMsg: 'Logged In Successfully!', 
+                            userAccount: PersonInfo})
+                        }
+                    })
+                }
+                catch(err){
+                    console.error(err)
+                }
+
+                /*executeQuery(findNameQuery, [req.body.mobile_number])
                 .then((nameRecord)=>{
                     console.log(nameRecord)
 
@@ -37,7 +58,7 @@ module.exports = function(app){
 
                     res.json({serverMsg: 'Logged In Successfully!', 
                     userAccount: PersonInfo})
-                })
+                })*/
             }
             else{
                 console.log('login failed')
