@@ -1,6 +1,6 @@
 const executeQuery = require('../../Database/oracleSetup')
 const getRandomId = require('../../Database/idGenerator')
-const getHashPassword = require('../../Database/hashPassword')
+const hashing = require('../../Database/hashing')
 
 module.exports = function(app){
     app.post('/signup', (req, res)=>{
@@ -52,7 +52,7 @@ module.exports = function(app){
             console.log(record)
             if(record.rows.length == 0){
 
-                getHashPassword(req.body.password, 12)
+                hashing.hashPassword(req.body.password, 12)
                 .then((hashed)=>{
                     PersonInfo.password = hashed
 

@@ -1,5 +1,6 @@
 const executeQuery = require('../../Database/oracleSetup')
-const compareHash = require('../../Database/compareHash')
+//const compareHash = require('../../Database/compareHash')
+const hashing = require('../../Database/hashing')
 
 module.exports = function(app){
     app.post('/login', (req, res)=>{
@@ -8,13 +9,6 @@ module.exports = function(app){
         personAlreadyExistsQuery = 
         `
         SELECT MOBILE_NUMBER, PASSWORD, NAME
-        FROM PERSON
-        WHERE MOBILE_NUMBER = :mobile_number
-        `
-
-        findNameQuery = 
-        `
-        SELECT NAME
         FROM PERSON
         WHERE MOBILE_NUMBER = :mobile_number
         `
@@ -33,32 +27,22 @@ module.exports = function(app){
                 PersonInfo.name = record.rows[0].NAME
                 PersonInfo.password = req.body.password
 
-                try{
-                    compareHash(PersonInfo.password, hashedPassword)
-                    .then((isMatched)=>{
-                        console.log('check matching ', isMatched)
-                        console.log('check matching ', hashedPassword)
-                        console.log('check matching ', PersonInfo.password)
+                hashing.compareHash(PersonInfo.password, hashedPassword)
+                .then((isMatched)=>{
+                    console.log('check matching ', isMatched)
+                    console.log('check matching ', hashedPassword)
+                    console.log('check matching ', PersonInfo.password)
 
-                        if (isMatched){
-                            res.json({serverMsg: 'Logged In Successfully!', 
-                            userAccount: PersonInfo})
-                        }
-                    })
-                }
-                catch(err){
-                    console.error(err)
-                }
+                    if (isMatched){
+                        res.json({serverMsg: 'Logged In Successfully!', 
+                        userAccount: PersonInfo})
+                    }
+                    else{
+                        console.log('Password is wrong')
+                        res.json({serverMsg: 'Mobile Number or Password is wrong'})
+                    }
+                })
 
-                /*executeQuery(findNameQuery, [req.body.mobile_number])
-                .then((nameRecord)=>{
-                    console.log(nameRecord)
-
-                    PersonInfo.name = nameRecord.rows[0].NAME
-
-                    res.json({serverMsg: 'Logged In Successfully!', 
-                    userAccount: PersonInfo})
-                })*/
             }
             else{
                 console.log('login failed')
