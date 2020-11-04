@@ -223,7 +223,7 @@ class AdminDashboard extends Component {
                                         <a className = "btn red reply modal-trigger" href = "#write-reply">
                                             Reply
                                         </a>
-                                        <div id="write-reply" class="modal">
+                                        <div id="write-reply" className="modal">
                                             <div className="modal-content">
                                                 <h4 style = {({color : "black "})}>Reply</h4>
                                                 <form>
@@ -240,10 +240,10 @@ class AdminDashboard extends Component {
                                             </div>
                                             <div className="modal-footer">
                                                 <span className = "cancel">
-                                                    <a href="#!" class="modal-close btn red">Cancel</a>
+                                                    <button className="modal-close btn red">Cancel</button>
                                                 </span>
                                                 <span className = "send">
-                                                <a href="#!" class="modal-close btn green">Send</a>
+                                                <button className="modal-close btn green">Send</button>
                                                 </span> 
                                             </div>
                                         </div>
