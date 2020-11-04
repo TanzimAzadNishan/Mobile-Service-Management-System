@@ -15,34 +15,6 @@ export const retrieveAccountInfo = (personInfo)=>{
     }
 }
 
-export const retrievePackageInfo = ()=>{
-    return(dispatch, getState)=>{
-        dashboardService.getPackageInfo()
-        .then((res)=>{
-            console.log(res)
-
-            dispatch({type: 'RETRIEVE_PACKAGE_INFO', packageInfo: res.data.packageInfo})
-
-        }, ()=>{
-            console.log('retrieve info failed')
-        })
-    }
-}
-
-export const retrieveFNFInfo = ()=>{
-    return(dispatch, getState)=>{
-        dashboardService.getFNFInfo()
-        .then((res)=>{
-            console.log(res)
-
-            dispatch({type: 'RETRIEVE_FNF_INFO', accountInfo: res.data.fnfInfo})
-
-        }, ()=>{
-            console.log('retrieve info failed')
-        })
-    }
-}
-
 export const editPersonDetails = (editInfo)=>{
     return(dispatch, getState)=>{
         dashboardService.onEditPersonDetails(editInfo)
