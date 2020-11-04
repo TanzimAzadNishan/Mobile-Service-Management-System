@@ -238,7 +238,7 @@ class AdminDashboard extends Component {
                                                     </div>
                                                 </form>
                                             </div>
-                                            <div class="modal-footer">
+                                            <div className="modal-footer">
                                                 <span className = "cancel">
                                                     <a href="#!" class="modal-close btn red">Cancel</a>
                                                 </span>
