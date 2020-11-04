@@ -224,7 +224,7 @@ class AdminDashboard extends Component {
                                             Reply
                                         </a>
                                         <div id="write-reply" class="modal">
-                                            <div class="modal-content">
+                                            <div className="modal-content">
                                                 <h4 style = {({color : "black "})}>Reply</h4>
                                                 <form>
                                                     <div className = "input-field">
