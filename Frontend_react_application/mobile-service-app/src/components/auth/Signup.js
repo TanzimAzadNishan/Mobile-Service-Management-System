@@ -7,6 +7,7 @@ import {
     validateName, validateMobileNumber, validatePassword, validateConfirmPassword
 } from '../../utilities/Validators/AuthValidator'
 import NProgress from 'nprogress'
+import hashing from '../../utilities/hashing'
 
 
 const initialState = {
@@ -93,13 +94,17 @@ class Signup extends Component{
           // no errors submit the form
           console.log('form submitted successfully');
 
-          var signupInfo = {
-            mobile_number : Mobile_Number.value,
-            name: Name.value,
-            password: Password.value
-          }
-          this.props.createAccount(signupInfo)
-          this.setState({...initialState})
+          hashing.hashPassword(Password.value, 12)
+          .then((hashedPassword)=>{
+            var signupInfo = {
+                mobile_number : Mobile_Number.value,
+                name: Name.value,
+                password: hashedPassword
+            }
+
+            this.props.createAccount(signupInfo)
+            this.setState({...initialState})
+          })
           
           // clear state and show all fields are validated
           //this.setState({ ...initialState, allFieldsValidated: true });

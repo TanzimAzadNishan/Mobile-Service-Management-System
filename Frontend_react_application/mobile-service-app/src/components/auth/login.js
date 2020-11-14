@@ -8,6 +8,7 @@ import {
 } from '../../utilities/Validators/AuthValidator'
 import NProgress from 'nprogress'
 
+
 const initialState = {
     Mobile_Number: {
         value: '',
@@ -75,12 +76,12 @@ class Login extends Component {
           // no errors submit the form
           console.log('form submitted successfully');
 
-          var signupInfo = {
+        var signupInfo = {
             mobile_number : Mobile_Number.value,
             password: Password.value
-          }
-          this.props.loginUser(signupInfo)
-          this.setState({...initialState})
+        }
+        this.props.loginUser(signupInfo)
+        this.setState({...initialState})
           
           // clear state and show all fields are validated
           //this.setState({ ...initialState, allFieldsValidated: true });

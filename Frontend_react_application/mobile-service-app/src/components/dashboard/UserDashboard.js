@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {NavLink} from 'react-router-dom'
+import {NavLink, Redirect} from 'react-router-dom'
 import NProgress from 'nprogress'
 import {
     retrieveAccountInfo
@@ -16,23 +16,28 @@ class UserDashboard extends Component{
     }
 
     componentDidMount(){  
-        console.log('before mounting ', this.props.auth) 
-        this.props.retrieveAccountInfo(this.props.auth)
-        //NProgress.done()
+        console.log('before mounting ', this.props.auth)
+        if (this.props.auth != null){
+            this.props.retrieveAccountInfo(this.props.auth)
+        }
     }
     render() {
         const {
             auth, accountInfo, current_pkg, current_fnf_plan
         } = this.props
 
-       // console.log(this.props.accountInfo)
-        //console.log(this.props.accountInfo.cat)
-        if(auth == null || accountInfo == null || current_pkg == null){
+        if (this.props.auth == null){
+            console.log('redirected')
+            return <Redirect to='/' />
+        } 
+
+        else if(auth == null || accountInfo == null || current_pkg == null){
             return(
                 <>
                 </>
             )
         }
+
         
         else{
             NProgress.done()

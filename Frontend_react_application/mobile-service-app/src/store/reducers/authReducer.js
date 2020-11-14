@@ -50,13 +50,15 @@ const authReducer = (state = initState, action)=>{
         //location.reload()
         return{
             ...state,
-            auth: null
+            auth: null,
+            authError: null
         }
     }
     
     return{
         ...state,
-        auth: userAuth ? JSON.parse(userAuth) : null
+        auth: userAuth ? JSON.parse(userAuth) : null,
+        authError: null
     }
     //return state
 }

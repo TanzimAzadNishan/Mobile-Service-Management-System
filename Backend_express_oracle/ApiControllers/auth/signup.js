@@ -1,17 +1,17 @@
-const executeQuery = require('../../Database/oracleSetup')
+//const connectToOracle = require('../../Database/oracleSetup')
+const oracleConfig = require('../../Database/oracleSetup')
+const insertOperation = require('../../Database/insertOperation')
 const getRandomId = require('../../Database/idGenerator')
-const hashing = require('../../Database/hashing')
+const oracledb = require('oracledb')
 
 module.exports = function(app){
-    app.post('/signup', (req, res)=>{
+    app.post('/signup', async (req, res)=>{
         console.log(req.body)
 
-        personAlreadyExistsQuery = 
-        `
-        SELECT MOBILE_NUMBER
-        FROM PERSON
-        WHERE MOBILE_NUMBER = :mobile_number 
-        `
+        message = {
+            successMsg: 'Account Created Succesfully!',
+            errorMsg: 'User Already Exists'
+        }
 
         PersonQuery =
         `
@@ -24,9 +24,6 @@ module.exports = function(app){
             password: req.body.password,
             current_pkg: 'Default'
         }
-
-        
-        console.log('after hashed ', PersonInfo.password)
 
         AccountQuery = 
         `
@@ -44,31 +41,38 @@ module.exports = function(app){
             mob_num: req.body.mobile_number
         }
 
-        console.log(AccountInfo)
+        insertOperation(res, message, PersonQuery, PersonInfo)
+        .then((hasPersonErr)=>{
 
+            if(!hasPersonErr){
+                insertOperation(res, message, AccountQuery, AccountInfo)
+                .then((hasAccErr)=>{
 
-        executeQuery(personAlreadyExistsQuery, [req.body.mobile_number])
-        .then((record)=>{
-            console.log(record)
-            if(record.rows.length == 0){
-
-                hashing.hashPassword(req.body.password, 12)
-                .then((hashed)=>{
-                    PersonInfo.password = hashed
-
-                    executeQuery(PersonQuery, PersonInfo)
-                    .then((data)=>{
-                        executeQuery(AccountQuery, AccountInfo)
-                        console.log(data)
+                    if(!hasAccErr){
                         res.json({serverMsg: 'Account Created Succesfully!', 
-                                userAccount: PersonInfo})
-                    })
+                        userAccount: PersonInfo})
+                    }
                 })
             }
             else{
-                console.log('user already exists')
-                res.json({serverMsg: 'User Already Exists'})
+                res.json({serverMsg: 'User Already Exists'})   
             }
         })
+
+
+        //insertQuery(PersonQuery, PersonInfo)
+        //.then(()=>{
+
+            //insertQuery(AccountQuery, AccountInfo)
+            //.then(()=>{
+
+                //res.json({serverMsg: 'Account Created Succesfully!', 
+                //userAccount: PersonInfo})
+            //})
+        //})
+            /*else{
+                console.log('user already exists')
+                res.json({serverMsg: 'User Already Exists'})
+            }*/
     })
 }

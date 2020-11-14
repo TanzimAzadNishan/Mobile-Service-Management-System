@@ -106,7 +106,7 @@ class AdminLogin extends Component {
     render(){
         if (this.props.auth != null){
             console.log('redirected')
-            return <Redirect to='/dashboard' />
+            return <Redirect to='/admin/dashboard' />
         } 
 
         return (

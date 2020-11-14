@@ -11,7 +11,9 @@ const initialState = {
         value: '',
         validateOnChange: false,
         error: ''
-    }
+    },
+    submitCalled: false,
+    allFieldsValidated: false
 }
 class AdminDashboard extends Component {
     constructor(props){
@@ -40,8 +42,6 @@ class AdminDashboard extends Component {
 
     handleBlur = (e, validationFunc)=>{
         const field = e.target.id
-        //console.log(field)
-        //console.log(this.state[field]['validateOnChange'])
         if (this.state[field]['validateOnChange'] === false &&
             this.state.submitCalled === false
         ){

@@ -1,4 +1,5 @@
-const executeQuery = require('../../Database/oracleSetup')
+const executeQuery = require('../../Database/queryIntoDB')
+const hashing = require('../../Database/hashing')
 
 module.exports = function(app){
     app.post('/admin/login', (req, res)=>{
@@ -9,20 +10,32 @@ module.exports = function(app){
         SELECT ADMIN_NID, PASSWORD
         FROM ADMIN
         WHERE ADMIN_NID = :NID
-        AND PASSWORD = :password
         `
 
         AdminInfo = {
             NID : req.body.NID,
-            password: req.body.password
         }
 
         executeQuery(AdminExistsQuery, AdminInfo)
         .then((record)=>{
             console.log(record)
             if(record.rows.length != 0){
-                res.json({serverMsg: 'Admin Logged In Successfully!', 
-                            adminAccount: AdminInfo})
+                var hashedPassword = record.rows[0].PASSWORD
+                AdminInfo.password = req.body.password
+
+                hashing.compareHash(AdminInfo.password, hashedPassword)
+                .then((isMatched)=>{
+                    if (isMatched){
+
+                        res.json({serverMsg: 'Admin Logged In Successfully!', 
+                        adminAccount: AdminInfo})
+                    }
+                    else{
+                        console.log('Password is wrong')
+                        res.json({serverMsg: 'NID or Password is wrong'})
+                    }
+                })
+
             }
             else{
                 console.log('Admin login failed')

@@ -1,4 +1,4 @@
-const executeQuery = require('../../Database/oracleSetup')
+const executeQuery = require('../../Database/queryIntoDB')
 const getRandomId = require('../../Database/idGenerator')
 
 module.exports = function(app){

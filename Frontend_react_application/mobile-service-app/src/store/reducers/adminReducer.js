@@ -33,7 +33,8 @@ const adminReducer = (state = initState, action)=>{
         //location.reload()
         return{
             ...state,
-            auth: null
+            auth: null,
+            authError: null
         }
     }
     

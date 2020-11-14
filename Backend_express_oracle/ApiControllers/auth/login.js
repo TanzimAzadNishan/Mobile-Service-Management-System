@@ -1,5 +1,4 @@
-const executeQuery = require('../../Database/oracleSetup')
-//const compareHash = require('../../Database/compareHash')
+const executeQuery = require('../../Database/queryIntoDB')
 const hashing = require('../../Database/hashing')
 
 module.exports = function(app){
@@ -29,10 +28,6 @@ module.exports = function(app){
 
                 hashing.compareHash(PersonInfo.password, hashedPassword)
                 .then((isMatched)=>{
-                    console.log('check matching ', isMatched)
-                    console.log('check matching ', hashedPassword)
-                    console.log('check matching ', PersonInfo.password)
-
                     if (isMatched){
                         res.json({serverMsg: 'Logged In Successfully!', 
                         userAccount: PersonInfo})
