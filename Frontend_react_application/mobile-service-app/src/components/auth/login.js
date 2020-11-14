@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {Redirect, NavLink} from 'react-router-dom'
-import { loginUser } from '../../store/actions/authActions'
+import { loginUser,refreshAuthError } from '../../store/actions/authActions'
 import '../../styles/auth/LoginStyle.css'
 import {
     validateMobileNumber, validatePassword
@@ -32,6 +32,7 @@ class Login extends Component {
     }
 
     componentDidMount(){
+        this.props.refreshAuthError()
         NProgress.done();
     }
 
@@ -193,6 +194,9 @@ const mapDispatchtoProps = (dispatch)=>{
     return{
         loginUser: (loginInfo)=>{
             dispatch(loginUser(loginInfo))
+        },
+        refreshAuthError: ()=>{
+            dispatch(refreshAuthError())
         }
     }
 }

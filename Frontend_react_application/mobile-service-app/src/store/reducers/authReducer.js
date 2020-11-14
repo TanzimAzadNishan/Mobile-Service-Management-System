@@ -54,11 +54,17 @@ const authReducer = (state = initState, action)=>{
             authError: null
         }
     }
+
+    else if(action.type === 'REFRESH_AUTH_ERROR'){
+        return{
+            ...state,
+            authError: null
+        }
+    }
     
     return{
         ...state,
-        auth: userAuth ? JSON.parse(userAuth) : null,
-        authError: null
+        auth: userAuth ? JSON.parse(userAuth) : null
     }
     //return state
 }

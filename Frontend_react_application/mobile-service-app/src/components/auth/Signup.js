@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {Redirect, NavLink} from 'react-router-dom'
-import {createAccount} from '../../store/actions/authActions'
+import {createAccount, refreshAuthError} from '../../store/actions/authActions'
 import '../../styles/auth/SignupStyle.css'
 import {
     validateName, validateMobileNumber, validatePassword, validateConfirmPassword
@@ -44,6 +44,7 @@ class Signup extends Component{
         //NProgress.configure({trickleSpeed: 800 });
     }
     componentDidMount(){
+        this.props.refreshAuthError()
         NProgress.done()
     }
 
@@ -278,6 +279,9 @@ const mapDispatchtoProps = (dispatch)=>{
     return{
         createAccount: (signupInfo)=>{
             dispatch(createAccount(signupInfo))
+        },
+        refreshAuthError: ()=>{
+            dispatch(refreshAuthError())
         }
     }
 }

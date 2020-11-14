@@ -41,11 +41,11 @@ module.exports = function(app){
             mob_num: req.body.mobile_number
         }
 
-        insertOperation(res, message, PersonQuery, PersonInfo)
+        insertOperation(PersonQuery, PersonInfo)
         .then((hasPersonErr)=>{
 
             if(!hasPersonErr){
-                insertOperation(res, message, AccountQuery, AccountInfo)
+                insertOperation(AccountQuery, AccountInfo)
                 .then((hasAccErr)=>{
 
                     if(!hasAccErr){
