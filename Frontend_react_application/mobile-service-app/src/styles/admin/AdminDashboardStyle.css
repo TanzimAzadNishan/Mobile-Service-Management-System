@@ -3,8 +3,8 @@
     margin-top: 40px;
     padding-bottom: 40px;
     text-align: center;
-    font-size: 1.8rem;
-    font-weight: 500;
+    font-size: 2.2rem;
+    font-weight: 700;
     color: rgb(9, 47, 119);
 }
 
@@ -23,6 +23,25 @@
     padding-bottom: 100px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.admin-dashboard-upper .modal{
+    height: 42%;
+    width: 30%;
+}
+
+.admin-dashboard-upper .edit{
+    color : black;
+    padding-right: 5%;
+    text-decoration: underline;
+}
+
+.admin-dashboard-upper .cancel{
+    padding-right: 50%;
+}
+
+.admin-dashboard-upper p{
+    text-align: center;
 }
 
 /*---admin details---*/
@@ -132,19 +151,12 @@
     padding-top: 10px;
     padding-left: 24px;
 }
-.admin-dashboard-upper .pkg .details .pkg-name{
+
+.admin-dashboard-upper .pkg .pkg-name{
     color: crimson;
 }
 .admin-dashboard-upper .pkg .details .pkg-name:hover{
     color: darkred;
-}
-.admin-dashboard-upper .pkg .details .pkg-edit{
-    padding-left: 50%;
-    color : black;
-    text-decoration: underline;
-}
-.admin-dashboard-upper .pkg .details .pkg-edit:hover{
-    color: blue;
 }
 
 /*---fnf---*/
@@ -189,10 +201,7 @@
     text-decoration: underline;
 }
 
-.admin-dashboard-upper .fnf .card-subtitle .set-fnf:hover{
-    color: beige;
 
-}
 .admin-dashboard-upper .fnf .card .details{
     padding-top: 10px;
     padding-left: 24px;
@@ -203,14 +212,8 @@
 .admin-dashboard-upper .fnf .details .fnf-name:hover{
     color: darkred;
 }
-.admin-dashboard-upper .fnf .details .fnf-edit{
-    padding-left: 50%;
-    color : black;
-    text-decoration: underline;
-}
-.admin-dashboard-upper .fnf .details .fnf-edit:hover{
-    color: blue;
-}
+
+/*------admin dashboard lower part-------*/
 
 .admin-dashboard-lower{
     display: grid;
@@ -221,6 +224,25 @@
     padding-right: 15px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.admin-dashboard-lower .modal{
+    height: 42%;
+    width: 30%;
+}
+
+.admin-dashboard-lower .edit{
+    color : black;
+    padding-right: 5%;
+    text-decoration: underline;
+}
+
+.admin-dashboard-lower .cancel{
+    padding-right: 50%;
+}
+
+.admin-dashboard-lower p{
+    text-align: center;
 }
 
 /*---feedbacks---*/
@@ -265,12 +287,19 @@
 }
 
 .admin-dashboard-lower .feedback .card .feedback-details{
-    padding-top: 2%;
+    padding: 2%;
     border-bottom: 1px solid black;
 }
+
+.admin-dashboard-lower .feedback .modal{
+    height: 70%;
+    width: 70%;
+}
+
 .admin-dashboard-lower .feedback .details .feedback-body{
     color: crimson;
-    overflow: hidden;
+    text-decoration: none;
+    padding-left: 40%;
 }
 
 .admin-dashboard-lower .feedback .details .feedback-body:hover{
@@ -295,7 +324,7 @@
 }
 
 .admin-dashboard-lower .feedback .cancel{
-    padding-right: 70%;
+    padding-right: 75%;
 }
 
 .admin-dashboard-lower .feedback .send{
@@ -344,10 +373,6 @@
     text-decoration: underline;
 }
 
-.admin-dashboard-lower .offer .card-subtitle .set-offer:hover{
-    color: beige;
-
-}
 .admin-dashboard-lower .offer .card .details{
     padding-top: 10px;
     padding-left: 24px;
@@ -362,7 +387,4 @@
     padding-left: 50%;
     color : black;
     text-decoration: underline;
-}
-.admin-dashboard-lower .offer .details .offer-edit:hover{
-    color: blue;
 }

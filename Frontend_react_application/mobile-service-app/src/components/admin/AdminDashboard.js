@@ -156,13 +156,30 @@ class AdminDashboard extends Component {
                                 </div>
                                 <div className="details">
                                     <p style={{color: "#FF5733"}}>
-                                        <NavLink to="/packages/id" className="pkg-name">
-                                            package 1
-                                        </NavLink>
-                                        <NavLink to="/packages/id/edit" className="pkg-edit">
-                                            edit
-                                        </NavLink>
+                                        <a className="pkg-name modal-trigger" href="#pkg-details">
+                                            Package 1
+                                        </a>
                                     </p>
+                                    <div id="pkg-details" className="modal">
+                                        <div className="modal-content">
+                                            <h4 className = "pkg-name"style = {({color : "#3632a8"})}>Package 1</h4>
+                                            <div className = "pkg-details">
+                                                Call Rate : 2.34<br></br>
+                                                SMS Rate : 2.34<br></br>
+                                                FNF Number(Max): 20
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <span className = "cancel">
+                                                <button className="modal-close btn red">Cancel</button>
+                                            </span>
+                                            <span className = "edit">
+                                                <a className = "btn green" href="/packages/id/edit">
+                                                    edit
+                                                </a>
+                                            </span> 
+                                        </div>
+                                    </div>
                                    
                                 </div>
                             </div>
@@ -182,17 +199,35 @@ class AdminDashboard extends Component {
                                 </div>
                                 <div className="details">
                                     <p style={{color: "#FF5733"}}>
-                                        <NavLink to="/fnf/id" className="fnf-name">
+                                        <a className="fnf-name modal-trigger" href="#fnf-details">
                                             fnf_name
-                                        </NavLink>
-                                        <NavLink to="/fnf/id/edit" className="fnf-edit">
-                                            edit
-                                        </NavLink>
+                                        </a>
                                     </p>
+                                    <div id="fnf-details" className="modal">
+                                        <div className="modal-content">
+                                            <h4 className = "fnf-name"style = {({color : "#3632a8"})}>fnf_name</h4>
+                                            <div className = "fnf-details">
+                                                Call Rate : 2.34<br></br>
+                                                hello Rate : 2.34<br></br>
+                                                FNF Number(Max): 20
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <span className = "cancel">
+                                                <button className="modal-close btn red">Cancel</button>
+                                            </span>
+                                            <span className = "edit">
+                                                <a className = "btn green" href="/fnf/id/edit">
+                                                    edit
+                                                </a>
+                                            </span> 
+                                        </div>
+                                    </div>
+                                   
                                 </div>
                             </div>
                             <div className = "card-action">
-                                <NavLink to="/admin/setpkg" className="set-fnf">
+                                <NavLink to="/admin/setfnf" className="set-fnf">
                                     Set New FNF
                                 </NavLink>
                             </div>
@@ -212,19 +247,22 @@ class AdminDashboard extends Component {
                                     </div>
                                 </div>
                                 <div className="details">
-                                    <div className="feedback-details" style={{color: "#FF5733"}}>
-                                        <p className="feeedback-body">
-                                        This is a feedback message.This is a feedback message. This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.
-                                        </p>
-                                        <br></br>
-                                        <span className="sender">
-                                            Sender : 01714356432
-                                        </span>
-                                        <a className = "btn red reply modal-trigger" href = "#write-reply">
-                                            Reply
+                                    <div className="feedback-details" style={{color: "black"}}>
+                                        <a className="container feedback-body modal-trigger" href ="#feedback-modal">
+                                            ID: 757235765
                                         </a>
-                                        <div id="write-reply" className="modal">
+                                        
+                                        <div id="feedback-modal" className="modal">
                                             <div className="modal-content">
+                                                <p>
+                                                    This is a feedback message.This is a feedback message. This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.
+                                                </p>
+                                                <br></br>
+                                                <span className="sender">
+                                                    Sender : 01714356432
+                                                 </span>
+                                                 <br></br>
+                                                 <br></br>
                                                 <h4 style = {({color : "black "})}>Reply</h4>
                                                 <form>
                                                     <div className = "input-field">
@@ -240,7 +278,7 @@ class AdminDashboard extends Component {
                                             </div>
                                             <div className="modal-footer">
                                                 <span className = "cancel">
-                                                    <button className="modal-close btn red">Cancel</button>
+                                                    <button className="modal-close btn red">Close</button>
                                                 </span>
                                                 <span className = "send">
                                                 <button className="modal-close btn green">Send</button>
@@ -263,13 +301,31 @@ class AdminDashboard extends Component {
                                 </div>
                                 <div className="details">
                                     <p style={{color: "#FF5733"}}>
-                                        <NavLink to="/offer/id" className="offer-name">
-                                            offer 1
-                                        </NavLink>
-                                        <NavLink to="/offer/id/edit" className="offer-edit">
-                                            edit
-                                        </NavLink>
+                                        <a className="offer-name modal-trigger" href="#offer-details">
+                                            Offer 1
+                                        </a>
                                     </p>
+                                    <div id="offer-details" className="modal">
+                                        <div className="modal-content">
+                                            <h4 className = "offer-name"style = {({color : "#3632a8"})}>Offer 1</h4>
+                                            <div className = "offer-details">
+                                                Call Rate : 2.34<br></br>
+                                                internet Rate : 2.34<br></br>
+                                                FNF Number(Max): 20
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <span className = "cancel">
+                                                <button className="modal-close btn red">Cancel</button>
+                                            </span>
+                                            <span className = "edit">
+                                                <a className = "btn green" href="/offer/id/edit">
+                                                    edit
+                                                </a>
+                                            </span> 
+                                        </div>
+                                    </div>
+                                   
                                 </div>
                             </div>
                             <div className = "card-action">
