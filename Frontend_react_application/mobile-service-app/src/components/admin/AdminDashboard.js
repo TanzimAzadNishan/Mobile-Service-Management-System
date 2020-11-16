@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 //import { connect } from 'react-redux'
-import {NavLink} from 'react-router-dom'
+//import {NavLink} from 'react-router-dom'
 import NProgress from 'nprogress'
 import {validateMobileNumber
 } from '../../utilities/Validators/AuthValidator'
@@ -184,9 +184,9 @@ class AdminDashboard extends Component {
                                 </div>
                             </div>
                             <div className = "card-action">
-                                <NavLink to="/admin/setpkg" className="set-pkg">
+                                <a href="/admin/setpkg" className="set-pkg">
                                     Set New Package
-                                </NavLink>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -227,9 +227,9 @@ class AdminDashboard extends Component {
                                 </div>
                             </div>
                             <div className = "card-action">
-                                <NavLink to="/admin/setfnf" className="set-fnf">
+                                <a href="/admin/setfnf" className="set-fnf">
                                     Set New FNF
-                                </NavLink>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -329,9 +329,9 @@ class AdminDashboard extends Component {
                                 </div>
                             </div>
                             <div className = "card-action">
-                                <NavLink to="/admin/setoffer" className="set-offer">
+                                <a href="/admin/setoffer" className="set-offer">
                                     Set New Offer
-                                </NavLink>
+                                </a>
                             </div>
                         </div>
                     </div>
