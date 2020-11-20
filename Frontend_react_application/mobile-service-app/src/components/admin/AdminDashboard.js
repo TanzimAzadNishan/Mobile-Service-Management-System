@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 //import { connect } from 'react-redux'
-//import {NavLink} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 import NProgress from 'nprogress'
 import {validateMobileNumber
 } from '../../utilities/Validators/AuthValidator'
@@ -174,9 +174,9 @@ class AdminDashboard extends Component {
                                                 <button className="modal-close btn red">Cancel</button>
                                             </span>
                                             <span className = "edit">
-                                                <a className = "btn green" href="/packages/id/edit">
+                                                <NavLink className = "btn green" to="/packages/id/edit">
                                                     edit
-                                                </a>
+                                                </NavLink>
                                             </span> 
                                         </div>
                                     </div>
@@ -184,9 +184,9 @@ class AdminDashboard extends Component {
                                 </div>
                             </div>
                             <div className = "card-action">
-                                <a href="/admin/setpkg" className="set-pkg">
+                                <NavLink to="/admin/setpkg" className="set-pkg">
                                     Set New Package
-                                </a>
+                                </NavLink>
                             </div>
                         </div>
                     </div>
@@ -217,9 +217,9 @@ class AdminDashboard extends Component {
                                                 <button className="modal-close btn red">Cancel</button>
                                             </span>
                                             <span className = "edit">
-                                                <a className = "btn green" href="/fnf/id/edit">
+                                                <NavLink className = "btn green" to="/fnf/id/edit">
                                                     edit
-                                                </a>
+                                                </NavLink>
                                             </span> 
                                         </div>
                                     </div>
@@ -227,9 +227,9 @@ class AdminDashboard extends Component {
                                 </div>
                             </div>
                             <div className = "card-action">
-                                <a href="/admin/setfnf" className="set-fnf">
+                                <NavLink to="/admin/setfnf" className="set-fnf">
                                     Set New FNF
-                                </a>
+                                </NavLink>
                             </div>
                         </div>
                     </div>
@@ -319,9 +319,9 @@ class AdminDashboard extends Component {
                                                 <button className="modal-close btn red">Cancel</button>
                                             </span>
                                             <span className = "edit">
-                                                <a className = "btn green" href="/offer/id/edit">
+                                                <NavLink className = "btn green" to="/offer/id/edit">
                                                     edit
-                                                </a>
+                                                </NavLink>
                                             </span> 
                                         </div>
                                     </div>
@@ -329,9 +329,9 @@ class AdminDashboard extends Component {
                                 </div>
                             </div>
                             <div className = "card-action">
-                                <a href="/admin/setoffer" className="set-offer">
+                                <NavLink to="/admin/setoffer" className="set-offer">
                                     Set New Offer
-                                </a>
+                                </NavLink>
                             </div>
                         </div>
                     </div>
