@@ -10,6 +10,7 @@ const loginController = require('./ApiControllers/auth/login')
 const adminLoginController = require('./ApiControllers/admin/adminLogin')
 const accountInfoController = require('./ApiControllers/Dashboard/accountInfo')
 const editProfileController = require('./ApiControllers/Dashboard/editProfile')
+const packageInfoController = require('./ApiControllers/Services/package')
 
 
 const app = express()
@@ -59,3 +60,4 @@ loginController(app)
 adminLoginController(app)
 accountInfoController(app)
 editProfileController(app, upload)
+packageInfoController(app)

@@ -8,8 +8,10 @@ import Login from './components/auth/Login'
 import UserDashboard from './components/dashboard/UserDashboard'
 import AdminDashboard from './components/admin/AdminDashboard'
 import EditPersonDetails from './components/dashboard/EditPersonDetails'
+import Package from './components/service/Package'
 import logo from './images/5.jpg'
 import 'nprogress/nprogress.css'
+
 
 class App extends Component{
   render() {
@@ -26,6 +28,7 @@ class App extends Component{
             <Route path="/dashboard/edit" component={EditPersonDetails}></Route>
             <Route path="/dashboard" component={UserDashboard}></Route>
             <Route path="/admin/dashboard" component={AdminDashboard}></Route>
+            <Route path="/package" component={Package}></Route>
           </Switch>
         </div>
       </BrowserRouter>

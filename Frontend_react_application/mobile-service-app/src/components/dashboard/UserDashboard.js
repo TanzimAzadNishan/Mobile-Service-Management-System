@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {NavLink, Redirect} from 'react-router-dom'
 import NProgress from 'nprogress'
-import {
-    retrieveAccountInfo
-} from '../../store/actions/dashboardActions'
+import { retrieveAccountInfo } from '../../store/actions/dashboardActions'
 import '../../styles/dashboard/UserDashbaordStyle.css'
 
 
