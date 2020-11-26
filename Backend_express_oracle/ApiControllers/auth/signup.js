@@ -1,5 +1,5 @@
 //const connectToOracle = require('../../Database/oracleSetup')
-const oracleConfig = require('../../Database/oracleSetup')
+//const oracleConfig = require('../../Database/oracleSetup')
 const insertOperation = require('../../Database/insertOperation')
 const getRandomId = require('../../Database/idGenerator')
 const oracledb = require('oracledb')

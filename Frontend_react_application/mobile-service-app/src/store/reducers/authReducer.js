@@ -2,11 +2,13 @@
 
 const initState = {
     auth: null,
-    authError: null
+    authError: null,
+    originalPassword: null
 }
 
 const authReducer = (state = initState, action)=>{
     const userAuth = localStorage.getItem('userAccount')
+    const oriPassInStore = localStorage.getItem('originalPassword')
     console.log('userauth: ', userAuth)
 
     if(action.type === 'SIGNUP_SUCCESS'){
@@ -14,10 +16,12 @@ const authReducer = (state = initState, action)=>{
         console.log(action.userAccount)
         localStorage.setItem('userAccount', JSON.stringify(action.userAccount))
         const userData = localStorage.getItem('userAccount')
+        const passData = localStorage.getItem('originalPassword')
         console.log(JSON.parse(userData))
         return{
             ...state,
-            auth: userData ? JSON.parse(userData) : null
+            auth: userData ? JSON.parse(userData) : null,
+            originalPassword: passData ? JSON.parse(passData) : null
         }
     }
     else if(action.type === 'SIGNUP_FAILED'){
@@ -31,10 +35,12 @@ const authReducer = (state = initState, action)=>{
         console.log(action.userAccount)
         localStorage.setItem('userAccount', JSON.stringify(action.userAccount))
         const userData = localStorage.getItem('userAccount')
+        const passData = localStorage.getItem('originalPassword')
         console.log(JSON.parse(userData))
         return{
             ...state,
-            auth: userData ? JSON.parse(userData) : null
+            auth: userData ? JSON.parse(userData) : null,
+            originalPassword: passData ? JSON.parse(passData) : null
         }
     }
 
@@ -47,11 +53,19 @@ const authReducer = (state = initState, action)=>{
 
     else if(action.type === 'LOGOUT'){
         localStorage.removeItem('userAccount')
+        localStorage.removeItem('accountInfo')
+        localStorage.removeItem('current_pkg')
+        localStorage.removeItem('current_fnf_plan')
+        localStorage.removeItem('personInfo')
+        localStorage.removeItem('profilePic')        
+        localStorage.removeItem('originalPassword')        
+
         //location.reload()
         return{
             ...state,
             auth: null,
-            authError: null
+            authError: null,
+            originalPassword: null
         }
     }
 
@@ -64,7 +78,8 @@ const authReducer = (state = initState, action)=>{
     
     return{
         ...state,
-        auth: userAuth ? JSON.parse(userAuth) : null
+        auth: userAuth ? JSON.parse(userAuth) : null,
+        originalPassword: oriPassInStore ? JSON.parse(oriPassInStore) : null
     }
     //return state
 }

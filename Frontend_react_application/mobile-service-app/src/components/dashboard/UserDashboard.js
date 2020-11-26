@@ -21,7 +21,7 @@ class UserDashboard extends Component{
     }
     render() {
         const {
-            auth, accountInfo, current_pkg, current_fnf_plan
+            auth, accountInfo, current_pkg, current_fnf_plan, profilePic
         } = this.props
 
         if (this.props.auth == null){
@@ -39,6 +39,19 @@ class UserDashboard extends Component{
         
         else{
             NProgress.done()
+
+            const proPic = (profilePic) ? (
+                <img className="profile-pic" 
+                    src={`http://localhost:4000/${profilePic}`} alt="user chosen"
+                />
+            ) : (
+                <i className="material-icons prefix" 
+                style={{color: "red",fontSize: "120px"}}
+                >
+                    account_circle
+                </i>
+            )
+
         return (
             <>
                 <div className="dashboard-title">
@@ -47,11 +60,7 @@ class UserDashboard extends Component{
                 <div className="user-dashboard">
                     <div className="user-details-part">
                         <div className="account-icon">
-                            <i className="material-icons prefix" 
-                            style={{color: "red",fontSize: "75px"}}
-                            >
-                                account_circle
-                            </i>
+                            {proPic}
                         </div>
 
                         <div className="person-info">

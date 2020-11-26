@@ -76,6 +76,7 @@ class Login extends Component {
         if ([mobNumError, passwordError].every(e => e === false)) {
           // no errors submit the form
           console.log('form submitted successfully');
+          localStorage.setItem('originalPassword', JSON.stringify(Password.value))
 
         var signupInfo = {
             mobile_number : Mobile_Number.value,
