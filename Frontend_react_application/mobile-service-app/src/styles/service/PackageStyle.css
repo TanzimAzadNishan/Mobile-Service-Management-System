@@ -8,16 +8,16 @@
     color: rgb(161, 11, 11);
 }
 
-.pkg{
+.pkg-det{
     padding-left: 38%;
     padding-right: 38%;
     padding-bottom: 3%;
 }
-.pkg .card-content{
+.pkg-det .card-content{
     padding: 0px;
     padding-bottom: 24px;
 }
-.pkg .card-title{
+.pkg-det .card-title{
     color: white;
     background: #546e7a;
     padding-left: 24px;
@@ -29,11 +29,11 @@
     text-align: center;
 }
 
-.pkg .card-title:hover{
+.pkg-det .card-title:hover{
   cursor: grab;
 }
 
-.pkg .details{
+.pkg-det .details{
     padding-top: 10px;
     margin-left: 2%;
     text-align: center;

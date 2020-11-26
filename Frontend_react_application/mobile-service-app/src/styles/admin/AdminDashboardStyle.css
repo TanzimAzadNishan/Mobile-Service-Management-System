@@ -25,10 +25,6 @@
     margin-right: auto;
 }
 
-.admin-dashboard-upper .modal{
-    height: 42%;
-    width: 30%;
-}
 
 .admin-dashboard-upper .edit{
     color : black;
@@ -36,9 +32,6 @@
     text-decoration: underline;
 }
 
-.admin-dashboard-upper .cancel{
-    padding-right: 50%;
-}
 
 .admin-dashboard-upper p{
     text-align: center;
@@ -159,6 +152,32 @@
     color: darkred;
 }
 
+.pkg-info{  
+    height: 45%;
+    width: 40%;
+    background-color: white;
+    margin-top: 10%;
+    margin-left: 30%;
+}
+
+.pkg-details{
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 400;
+    padding-bottom: 5%;
+}
+
+.pkg-details-title{
+    font-size: 2rem;
+    font-weight: 500;
+    color: darkslateblue;
+}
+
+.pkg-cancel{
+    margin-left: 27%;
+    margin-right: 20%;
+}
+
 /*---fnf---*/
 
 
@@ -213,6 +232,32 @@
     color: darkred;
 }
 
+.fnf-info{  
+    height: 40%;
+    width: 40%;
+    background-color: white;
+    margin-top: 10%;
+    margin-left: 30%;
+}
+
+.fnf-details{
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 400;
+    padding-bottom: 5%;
+}
+
+.fnf-details-title{
+    font-size: 2rem;
+    font-weight: 500;
+    color: darkslateblue;
+}
+
+.fnf-cancel{
+    margin-left: 27%;
+    margin-right: 20%;
+}
+
 /*------admin dashboard lower part-------*/
 
 .admin-dashboard-lower{
@@ -226,10 +271,6 @@
     margin-right: auto;
 }
 
-.admin-dashboard-lower .modal{
-    height: 42%;
-    width: 30%;
-}
 
 .admin-dashboard-lower .edit{
     color : black;
@@ -237,9 +278,6 @@
     text-decoration: underline;
 }
 
-.admin-dashboard-lower .cancel{
-    padding-right: 50%;
-}
 
 .admin-dashboard-lower p{
     text-align: center;
@@ -291,11 +329,6 @@
     border-bottom: 1px solid black;
 }
 
-.admin-dashboard-lower .feedback .modal{
-    height: 70%;
-    width: 70%;
-}
-
 .admin-dashboard-lower .feedback .details .feedback-body{
     color: crimson;
     text-decoration: none;
@@ -307,28 +340,61 @@
     cursor: pointer;
 }
 
-.admin-dashboard-lower .feedback .details .sender{
+.feedback-info{
+    margin-left: 15%;
+    margin-top: 5%;
+    height: 75%;
+    width: 70%;
+    background-color: white;
+    overflow: auto;
+}
+
+.feed-body{
+    padding-top: 3%;
+    color: firebrick;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.sender{
+    margin-left: 37%;
     padding-left: 10px;
     padding-right: 10px;
     color : black;
-    border: 1px solid black;
+    border: 2px solid black;
     text-align: center;
+    font-size: 1.5rem;
+    font-weight: 400;
 }
 
-.admin-dashboard-lower .feedback .details .reply{
-    margin-left: 55%;
-    justify-self: end;
-}
-.admin-dashboard-lower .feedback .details .sender:hover{
+
+.sender:hover{
     color: blue;
 }
 
-.admin-dashboard-lower .feedback .cancel{
-    padding-right: 75%;
+.feed-cancel{
+    margin-left: 5%;
 }
 
-.admin-dashboard-lower .feedback .send{
-    padding-right: 2%;
+.feed-send{
+    margin-left: 75%;
+}
+
+.feedback-sent{
+    background-color: white;
+    height: 40%;
+    width: 40%;
+    margin-top: 10%;
+    margin-left: 30%;
+    padding-top: 5%;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 400;
+}
+
+.sent-close{
+    margin-top: 10%;
 }
 
 /*---offer---*/
@@ -387,4 +453,30 @@
     padding-left: 50%;
     color : black;
     text-decoration: underline;
+}
+
+.offer-info{  
+    height: 80%;
+    width: 40%;
+    background-color: white;
+    margin-top: 5%;
+    margin-left: 30%;
+}
+
+.offer-details{
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 400;
+    padding-bottom: 5%;
+}
+
+.offer-details-title{
+    font-size: 2rem;
+    font-weight: 500;
+    color: darkslateblue;
+}
+
+.offer-cancel{
+    margin-left: 27%;
+    margin-right: 20%;
 }

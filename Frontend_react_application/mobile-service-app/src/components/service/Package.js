@@ -10,7 +10,7 @@ class Package extends Component{
         super(props);
         NProgress.start();
         NProgress.configure({ ease: 'ease', speed: 500 });
-        this.state = {activeModal:''}
+        this.state = {activeModal:'',pkgName:''}
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         //this.handleModalChangeEnter = this.handleModalChange.bind(this, true);
@@ -21,8 +21,7 @@ class Package extends Component{
     closeModal () {
         this.setState({activeModal:''}); }
     selectPkg(name){
-        this.setState({activeModal: 'sel'}); 
-        console.log(name)
+        this.setState({activeModal: 'sel', pkgName: name});
     }
 
     componentDidMount(){
@@ -51,7 +50,7 @@ class Package extends Component{
                 if(this.props.auth != null)
                 {
                     return(
-                        <div className="pkg" key={pkg.PKG_NAME}>
+                        <div className="pkg-det" key={pkg.PKG_NAME}>
                             <div className="card">
                                 <div className="card-content">
                                     <div className="card-title"  onClick = {() => this.selectPkg(pkg.PKG_NAME)} style = {{background: colors[Math.floor(Math.random() * colors.length)]}}>
@@ -73,7 +72,7 @@ class Package extends Component{
                             </div>
                             <Modal className = "pkg-details-modal" isOpen={this.state.activeModal === 'sel'} ariaHideApp={false}>
                                 <div>
-                                    You have successfully selected this package!
+                                    You have successfully selected {this.state.pkgName} package!
                                 </div>
                                 <button className ='btn red waves-effect waves-light close-pkg-modal' onClick={this.closeModal}>Exit</button>
                             </Modal>                        
