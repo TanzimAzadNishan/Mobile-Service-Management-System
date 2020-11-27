@@ -205,6 +205,12 @@ class EditPersonDetails extends Component{
 
         if ([nameError, passwordError, emailError, addressError].every(e => e === false)){
             console.log('details form submitted successfully')
+            this.state.submitCalled = true
+
+            document.getElementById('Name').blur()
+            document.getElementById('Password').blur()
+            document.getElementById('Email').blur()
+            document.getElementById('Address').blur()
 
             var editInfo = {
                 name: Name.value,
@@ -253,7 +259,9 @@ class EditPersonDetails extends Component{
                         value: editInfo.dob,
                         validateOnChange: false,
                         error: ''
-                    }
+                    },
+                    submitCalled: false,
+                    allFieldsValidated: false
                 }))
             })
             //}
@@ -298,7 +306,9 @@ class EditPersonDetails extends Component{
                     ...state.DOB,
                     validateOnChange: true,
                     error: ''
-                }
+                },
+                submitCalled: false,
+                allFieldsValidated: false
 
             }));
         }
