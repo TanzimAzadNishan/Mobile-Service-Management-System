@@ -74,6 +74,9 @@ class Navbar extends Component{
                             <NavLink to="/recharge" className="itemStyle"> Recharge </NavLink>
                         </li>
                         <li>
+                            <NavLink to="/connect" className="itemStyle"> Connect </NavLink>
+                        </li>
+                        <li>
                             <NavLink to="/history" className="itemStyle"> My History </NavLink>
                         </li>
                     

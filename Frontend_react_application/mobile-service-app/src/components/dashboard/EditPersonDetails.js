@@ -72,7 +72,7 @@ class EditPersonDetails extends Component{
             },
             Address: {
                 ...this.state.Address,
-                value: (this.props.personInfo.address) ? this.props.personInfo.email : ''
+                value: (this.props.personInfo.address) ? this.props.personInfo.address : ''
             },
             Gender: {
                 ...this.state.Gender,
@@ -205,7 +205,7 @@ class EditPersonDetails extends Component{
 
         if ([nameError, passwordError, emailError, addressError].every(e => e === false)){
             console.log('details form submitted successfully')
-            this.state.submitCalled = true
+            //this.state.submitCalled = true
 
             document.getElementById('Name').blur()
             document.getElementById('Password').blur()
