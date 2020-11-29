@@ -8,22 +8,35 @@ const initState = {
 }
 
 const dashboardReducer = (state = initState, action)=>{
+    const accInStore = localStorage.getItem('accountInfo')
+    const pkgInStore = localStorage.getItem('current_pkg')
+    const fnfInStore = localStorage.getItem('current_fnf_plan')    
+    const infoInStore = localStorage.getItem('personInfo')
+    const dpInStore = localStorage.getItem('profilePic')
+
+
     if(action.type === 'RETRIEVE_ACCOUNT_DETAILS'){
         console.log('account details retrieved')
 
         localStorage.setItem('accountInfo', JSON.stringify(action.accountDetails.accountInfo))
         localStorage.setItem('current_pkg', JSON.stringify(action.accountDetails.packageInfo))
         localStorage.setItem('current_fnf_plan', JSON.stringify(action.accountDetails.fnfInfo))
+        localStorage.setItem('personInfo', JSON.stringify(action.accountDetails.personInfo))
+        localStorage.setItem('profilePic', JSON.stringify(action.accountDetails.personInfo.photo))
         
         const accountData = localStorage.getItem('accountInfo')
         const packageData = localStorage.getItem('current_pkg')
         const fnfData = localStorage.getItem('current_fnf_plan')
+        const personData = localStorage.getItem('personInfo')
+        const profilePicData = localStorage.getItem('profilePic')
 
         return{
             ...state,
             accountInfo: accountData ? JSON.parse(accountData) : null,
             current_pkg: packageData ? JSON.parse(packageData) : null,
-            current_fnf_plan: fnfData ? JSON.parse(fnfData) : null
+            current_fnf_plan: fnfData ? JSON.parse(fnfData) : null,
+            personInfo: personData ? JSON.parse(personData) : null,
+            profilePic: profilePicData ? JSON.parse(profilePicData) : null
         }
     }
 
@@ -67,7 +80,15 @@ const dashboardReducer = (state = initState, action)=>{
         }
     }
 
-    return state
+    //return state
+    return{
+        ...state,
+        accountInfo: accInStore ? JSON.parse(accInStore) : null,
+        current_pkg: pkgInStore ? JSON.parse(pkgInStore) : null,
+        current_fnf_plan: fnfInStore ? JSON.parse(fnfInStore) : null,
+        personInfo: infoInStore ? JSON.parse(infoInStore) : null,
+        profilePic: dpInStore ? JSON.parse(dpInStore) : null
+    }
 }
 
 export default dashboardReducer

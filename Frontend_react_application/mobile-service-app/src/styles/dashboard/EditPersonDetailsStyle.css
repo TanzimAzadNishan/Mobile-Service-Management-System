@@ -1,0 +1,167 @@
+
+.edit-page-title{
+    margin-top: 40px;
+    padding-bottom: 40px;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #02575B;
+    margin-bottom: 20px;
+}
+
+.edit-details{
+    display: grid;
+    grid-template-columns: repeat(25, 1fr);
+    /*grid-auto-rows: auto;*/
+    grid-template-rows: repeat(5, 100px);
+
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/*------------------------ left section ---------------------------*/
+
+.edit-details .left-section{
+    grid-column: 2/10;
+    grid-row: 1/6;
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(10, 50px);
+    /*grid-auto-rows: 100px;*/
+}
+
+
+/*___________________________ profile _________________________*/
+
+.edit-details .left-section .profile{
+    grid-column: 1/6;
+    grid-row: 3/7;
+
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 5px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    padding-right: 50px;
+}
+
+.edit-details .left-section .profile .profile-pic-part{
+    position: relative;
+    grid-column: 1/5;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+.edit-details .left-section .profile .profile-pic{
+    grid-column: 1/6;
+    justify-self: start;
+    align-self: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.edit-details .left-section .profile .edit-profile-pic{
+    position: absolute;
+    display: none;
+    top: 35%;
+    left: 15%;
+    height: 40px;
+    width: 80px;
+    background-color: #eeeeee;
+    cursor: pointer;
+}
+.edit-details .left-section .profile .edit-profile-pic:hover{
+    display: block;
+}
+.edit-details .left-section .profile .profile-pic:hover + .edit-profile-pic{
+    display: block;
+}
+
+.edit-details .left-section .profile .edit-profile-pic span{
+    position: absolute;
+    top: 20%;
+    left: 12%;
+}
+.edit-details .left-section .profile .edit-profile-pic h6{
+    position: absolute;
+    bottom: 10%;
+    left: 47%;
+    font-weight: 500;
+}
+
+.edit-details .left-section .profile .person-info{
+    grid-column: 6/11;
+    justify-self: center;
+    align-self: center;
+}
+
+.edit-details .left-section .profile .person-name{
+    font-size: 1.4rem;
+    font-weight: 630;
+    color: #C64F4F;
+}
+.edit-details .left-section .profile .person-mob-num{
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: rgb(0, 132, 255);
+}
+.edit-details .left-section .profile .person-email{
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #A30171;
+}
+
+
+/*___________________________ Go Back to Dashboard _________________________*/
+
+.edit-details .left-section .dashboard{
+    grid-column: 1/3;
+    grid-row: 8/9;
+    text-decoration: underline;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #762121;
+}
+
+/*------------------------ right section ---------------------------*/
+
+.edit-details .right-section{
+    grid-column: 12/25;
+}
+
+.edit-details .right-section .right-header{
+    /*text-align: center;*/
+    font-size: 1.45rem;
+    font-weight: 498;
+    color: #3C6DB4;
+    margin-bottom: 30px;
+}
+
+.edit-details .right-section .dob-gender{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+}
+.edit-details .right-section .dob-part{
+    grid-column: 1/4;
+}
+.edit-details .right-section .dob-gender select{
+    grid-column: 5/7;
+}
+.edit-details .right-section .save-change-btn{
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
+.edit-details .right-section .save-change-btn button{
+    grid-column: 10/13;
+    justify-self: center;
+}
+
+/*.edit-details .right-section .form-section{
+}*/

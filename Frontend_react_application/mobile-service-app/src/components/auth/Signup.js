@@ -95,6 +95,8 @@ class Signup extends Component{
           // no errors submit the form
           console.log('form submitted successfully');
 
+          localStorage.setItem('originalPassword', JSON.stringify(Password.value))
+
           hashing.hashPassword(Password.value, 12)
           .then((hashedPassword)=>{
             var signupInfo = {

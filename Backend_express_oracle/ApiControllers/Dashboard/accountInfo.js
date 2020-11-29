@@ -11,6 +11,13 @@ module.exports = function(app){
             fnfInfo: null
         }
 
+        PersonQuery = 
+        `
+        SELECT NAME, PASSWORD, EMAIL, DOB, GENDER, ADDRESS, PHOTO
+        FROM PERSON
+        WHERE MOBILE_NUMBER = :mobile_number
+        `
+
         AccountQuery = 
         `
         SELECT ACCOUNT_BALANCE, INTERNET_BALANCE, TALKTIME, SMS_BALANCE, POINTS
@@ -41,56 +48,62 @@ module.exports = function(app){
         FROM FNF
         WHERE FNF_TYPE = :fnf_type
         `
+
+        personInfo = {}
+
         executeQuery(AccountQuery, [req.body.mobile_number])
         .then((accRecord)=>{
             console.log(accRecord)
             accountDetails.accountInfo = accRecord.rows[0]
-
-            /*accountDetails.accountInfo = {
-                ACCOUNT_BALANCE: accRecord.rows[0].ACCOUNT_BALANCE,
-                INTERNET_BALANCE: accRecord.rows[0].INTERNET_BALANCE,
-                TALKTIME: accRecord.rows[0].TALKTIME,
-                SMS_BALANCE: accRecord.rows[0].SMS_BALANCE,
-                POINTS: accRecord.rows[0].POINTS
-            }*/
-
 
             executeQuery(findPackageQuery, [req.body.mobile_number])
             .then((pkgRecord)=>{
                 console.log(pkgRecord)
 
                 accountDetails.packageInfo = pkgRecord.rows[0]
-                /*accountDetails.packageInfo = {
-                    PKG_NAME: pkgRecord.rows[0].PKG_NAME,
-                    CALL_RATE: pkgRecord.rows[0].CALL_RATE,
-                    SMS_RATE: pkgRecord.rows[0].SMS_RATE,
-                    FNF_NUM: pkgRecord.rows[0].FNF_NUM
-                }*/
 
                 executeQuery(findFNFQuery, [req.body.mobile_number])
                 .then((fnfRecord)=>{
                     console.log(fnfRecord)
 
-                    if(fnfRecord.rows[0].CURRENT_FNF_PLAN != null){
-                        executeQuery(FNFQuery, [fnfRecord.rows[0].CURRENT_FNF_PLAN])
-                        .then((data)=>{
-                            accountDetails.fnfInfo = data.rows[0]
-                            /*accountDetails.fnfInfo = {
-                                FNF_TYPE: data.rows[0].FNF_TYPE,
-                                CALL_RATE: data.rows[0].CALL_RATE,
-                                SMS_RATE: data.rows[0].SMS_RATE
-                            }*/
+                    executeQuery(PersonQuery, [req.body.mobile_number])
+                    .then((personRecord)=>{
 
+                        personInfo.name = personRecord.rows[0].NAME
+                        personInfo.password = personRecord.rows[0].PASSWORD
+                        personInfo.email = personRecord.rows[0].EMAIL
+                        personInfo.dob = personRecord.rows[0].DOB
+                        personInfo.gender = personRecord.rows[0].GENDER
+                        personInfo.address = personRecord.rows[0].ADDRESS
+                        personInfo.photo = personRecord.rows[0].PHOTO
+
+                        if(personInfo.dob){
+                            var dateStr = personInfo.dob.toString()
+                            var timeArr = dateStr.split(' ')
+                
+                            var dateFmtOracle = timeArr[2] + '-' + timeArr[1] + '-' + timeArr[3]
+                            personInfo.dob = dateFmtOracle
+                        }
+
+                        accountDetails.personInfo = personInfo
+
+                        if(fnfRecord.rows[0].CURRENT_FNF_PLAN != null){
+                            executeQuery(FNFQuery, [fnfRecord.rows[0].CURRENT_FNF_PLAN])
+                            .then((data)=>{
+                                accountDetails.fnfInfo = data.rows[0]
+    
+                                console.log('Account Information Retrieved')
+                                res.json({serverMsg: 'Account Information Retrieved', 
+                                        accountDetails: accountDetails})
+                            
+                            })
+                        }
+                        else{
                             console.log('Account Information Retrieved')
                             res.json({serverMsg: 'Account Information Retrieved', 
-                                    accountDetails: accountDetails})
-                        })
-                    }
-                    else{
-                        console.log('Account Information Retrieved')
-                        res.json({serverMsg: 'Account Information Retrieved', 
-                                    accountDetails: accountDetails})
-                    }
+                                        accountDetails: accountDetails})
+                        }
+                    })
                 })
             })
         })
