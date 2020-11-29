@@ -37,7 +37,7 @@ const adminReducer = (state = initState, action)=>{
             authError: null
         }
     }
-    
+       
     return{
         ...state,
         auth: adminAuth ? JSON.parse(adminAuth) : null

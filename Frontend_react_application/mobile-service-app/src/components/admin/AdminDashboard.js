@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-//import { connect } from 'react-redux'
-import {NavLink} from 'react-router-dom'
+import { connect } from 'react-redux'
+import {Redirect} from 'react-router-dom'
 import Modal from 'react-modal'
 import NProgress from 'nprogress'
 import {validateMobileNumber} from '../../utilities/Validators/AuthValidator'
+import { retrieveAdminInfo,setNewPackage,editPackage,deletePackage,setNewfnf,editFnf,deletefnf,setNewOffer,editOffer,deleteOffer} from '../../store/actions/adminDashboardActions'
 import '../../styles/admin/AdminDashboardStyle.css'
 
 const initialState = {
@@ -35,7 +36,58 @@ const initialState = {
     offerBonusSms: 0,
     feedbackID: '',
     feedbackBody: '',
-    feeedbackSender: ''
+    feeedbackSender: '',
+    newPkg: {
+        new_pkg_name: '',
+        new_pkg_callrate: '',
+        new_pkg_fnfno: '',
+        new_pkg_setter: ''
+    },
+    editPkg: {
+        edit_pkg_name: '',
+        edit_pkg_callrate: '',
+        edit_pkg_smsrate: '',
+        edit_pkg_fnfno: '',
+        edit_pkg_setter: ''
+    },
+    newfnf: {
+        new_fnf_type: '',
+        new_fnf_callrate: '',
+        new_fnf_smsrate: ''
+    },
+    editfnf: {
+        edit_fnf_type: '',
+        edit_fnf_callrate: '',
+        edit_fnf_smsrate: ''
+    },
+    newOffer: {
+        new_offer_ID: '',
+        new_offer_money: '',
+        new_offer_validity: '',
+        new_offer_pts: '',
+        new_offer_bns_pts: '',
+        new_offer_int: '',
+        new_offer_bns_int: '',
+        new_offer_talktime: '',
+        new_offer_bns_talktime: '',
+        new_offer_sms: '',
+        new_offer_bns_sms: '',
+        new_offer_setter: ''
+    },
+    editedOffer: {
+        edited_offer_ID: '',
+        edited_offer_money: '',
+        edited_offer_validity: '',
+        edited_offer_pts: '',
+        edited_offer_bns_pts: '',
+        edited_offer_int: '',
+        edited_offer_bns_int: '',
+        edited_offer_talktime: '',
+        edited_offer_bns_talktime: '',
+        edited_offer_sms: '',
+        edited_offer_bns_sms: '',
+        edited_offer_setter: ''
+    }
 }
 
 class AdminDashboard extends Component {
@@ -55,8 +107,15 @@ class AdminDashboard extends Component {
         this.closeSentModal = this.closeSentModal.bind(this);
     }
 
-    componentDidMount(){       
-        NProgress.done()
+    componentDidMount(){ 
+        console.log('before admin auth mounting ', this.props.auth)
+        if (this.props.auth != null){
+            this.setState({newPkg: {...this.state.newPkg,new_pkg_setter: this.props.auth.NID}})
+            this.setState({editPkg: {...this.state.editPkg,edit_pkg_setter: this.props.auth.NID}})
+            this.setState({newOffer: {...this.state.newOffer,new_offer_setter: this.props.auth.NID}})
+            this.setState({editedOffer: {...this.state.editedOffer,edited_offer_setter: this.props.auth.NID}})
+            this.props.retrieveAdminInfo(this.props.auth)
+        }
     }
 
     state = initialState
@@ -80,6 +139,23 @@ class AdminDashboard extends Component {
             ); 
         }
 
+    openEditPkgModal() {
+        this.setState(
+            {activeModal:'edit-pkg',
+            editPkg: {...this.state.editPkg,
+                edit_pkg_name: this.state.packageName,
+                edit_pkg_callrate: this.state.pkgCallRate,
+                edit_pkg_smsrate: this.state.pkgSMSRate,
+                edit_pkg_fnfno: this.state.pkgFNFNo
+                }
+            }
+            ); 
+        }
+
+    closeEditPkgModal() {
+        this.setState({activeModal:''})
+    }
+
     openfnfModal (name,callRate,SMSRate) {
         this.setState(
             {activeModal:'fnf-details',
@@ -88,6 +164,7 @@ class AdminDashboard extends Component {
             fnfSMSRate: SMSRate}
             ); 
         }
+
     closefnfModal () {
         this.setState(
             {activeModal:'',
@@ -96,6 +173,21 @@ class AdminDashboard extends Component {
             fnfSMSRate: 0}
             ); 
         }
+    
+    openEditfnfModal() {
+        this.setState(
+            {activeModal:'edit-fnf',
+            editfnf: {...this.state.editfnf,
+                edit_fnf_type: this.state.fnfName,
+                edit_fnf_callrate: this.state.fnfCallRate,
+                edit_fnf_smsrate: this.state.fnfSMSRate
+                }
+            }
+        ); 
+    }
+    closeEditfnfModal() {
+        this.setState({activeModal:''})
+    }
     
      openOfferModal (name, amount, validity,points,bonusPoints,internet,bonusInternet,
      talktime,bonusTalktime,sms,bonusSms) {
@@ -114,6 +206,7 @@ class AdminDashboard extends Component {
             offerBonusSms: bonusSms}
             ); 
         }
+        
     closeOfferModal () {
         this.setState(
             {activeModal:'',
@@ -131,6 +224,29 @@ class AdminDashboard extends Component {
             ); 
         }
 
+    openEditOfferModal() {
+        this.setState(
+            {activeModal:'edit-offer',
+            editedOffer: {...this.state.editedOffer,
+                edited_offer_ID: this.state.offerID,
+                edited_offer_money: this.state.offerAmount,
+                edited_offer_validity: this.state.offerValidity,
+                edited_offer_pts: this.state.offerPoints,
+                edited_offer_bns_pts: this.state.offerBonusPoints,
+                edited_offer_int: this.state.offerInternet,
+                edited_offer_bns_int: this.state.offerBonusInternet,
+                edited_offer_talktime: this.state.offerTalktime,
+                edited_offer_bns_talktime: this.state.offerBonusTalktime,
+                edited_offer_sms: this.state.offerSms,
+                edited_offer_bns_sms: this.state.offerBonusSms
+                }
+            }
+        ); 
+    }
+    closeEditOfferModal() {
+        this.setState({activeModal:''})
+    }
+
     openFeedbackModal (ID, body, sender) {
         this.setState(
             {activeModal:'feedback-details',
@@ -139,6 +255,7 @@ class AdminDashboard extends Component {
             feeedbackSender: sender}
             ); 
         }
+
     closeFeedbackModal () {
         this.setState(
             {activeModal:'',
@@ -147,6 +264,7 @@ class AdminDashboard extends Component {
             feeedbackSender: ''}
             ); 
         }
+
     closeFeedbackModalOpenSentModal () {
         this.setState(
             {activeModal: 'feedback-sent'}
@@ -158,6 +276,42 @@ class AdminDashboard extends Component {
             {activeModal: ''}
             );
         }
+
+    openSetPkgModal() {
+        this.setState(
+            {activeModal: 'set-package'}
+        );
+    }
+
+    closeSetPkgModal() {
+        this.setState(
+            {activeModal: ''}
+        );
+    }
+
+    openSetfnfModal() {
+        this.setState(
+            {activeModal: 'set-fnf'}
+        );
+    }
+
+    closeSetfnfModal() {
+        this.setState(
+            {activeModal: ''}
+        );
+    }
+
+    openSetOfferModal() {
+        this.setState(
+            {activeModal: 'set-offer'}
+        );
+    }
+
+    closeSetOfferModal() {
+        this.setState(
+            {activeModal: ''}
+        );
+    }
 
     handleChange = (evt, validationFunc)=>{
         const field = evt.target.id
@@ -212,7 +366,296 @@ class AdminDashboard extends Component {
         }
     }
 
+    handleNewPkgSubmit = (e)=>{
+        e.preventDefault();
+        //this.state.newPkg.new_pkg_setter = this.state.auth.NID
+        //console.log(this.state.newPkg)
+        
+        this.props.setNewPackage(this.state.newPkg)
+        this.setState(
+            {activeModal:'',
+            newPkg: {...this.state.newPkg,
+                new_pkg_name: '',
+                new_pkg_callrate: '',
+                new_pkg_smsrate: '',
+                new_pkg_fnfno: ''
+                }
+            }
+            ); 
+        //this.setState({...initialState})
+    }
+
+    handleNewPkgChange = (e)=>{
+        const field = e.target.id
+        const fieldVal = e.target.value;
+        this.setState({newPkg: {...this.state.newPkg,[field]: fieldVal}})
+    }
+
+    handleEditPkgSubmit = (e)=>{
+        e.preventDefault();
+        //this.state.newPkg.new_pkg_setter = this.state.auth.NID
+        //console.log(this.state.newPkg)
+        console.log(this.state.editPkg)
+        this.props.editPackage(this.state.editPkg)
+        this.setState(
+            {activeModal:'',
+            editPkg: {...this.state.editPkg,
+                edit_pkg_name: '',
+                edit_pkg_callrate: '',
+                edit_pkg_smsrate: '',
+                edit_pkg_fnfno: ''
+                }
+            }
+            ); 
+        //this.setState({...initialState})
+    }
+
+    handleEditPkgChange = (e)=>{
+        const field = e.target.id
+        const fieldVal = e.target.value;
+        this.setState({editPkg: {...this.state.editPkg,[field]: fieldVal}})
+    }
+
+    deletePkg(){
+        this.props.deletePackage(this.state.editPkg)
+        this.setState(
+            {activeModal:'',
+            editPkg: {...this.state.editPkg,
+                edit_pkg_name: '',
+                edit_pkg_callrate: '',
+                edit_pkg_smsrate: '',
+                edit_pkg_fnfno: ''
+                }
+            }
+            );
+    }
+
+    handleNewfnfSubmit = (e)=>{
+        e.preventDefault();
+        //this.state.newPkg.new_pkg_setter = this.state.auth.NID
+        //console.log(this.state.newPkg)
+        this.props.setNewfnf(this.state.newfnf)
+        this.setState(
+            {activeModal:'',
+            newfnf: {...this.state.newfnf,
+                new_fnf_type: '',
+                new_fnf_callrate: '',
+                new_fnf_smsrate: ''
+                }
+            }
+            ); 
+        //this.setState({...initialState})
+    }
+
+    handleNewfnfChange = (e)=>{
+        const field = e.target.id
+        const fieldVal = e.target.value;
+        this.setState({newfnf: {...this.state.newfnf,[field]: fieldVal}})
+    }
+
+    handleEditfnfSubmit = (e)=>{
+        e.preventDefault();
+        //this.state.newPkg.new_pkg_setter = this.state.auth.NID
+        console.log(this.state.editfnf)
+        this.props.editFnf(this.state.editfnf)
+        this.setState(
+            {activeModal:'',
+            editfnf: {...this.state.editfnf,
+                edit_fnf_type: '',
+                edit_fnf_callrate: '',
+                edit_fnf_smsrate: ''
+                }
+            }
+            ); 
+        //this.setState({...initialState})
+    }
+
+    handleEditfnfChange = (e)=>{
+        const field = e.target.id
+        const fieldVal = e.target.value;
+        this.setState({editfnf: {...this.state.editfnf,[field]: fieldVal}})
+    }
+
+    deletefnf(){
+        console.log(this.state.editfnf)
+        this.props.deletefnf(this.state.editfnf)
+        this.setState(
+            {activeModal:'',
+            editfnf: {...this.state.editfnf,
+                edit_fnf_type: '',
+                edit_fnf_callrate: '',
+                edit_fnf_smsrate: ''
+                }
+            }
+            );
+    }
+
+    handleNewOfferSubmit = (e)=>{
+        e.preventDefault();
+        //this.state.newPkg.new_pkg_setter = this.state.auth.NID
+        //console.log(this.state.newPkg)
+        
+        this.props.setNewOffer(this.state.newOffer)
+        this.setState(
+            {activeModal:'',
+            newOffer: {...this.state.newOffer,
+                new_offer_ID: '',
+                new_offer_money: '',
+                new_offer_validity: '',
+                new_offer_pts: '',
+                new_offer_bns_pts: '',
+                new_offer_int: '',
+                new_offer_bns_int: '',
+                new_offer_talktime: '',
+                new_offer_bns_talktime: '',
+                new_offer_sms: '',
+                new_offer_bns_sms: ''
+                }
+            }
+            ); 
+        //this.setState({...initialState})
+    }
+
+    handleNewOfferChange = (e)=>{
+        const field = e.target.id
+        const fieldVal = e.target.value;
+        this.setState({newOffer: {...this.state.newOffer,[field]: fieldVal}})
+    }
+
+    handleEditOfferSubmit = (e)=>{
+        e.preventDefault();
+        //this.state.newPkg.new_pkg_setter = this.state.auth.NID
+        //console.log(this.state.newPkg)
+        console.log(this.state.editedOffer)
+        this.props.editOffer(this.state.editedOffer)
+        this.setState(
+            {activeModal:'',
+            editedOffer: {...this.state.editedOffer,
+                edited_offer_ID: '',
+                edited_offer_money: '',
+                edited_offer_validity: '',
+                edited_offer_pts: '',
+                edited_offer_bns_pts: '',
+                edited_offer_int: '',
+                edited_offer_bns_int: '',
+                edited_offer_talktime: '',
+                edited_offer_bns_talktime: '',
+                edited_offer_sms: '',
+                edited_offer_bns_sms: ''
+                }
+            }
+            ); 
+        //this.setState({...initialState})
+    }
+
+    handleEditOfferChange = (e)=>{
+        const field = e.target.id
+        const fieldVal = e.target.value;
+        this.setState({editedOffer: {...this.state.editedOffer,[field]: fieldVal}})
+    }
+
+    deleteOffer(){
+        this.props.deleteOffer(this.state.editedOffer)
+        this.setState(
+            {activeModal:'',
+            editedOffer: {...this.state.editedOffer,
+                edited_offer_ID: '',
+                edited_offer_money: '',
+                edited_offer_validity: '',
+                edited_offer_pts: '',
+                edited_offer_bns_pts: '',
+                edited_offer_int: '',
+                edited_offer_bns_int: '',
+                edited_offer_talktime: '',
+                edited_offer_bns_talktime: '',
+                edited_offer_sms: '',
+                edited_offer_bns_sms: ''
+                }
+            }
+            );
+    }
+
     render() {
+        const {
+            auth, adminFeedInfo, packageInfo, fnfInfo, offerInfo
+        } = this.props
+
+        if (this.props.auth == null){
+        //if (0){
+            console.log('redirected')
+            return <Redirect to='/' />
+        } 
+
+        else if(auth == null || adminFeedInfo == null){
+        //else if(0){
+            return(
+                <>
+                </>
+            )
+        }
+        else{
+            NProgress.done()
+            //this.state.newPkg.new_pkg_setter= auth.NID
+            //console.log(auth.NID)
+            var packages = []
+            var obj = packageInfo
+            for(var i in obj)
+                packages.push(obj[i]);
+            const packageList = packages.map(pkg => {
+
+                return(
+                    <>
+                    <div className="details" key={pkg.PKG_NAME}>
+                        <p style={{color: "#FF5733"}}>
+                            <span className="pkg-name" onClick = {() => this.openPkgModal(pkg.PKG_NAME,pkg.CALL_RATE,pkg.SMS_RATE,pkg.FNF_NUM)}>
+                                {pkg.PKG_NAME}
+                            </span>
+                        </p>
+                    </div>
+                    </>
+                )
+            })
+
+            var fnfs = []
+            obj = fnfInfo
+            for(i in obj)
+                fnfs.push(obj[i]);
+
+            const fnfList = fnfs.map(fnf => {
+
+                return(
+                    <>
+                    <div className="details" key = {fnf.FNF_TYPE}>
+                        <p style={{color: "#FF5733"}}>
+                            <span className="fnf-name" onClick = {() => this.openfnfModal(fnf.FNF_TYPE,fnf.CALL_RATE,fnf.SMS_RATE)}>
+                                {fnf.FNF_TYPE}
+                            </span>
+                        </p>
+                    </div>
+                    </>
+                )
+            })
+
+            var offers = []
+            obj = offerInfo
+            for(i in obj)
+                offers.push(obj[i]);
+
+            const offerList = offers.map(offer => {
+
+                return(
+                    <>
+                     <div className="details" key = {offer.OFFER_ID}>
+                        <p style={{color: "#FF5733"}}>
+                            <span className="offer-name" onClick = {() => this.openOfferModal(offer.OFFER_ID, offer.MONEY, offer.VALIDITY, offer.EARNED_PTS, offer.BONUS_PTS, offer.INT_BAL, offer.BONUS_INT_BAL, offer.MIN_BAL, offer.BONUS_MIN_BAL, offer.SMS_BAL, offer.BONUS_SMS)}>
+                                {offer.OFFER_ID}
+                            </span>
+                        </p>
+                    </div>
+                    </>
+                )
+            })
+
         return (
             <div className = "main-divs">
                 <div className="admin-dashboard-title">
@@ -270,10 +713,10 @@ class AdminDashboard extends Component {
 
                         <div className="admin-info">
                             <div className="admin-NID">
-                                1234567890
+                                {auth.NID}
                             </div>
                             <div className = "feedback-sub">
-                                Service
+                                {adminFeedInfo}
                             </div>
                         </div>
 
@@ -285,21 +728,53 @@ class AdminDashboard extends Component {
                                 <div className="card-title">
                                     Packages
                                 </div>
-                                <div className="details">
-                                    <p style={{color: "#FF5733"}}>
-                                        <span className="pkg-name" onClick = {() => this.openPkgModal('Package 1',2.34,2.34,20)}>
-                                            Package 1
-                                        </span>
-                                    </p>
-                                </div>
+                                {packageList}
                             </div>
                             <div className = "card-action">
-                                <NavLink to="/admin/setpkg" className="set-pkg">
-                                    Set New Package
-                                </NavLink>
+                                <span className="set-pkg"  onClick = {() => this.openSetPkgModal()}>
+                                    SET NEW PACKAGE
+                                </span>
                             </div>
-                        </div>
-                        <Modal className = "pkg-info" isOpen={this.state.activeModal === 'package-details'} ariaHideApp={false} >
+                            <Modal className="set-pkg-modal" isOpen={this.state.activeModal === 'set-package'} ariaHideApp={false}>
+                                <div className="set-pkg-title">
+                                    Set New Package                        
+                                </div>
+                                <form onSubmit={this.handleNewPkgSubmit}>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_pkg_name"
+                                        value={this.state.newPkg.new_pkg_name}
+                                        onChange={(e)=>{this.handleNewPkgChange(e)}}
+                                        />
+                                        <label htmlFor = "new-pkg-name">Package Name</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_pkg_callrate" 
+                                        value={this.state.newPkg.new_pkg_callrate}
+                                        onChange={(e)=>{this.handleNewPkgChange(e)}}
+                                        />
+                                        <label htmlFor = "new-pkg-callrate">Call Rate</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_pkg_smsrate" 
+                                        value={this.state.newPkg.new_pkg_smsrate}
+                                        onChange={(e)=>{this.handleNewPkgChange(e)}}
+                                        />
+                                        <label htmlFor = "new-pkg-smsrate">SMS Rate</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_pkg_fnfno" 
+                                        value={this.state.newPkg.new_pkg_fnfno}
+                                        onChange={(e)=>{this.handleNewPkgChange(e)}}
+                                        />
+                                        <label htmlFor = "new-pkg-fnfno">Number of FNF(max)</label>
+                                        </div>
+                                        <div><button type="submit" className='btn green pkg-submit'>
+                                            Confirm
+                                        </button>              
+                                        <button className="btn red" onClick = {() => this.closeSetPkgModal()}>Cancel</button></div>
+                                </form>
+                            </Modal>
+                            <Modal className = "pkg-info" isOpen={this.state.activeModal === 'package-details'} ariaHideApp={false} >
                                 <div className = "pkg-details">
                                     <br></br><span className = "pkg-details-title">{this.state.packageName}</span><br></br>
                                     Call Rate : {this.state.pkgCallRate}<br></br>
@@ -310,11 +785,46 @@ class AdminDashboard extends Component {
                                     <button className="btn red" onClick = {() => this.closePkgModal()}>Cancel</button>
                                 </span>
                                 <span className = "pkg-edit">
-                                    <NavLink className = "btn green" to="/packages/id/edit">
-                                        edit
-                                    </NavLink>
+                                    <button className = "btn green" onClick = {() => this.openEditPkgModal()}>edit</button>
                                 </span>
-                        </Modal>
+                            </Modal>
+                            <Modal className="set-pkg-modal" isOpen={this.state.activeModal === 'edit-pkg'} ariaHideApp={false}>
+                                <div className="set-pkg-title">
+                                    {this.state.packageName}                       
+                                </div>
+                                <form onSubmit={this.handleEditPkgSubmit}>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edit_pkg_callrate" 
+                                        value={this.state.editPkg.edit_pkg_callrate}
+                                        onChange={(e)=>{this.handleEditPkgChange(e)}}
+                                        />
+                                        <label htmlFor = "edit-pkg-callrate">Call Rate</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edit_pkg_smsrate" 
+                                        value={this.state.editPkg.edit_pkg_smsrate}
+                                        onChange={(e)=>{this.handleEditPkgChange(e)}}
+                                        />
+                                        <label htmlFor = "edit-pkg-smsrate">SMS Rate</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edit_pkg_fnfno" 
+                                        value={this.state.editPkg.edit_pkg_fnfno}
+                                        onChange={(e)=>{this.handleEditPkgChange(e)}}
+                                        />
+                                        <label htmlFor = "edit-pkg-fnfno">Number of FNF(max)</label>
+                                        </div>
+                                        <div><button type="submit" className='btn green pkg-edit-submit'>
+                                            Confirm
+                                        </button>              
+                                        <button className="btn red pkg-edit-submit" onClick = {() => this.deletePkg()}>Delete</button>
+                                        <button className="btn blue" onClick = {() => this.closeEditPkgModal()}>Exit</button>
+                                        </div>
+                                        
+                                </form>
+                            </Modal>
+                        </div>
+                        
                     </div>
 
                     <div className="fnf">
@@ -323,20 +833,46 @@ class AdminDashboard extends Component {
                                 <div className="card-title">
                                     FNF
                                 </div>
-                                <div className="details">
-                                    <p style={{color: "#FF5733"}}>
-                                        <span className="fnf-name" onClick = {() => this.openfnfModal('fnf 1',2.34,2.34)}>
-                                            FNF 1
-                                        </span>
-                                    </p>
-                                </div>
+                                {fnfList}
                             </div>
                             <div className = "card-action">
-                                <NavLink to="/admin/setfnf" className="set-fnf">
-                                    Set New FNF
-                                </NavLink>
+                            <span className="set-fnf"  onClick = {() => this.openSetfnfModal()}>
+                                    SET NEW FNF
+                                </span>
                             </div>
                         </div>
+                        <Modal className="set-fnf-modal" isOpen={this.state.activeModal === 'set-fnf'} ariaHideApp={false}>
+                                <div className="set-fnf-title">
+                                    Set New FNF                        
+                                </div>
+                                <form onSubmit={this.handleNewfnfSubmit}>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_fnf_type"
+                                        value={this.state.newfnf.new_fnf_type}
+                                        onChange={(e)=>{this.handleNewfnfChange(e)}}
+                                        />
+                                        <label htmlFor = "new-fnf-name">FNF Type</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_fnf_callrate" 
+                                        value={this.state.newfnf.new_fnf_callrate}
+                                        onChange={(e)=>{this.handleNewfnfChange(e)}}
+                                        />
+                                        <label htmlFor = "new-fnf-callrate">Call Rate</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_fnf_smsrate" 
+                                        value={this.state.newfnf.new_fnf_smsrate}
+                                        onChange={(e)=>{this.handleNewfnfChange(e)}}
+                                        />
+                                        <label htmlFor = "new-fnf-smsrate">SMS Rate</label>
+                                        </div>
+                                        <div><button type="submit" className='btn green fnf-submit'>
+                                            Confirm
+                                        </button>              
+                                        <button className="btn red" onClick = {() => this.closeSetfnfModal()}>Cancel</button></div>
+                                </form>
+                            </Modal>
                         <Modal className = "fnf-info" isOpen={this.state.activeModal === 'fnf-details'} ariaHideApp={false} >
                                 <div className = "fnf-details">
                                     <br></br><span className = "fnf-details-title">{this.state.fnfName}</span><br></br>
@@ -347,11 +883,37 @@ class AdminDashboard extends Component {
                                     <button className="btn red" onClick = {() => this.closefnfModal()}>Cancel</button>
                                 </span>
                                 <span className = "fnf-edit">
-                                    <NavLink className = "btn green" to="/fnf/id/edit">
-                                        edit
-                                    </NavLink>
+                                    <button className = "btn green" onClick = {() => this.openEditfnfModal()}>edit</button>
                                 </span>
                         </Modal>
+                        <Modal className="set-fnf-modal" isOpen={this.state.activeModal === 'edit-fnf'} ariaHideApp={false}>
+                                <div className="set-fnf-title">
+                                    {this.state.fnfName}                       
+                                </div>
+                                <form onSubmit={this.handleEditfnfSubmit}>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edit_fnf_callrate" 
+                                        value={this.state.editfnf.edit_fnf_callrate}
+                                        onChange={(e)=>{this.handleEditfnfChange(e)}}
+                                        />
+                                        <label htmlFor = "edit-fnf-callrate">Call Rate</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edit_fnf_smsrate" 
+                                        value={this.state.editfnf.edit_fnf_smsrate}
+                                        onChange={(e)=>{this.handleEditfnfChange(e)}}
+                                        />
+                                        <label htmlFor = "edit-fnf-smsrate">SMS Rate</label>
+                                        </div>
+                                        <div><button type="submit" className='btn green fnf-edit-submit'>
+                                            Confirm
+                                        </button>              
+                                        <button className="btn red fnf-edit-submit" onClick = {() => this.deletefnf()}>Delete</button>
+                                        <button className="btn blue" onClick = {() => this.closeEditfnfModal()}>Exit</button>
+                                        </div>
+                                        
+                                </form>
+                            </Modal>
                     </div>
                 </div>
 
@@ -421,19 +983,102 @@ class AdminDashboard extends Component {
                                 <div className="card-title">
                                     Offer
                                 </div>
-                                <div className="details">
-                                    <p style={{color: "#FF5733"}}>
-                                        <span className="offer-name" onClick = {() => this.openOfferModal('Offer 1',99,7,30,5,1024,200,30,5,50,10)}>
-                                            Offer 1
-                                        </span>
-                                    </p>
-                                </div>
+                               {offerList}
                             </div>
                             <div className = "card-action">
-                                <NavLink to="/admin/setoffer" className="set-offer">
-                                    Set New Offer
-                                </NavLink>
+                                <span className="set-offer"  onClick = {() => this.openSetOfferModal()}>
+                                    SET NEW OFFER
+                                </span>
                             </div>
+                            <Modal className="set-offer-modal" isOpen={this.state.activeModal === 'set-offer'} ariaHideApp={false}>
+                                <div className="set-offer-title">
+                                    Set New Offer                        
+                                </div>
+                                <form onSubmit={this.handleNewOfferSubmit}>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_offer_ID"
+                                        value={this.state.newOffer.new_offer_ID}
+                                        onChange={(e)=>{this.handleNewOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "new-offer-ID">Offer ID</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_offer_money"
+                                        value={this.state.newOffer.new_offer_money}
+                                        onChange={(e)=>{this.handleNewOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "new-offer-money">Amount</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_offer_validity"
+                                        value={this.state.newOffer.new_offer_validity}
+                                        onChange={(e)=>{this.handleNewOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "new-offer-validity">validity</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_offer_pts"
+                                        value={this.state.newOffer.new_offer_pts}
+                                        onChange={(e)=>{this.handleNewOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "new-offer-pts">Points</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_offer_bns_pts"
+                                        value={this.state.newOffer.new_offer_bns_pts}
+                                        onChange={(e)=>{this.handleNewOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "new-offer-bns-pts">Bonus Points</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_offer_int"
+                                        value={this.state.newOffer.new_offer_int}
+                                        onChange={(e)=>{this.handleNewOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "new-offer-int">Internet Volume</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_offer_bns_int"
+                                        value={this.state.newOffer.new_offer_bns_int}
+                                        onChange={(e)=>{this.handleNewOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "new-offer-bns-int">Bonus Internet Volume</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_offer_talktime"
+                                        value={this.state.newOffer.new_offer_talktime}
+                                        onChange={(e)=>{this.handleNewOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "new-offer-talktime">Talktime</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_offer_bns_talktime"
+                                        value={this.state.newOffer.new_offer_bns_talktime}
+                                        onChange={(e)=>{this.handleNewOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "new-offer-bns-talktime">Bonus Talktime</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_offer_sms"
+                                        value={this.state.newOffer.new_offer_sms}
+                                        onChange={(e)=>{this.handleNewOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "new-offer-bns-sms">SMS</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "new_offer_bns_sms"
+                                        value={this.state.newOffer.new_offer_bns_sms}
+                                        onChange={(e)=>{this.handleNewOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "new-offer-bns-sms">Bonus SMS</label>
+                                        </div>
+
+                                        <div><button type="submit" className='btn green offer-submit'>
+                                            Confirm
+                                        </button>              
+                                        <button className="btn red" onClick = {() => this.closeSetOfferModal()}>Cancel</button></div>
+                                </form>
+                            </Modal>
                         </div>
                         <Modal className = "offer-info" isOpen={this.state.activeModal === 'offer-details'} ariaHideApp={false} >
                                 <div className = "offer-details">
@@ -453,17 +1098,152 @@ class AdminDashboard extends Component {
                                     <button className="btn red" onClick = {() => this.closeOfferModal()}>Cancel</button>
                                 </span>
                                 <span className = "offer-edit">
-                                    <NavLink className = "btn green" to="/offer/id/edit">
-                                        edit
-                                    </NavLink>
+                                <button className = "btn green" onClick = {() => this.openEditOfferModal()}>edit</button>
                                 </span>
                         </Modal>
+                        <Modal className="set-offer-modal" isOpen={this.state.activeModal === 'edit-offer'} ariaHideApp={false}>
+                                <div className="set-offer-title">
+                                    {this.state.offerID}                       
+                                </div>
+                                <form onSubmit={this.handleEditOfferSubmit}>
+                                <div className= "input-field">
+                                        <input type = "text" id = "edited_offer_money"
+                                        value={this.state.editedOffer.edited_offer_money}
+                                        onChange={(e)=>{this.handleEditOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "edited-offer-money">Amount</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edited_offer_validity"
+                                        value={this.state.editedOffer.edited_offer_validity}
+                                        onChange={(e)=>{this.handleEditOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "edited-offer-validity">validity</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edited_offer_pts"
+                                        value={this.state.editedOffer.edited_offer_pts}
+                                        onChange={(e)=>{this.handleEditOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "edited-offer-pts">Points</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edited_offer_bns_pts"
+                                        value={this.state.editedOffer.edited_offer_bns_pts}
+                                        onChange={(e)=>{this.handleEditOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "edited-offer-bns-pts">Bonus Points</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edited_offer_int"
+                                        value={this.state.editedOffer.edited_offer_int}
+                                        onChange={(e)=>{this.handleEditOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "edited-offer-int">Internet Volume</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edited_offer_bns_int"
+                                        value={this.state.editedOffer.edited_offer_bns_int}
+                                        onChange={(e)=>{this.handleEditOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "edited-offer-bns-int">Bonus Internet Volume</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edited_offer_talktime"
+                                        value={this.state.editedOffer.edited_offer_talktime}
+                                        onChange={(e)=>{this.handleEditOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "edited-offer-talktime">Talktime</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edited_offer_bns_talktime"
+                                        value={this.state.editedOffer.edited_offer_bns_talktime}
+                                        onChange={(e)=>{this.handleEditOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "edited-offer-bns-talktime">Bonus Talktime</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edited_offer_sms"
+                                        value={this.state.editedOffer.edited_offer_sms}
+                                        onChange={(e)=>{this.handleEditOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "edited-offer-bns-sms">SMS</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edited_offer_bns_sms"
+                                        value={this.state.editedOffer.edited_offer_bns_sms}
+                                        onChange={(e)=>{this.handleEditOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "edited-offer-bns-sms">Bonus SMS</label>
+                                        </div>
+                                        <div><button type="submit" className='btn green offer-edit-submit'>
+                                            Confirm
+                                        </button>              
+                                        <button className="btn red offer-edit-submit" onClick = {() => this.deleteOffer()}>Delete</button>
+                                        <button className="btn blue" onClick = {() => this.closeEditOfferModal()}>Exit</button>
+                                        </div>
+                                        
+                                </form>
+                            </Modal>
+                        <br></br><br></br><br></br>
                     </div>
+                    
                 </div>
             </div> 
+            
         )
+
+        }
+             
+        
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+      auth: state.admin.auth,
+      adminFeedInfo : state.adminDashboard.adminFeedInfo,
+      packageInfo : state.adminDashboard.packageInfo,
+      fnfInfo : state.adminDashboard.fnfInfo,
+      offerInfo : state.adminDashboard.offerInfo
+    }
+}
+
+const mapDispatchtoProps = (dispatch)=>{
+    return{
+        retrieveAdminInfo: (adminInfo)=>{
+            dispatch(retrieveAdminInfo(adminInfo))
+        },
+        setNewPackage: (newPkg)=>{
+            dispatch(setNewPackage(newPkg))
+        },
+        editPackage: (editPkg)=>{
+            dispatch(editPackage(editPkg))
+        },
+        deletePackage: (editPkg)=>{
+            dispatch(deletePackage(editPkg))
+        },
+        setNewfnf: (newfnf)=>{
+            dispatch(setNewfnf(newfnf))
+        },
+        editFnf: (editfnf)=>{
+            dispatch(editFnf(editfnf))
+        },
+        deletefnf: (editfnf)=>{
+            dispatch(deletefnf(editfnf))
+        },
+        setNewOffer: (newOffer)=>{
+            dispatch(setNewOffer(newOffer))
+        },
+        editOffer: (editedOffer)=>{
+            dispatch(editOffer(editedOffer))
+        },
+        deleteOffer: (editedOffer)=>{
+            dispatch(deleteOffer(editedOffer))
+        },
+
     }
 }
 
 
-export default AdminDashboard
+export default connect(mapStateToProps, mapDispatchtoProps)(AdminDashboard)

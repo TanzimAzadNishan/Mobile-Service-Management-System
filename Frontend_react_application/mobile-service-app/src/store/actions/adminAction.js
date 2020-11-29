@@ -1,4 +1,4 @@
-//addmin actions creator
+//admin actions creator
 
 import adminService from '../../utilities/Services/adminService'
 
@@ -24,3 +24,4 @@ export const adminlogoutFromAccount = ()=>{
         type: 'ADMIN_LOGOUT'
     }
 }
+

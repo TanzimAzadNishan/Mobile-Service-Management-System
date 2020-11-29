@@ -25,14 +25,6 @@
     margin-right: auto;
 }
 
-
-.admin-dashboard-upper .edit{
-    color : black;
-    padding-right: 5%;
-    text-decoration: underline;
-}
-
-
 .admin-dashboard-upper p{
     text-align: center;
 }
@@ -134,10 +126,8 @@
     background: #7a1515;
     height: fit-content;
     text-align: center;
-    font-size: 1.4rem;
     font-weight: 500;
     padding-left: 50px;
-    text-decoration: underline;
 }
 
 .admin-dashboard-upper .pkg .card .details{
@@ -150,6 +140,17 @@
 }
 .admin-dashboard-upper .pkg .details .pkg-name:hover{
     color: darkred;
+}
+
+.admin-dashboard-upper .pkg .set-pkg{
+    color: rgb(245, 222, 94);
+    font-size: 1.4rem;
+    font-weight: 400;
+    text-decoration: underline;
+}
+
+.admin-dashboard-upper .pkg .set-pkg:hover{
+    cursor: grab;
 }
 
 .pkg-info{  
@@ -176,6 +177,38 @@
 .pkg-cancel{
     margin-left: 27%;
     margin-right: 20%;
+}
+
+.set-pkg-modal{
+    height: 70%;
+    width: 25%;
+    background-color: white;
+    margin-top: 5%;
+    margin-left: 38%;
+    padding: 3%;
+}
+
+.set-pkg-title{
+    text-align: center;
+    color: red;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.pkg-submit{
+    margin-right: 29%;
+}
+
+.pkg-edit-submit{
+    margin-right: 2%;
+}
+
+.pkg-delete-submit{
+    margin-right: 2%;
+}
+
+label{
+    margin-left: 20%;
 }
 
 /*---fnf---*/
@@ -232,6 +265,17 @@
     color: darkred;
 }
 
+.admin-dashboard-upper .fnf .set-fnf{
+    color: rgb(245, 222, 94);
+    font-size: 1.4rem;
+    font-weight: 400;
+    text-decoration: underline;
+}
+
+.admin-dashboard-upper .fnf .set-fnf:hover{
+    cursor: grab;
+}
+
 .fnf-info{  
     height: 40%;
     width: 40%;
@@ -258,6 +302,34 @@
     margin-right: 20%;
 }
 
+.set-fnf-modal{
+    height: 60%;
+    width: 25%;
+    background-color: white;
+    margin-top: 5%;
+    margin-left: 38%;
+    padding: 3%;
+}
+
+.set-fnf-title{
+    text-align: center;
+    color: red;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.fnf-submit{
+    margin-right: 29%;
+}
+
+.fnf-edit-submit{
+    margin-right: 2%;
+}
+
+.fnf-delete-submit{
+    margin-right: 2%;
+}
+
 /*------admin dashboard lower part-------*/
 
 .admin-dashboard-lower{
@@ -269,13 +341,6 @@
     padding-right: 15px;
     margin-left: auto;
     margin-right: auto;
-}
-
-
-.admin-dashboard-lower .edit{
-    color : black;
-    padding-right: 5%;
-    text-decoration: underline;
 }
 
 
@@ -449,10 +514,15 @@
 .admin-dashboard-lower .offer .details .offer-name:hover{
     color: darkred;
 }
-.admin-dashboard-lower .offer .details .offer-edit{
-    padding-left: 50%;
-    color : black;
+.admin-dashboard-lower .offer .set-offer{
+    color: rgb(245, 222, 94);
+    font-size: 1.4rem;
+    font-weight: 400;
     text-decoration: underline;
+}
+
+.admin-dashboard-lower .offer .set-offer:hover{
+    cursor: grab;
 }
 
 .offer-info{  
@@ -479,4 +549,33 @@
 .offer-cancel{
     margin-left: 27%;
     margin-right: 20%;
+}
+
+.set-offer-modal{
+    height: 90%;
+    width: 25%;
+    background-color: white;
+    margin-top: 2%;
+    margin-left: 38%;
+    padding: 3%;
+    overflow: scroll;
+}
+
+.set-offer-title{
+    text-align: center;
+    color: red;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.offer-submit{
+    margin-right: 24%;
+}
+
+.offer-edit-submit{
+    margin-right: 2%;
+}
+
+.offer-delete-submit{
+    margin-right: 2%;
 }

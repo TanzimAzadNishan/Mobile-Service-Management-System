@@ -45,7 +45,7 @@ class Package extends Component{
             var obj = packageInfo
             for(var i in obj)
                 packages.push(obj[i]);
-            console.log(packages)
+                
             const packageList = packages.map(pkg => {
                 if(this.props.auth != null)
                 {
@@ -82,10 +82,10 @@ class Package extends Component{
                 else{
 
                     return(
-                        <div className="pkg" key={pkg.PKG_NAME}>
+                        <div className="pkg-det" key={pkg.PKG_NAME}>
                             <div className="card">
                                 <div className="card-content">
-                                    <div className="card-title" id={pkg.PKG_NAME} onClick = {() => this.openModal('pkg-details-modal')} style = {{background: colors[Math.floor(Math.random() * colors.length)]}}>
+                                    <div className="card-title"  onClick = {() => this.openModal('pkg-details-modal')} style = {{background: colors[Math.floor(Math.random() * colors.length)]}}>
                                         {pkg.PKG_NAME}
                                     
                                     </div>
@@ -102,7 +102,7 @@ class Package extends Component{
                                     </div>
                                 </div>
                             </div>
-                            <Modal className = "pkg-details-modal" isOpen={this.state.activeModal === 'pkg-details-modal'}>
+                            <Modal className = "pkg-details-modal" isOpen={this.state.activeModal === 'pkg-details-modal'} ariaHideApp={false}>
                         <div>
                             You need to be logged in to select this package!
                         </div>

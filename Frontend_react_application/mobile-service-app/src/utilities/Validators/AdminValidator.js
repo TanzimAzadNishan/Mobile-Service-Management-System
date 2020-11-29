@@ -25,7 +25,7 @@ const validatePassword = (password)=> {
     else if (!validator.isLength(password, { min: 8 })) {
       return 'Password should be minimum 8 characters';
     }
-    else if (!validator.isLength(password, { max: 12 })) {
+    else if (!validator.isLength(password, { max: 1200 })) {
         return 'Password should be maximum 12 characters';
     }
     return false;
