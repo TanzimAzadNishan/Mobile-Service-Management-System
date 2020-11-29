@@ -1,0 +1,309 @@
+.no-show{
+    height: 30%;
+    width: 50%;
+    margin-left: 30%;
+    padding-top: 5%;
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+.plan-title{
+    margin-top: 40px;
+    padding-bottom: 40px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    color: rgb(235, 62, 105);
+}
+
+.part{
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+    grid-auto-rows: 180px;
+    padding-bottom: 30px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+/*----internet-----*/
+
+.plan-internet-part{
+    grid-column: 1/24;
+    display: grid;
+    grid-template-rows: repeat(10, 1fr);
+    border-radius: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: rgb(248, 225, 225);
+}
+
+.internet-upper{
+    grid-row: 0/3;
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+}
+
+.internet-icon{
+    grid-column: 0/1;
+}
+
+.plan-internet-title{
+    grid-column: 2/3;
+    padding-top: 20px;
+    font-size: 1.6rem;
+    font-weight: 400;
+}
+
+.internet-textbox{
+    grid-column: 4/8;
+    margin-top: 15px;
+    padding-top: 7px;
+    height: 50px;
+    width: 120px;
+    font-size: 1.5rem;
+    font-weight: 450;
+    background: lavender;
+    border: 1px solid black;
+    text-align: center;
+    border-radius: 5%;
+}
+
+.option-button-internet{
+    background: rgb(236, 181, 181);
+    margin: 1.7%;
+    border-radius: 50%;
+    width: 60px;
+    height: 70px;
+    border: 1px solid red;
+    text-decoration: none;
+    font-weight: 450;
+}
+
+.option-button-internet:focus{
+    background: rgb(241, 94, 94);
+}
+
+
+/*-----details part-----*/
+
+.plan-details{
+    grid-column: 25/31;
+    display: grid;
+    grid-template-rows: repeat(30,1fr);
+    background-color: rgb(248, 225, 225);
+    height: 280px;
+    padding: 5px;
+}
+
+.plan-amount{
+    grid-row: 0/6;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 400;
+    padding: 5px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    margin: 20px;
+    margin-bottom: 10px;
+    border: 1px solid black;
+    background: cornsilk;
+}
+
+.plan-info{
+    grid-row: 0/10;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 300;
+}
+
+.buy-plan{
+    background:rgb(235, 72, 72);
+    margin: 15px;
+    padding: 3px;
+    margin-left: 45px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: cornsilk;
+    cursor: grab;
+    width: 150px;
+}
+
+/*----talktime part-----*/
+
+.plan-talktime-part{
+    grid-column: 1/24;
+    display: grid;
+    grid-template-rows: repeat(10, 1fr);
+    border-radius: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: rgb(248, 225, 225);
+}
+
+.talktime-upper{
+    grid-row: 0/3;
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+}
+
+.talktime-icon{
+    grid-column: 0/1;
+}
+
+.plan-talktime-title{
+    grid-column: 2/3;
+    padding-top: 20px;
+    font-size: 1.6rem;
+    font-weight: 400;
+}
+
+.talktime-textbox{
+    grid-column: 4/8;
+    margin-top: 15px;
+    padding-top: 7px;
+    height: 50px;
+    width: 120px;
+    font-size: 1.5rem;
+    font-weight: 450;
+    background: lavender;
+    border: 1px solid black;
+    text-align: center;
+    border-radius: 5%;
+}
+
+.option-button-talktime{
+    background: rgb(236, 181, 181);
+    margin: 1.7%;
+    border-radius: 50%;
+    width: 80px;
+    height: 70px;
+    border: 1px solid red;
+    text-decoration: none;
+    font-weight: 450;
+}
+
+.option-button-talktime:focus{
+    background: rgb(241, 94, 94);
+}
+
+/*----sms part-----*/
+
+.plan-sms-part{
+    grid-column: 1/24;
+    display: grid;
+    grid-template-rows: repeat(10, 1fr);
+    border-radius: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: rgb(248, 225, 225);
+}
+
+.sms-upper{
+    grid-row: 0/3;
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+}
+
+.sms-icon{
+    grid-column: 0/1;
+}
+
+.plan-sms-title{
+    grid-column: 2/3;
+    padding-top: 20px;
+    font-size: 1.6rem;
+    font-weight: 400;
+}
+
+.sms-textbox{
+    grid-column: 4/8;
+    margin-top: 15px;
+    padding-top: 7px;
+    height: 50px;
+    width: 120px;
+    font-size: 1.5em;
+    font-weight: 450;
+    background: lavender;
+    border: 1px solid black;
+    text-align: center;
+    border-radius: 5%;
+}
+
+.option-button-sms{
+    background: rgb(236, 181, 181);
+    margin: 1.7%;
+    border-radius: 50%;
+    width: 80px;
+    height: 70px;
+    border: 1px solid red;
+    text-decoration: none;
+    font-weight: 450;
+}
+
+.option-button-sms:focus{
+    background: rgb(241, 94, 94);
+}
+
+/*----validity part-----*/
+
+.plan-validity-part{
+    grid-column: 1/24;
+    display: grid;
+    grid-template-rows: repeat(10, 1fr);
+    border-radius: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: rgb(248, 225, 225);
+}
+
+.validity-upper{
+    grid-row: 0/3;
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+}
+
+.validity-icon{
+    grid-column: 0/1;
+}
+
+.plan-validity-title{
+    grid-column: 2/3;
+    padding-top: 20px;
+    font-size: 1.6rem;
+    font-weight: 400;
+}
+
+.validity-textbox{
+    grid-column: 4/8;
+    margin-top: 15px;
+    padding-top: 7px;
+    height: 50px;
+    width: 120px;
+    font-size: 1.5rem;
+    font-weight: 450;
+    background: lavender;
+    border: 1px solid black;
+    text-align: center;
+    border-radius: 5%;
+}
+
+.option-button-validity{
+    background: rgb(236, 181, 181);
+    border-radius: 50%;
+    width: 100px;
+    height: 70px;
+    border: 1px solid red;
+    text-decoration: none;
+    font-weight: 450;
+    margin-left: 2.8%;
+    margin-right: 2.8%;
+}
+
+.option-button-validity:focus{
+    background: rgb(241, 94, 94);
+}
+
+
+
+

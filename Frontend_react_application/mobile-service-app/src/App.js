@@ -9,6 +9,7 @@ import UserDashboard from './components/dashboard/UserDashboard'
 import AdminDashboard from './components/admin/AdminDashboard'
 import EditPersonDetails from './components/dashboard/EditPersonDetails'
 import Package from './components/service/Package'
+import Flexiplan from './components/service/Flexiplan'
 import logo from './images/5.jpg'
 import 'nprogress/nprogress.css'
 
@@ -29,6 +30,7 @@ class App extends Component{
             <Route path="/dashboard" component={UserDashboard}></Route>
             <Route path="/admin/dashboard" component={AdminDashboard}></Route>
             <Route path="/package" component={Package}></Route>
+            <Route path="/flexiplan" component={Flexiplan}></Route>
           </Switch>
         </div>
       </BrowserRouter>
