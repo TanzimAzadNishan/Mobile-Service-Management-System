@@ -129,6 +129,23 @@
     width: 150px;
 }
 
+.confirmation-modal{
+    height: 40%;
+    width: 40%;
+    margin-top: 10%;
+    margin-left: 30%;
+    padding-top: 7%;
+    padding-bottom: 2%;
+    background-color: rgb(250, 238, 233);
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.close-confirmation-modal{
+    margin: 7%;
+  }
+
 /*----talktime part-----*/
 
 .plan-talktime-part{

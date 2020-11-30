@@ -12,6 +12,7 @@ const adminDashboardController = require('./ApiControllers/admin/adminDashboard'
 const accountInfoController = require('./ApiControllers/Dashboard/accountInfo')
 const editProfileController = require('./ApiControllers/Dashboard/editProfile')
 const packageInfoController = require('./ApiControllers/Services/package')
+const flexiplanController = require('./ApiControllers/Services/flexiplan')
 
 
 const app = express()
@@ -65,3 +66,4 @@ adminDashboardController(app)
 accountInfoController(app)
 editProfileController(app, upload)
 packageInfoController(app)
+flexiplanController(app)

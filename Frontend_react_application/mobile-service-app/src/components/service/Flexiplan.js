@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import NProgress from 'nprogress'
+import Modal from 'react-modal'
+import {updateAccountInfo} from '../../store/actions/service/flexiplanActions'
 import '../../styles/service/FlexiplanStyle.css'
 
 const initialState = {
@@ -12,7 +14,16 @@ const initialState = {
     internetAmount: 0,
     talktimeAmount: 0,
     smsAmount: 0,
-    totalAmount: 0,
+    //totalAmount: 0,
+    planDetails: {
+        internet: 0,
+        talktime: 0,
+        sms: 0,
+        validity: 0,
+        mobile_number: '',
+        amount: 0
+    },
+    activeModal: ''
 }
 
 class Flexiplan extends Component{
@@ -20,12 +31,24 @@ class Flexiplan extends Component{
         super(props);
         NProgress.start();
         NProgress.configure({ ease: 'ease', speed: 500 });
+        this.updateAccount = this.updateAccount.bind(this);
+        this.openConfirmationModal = this.openConfirmationModal.bind(this);
+        this.closeConfirmationModal = this.closeConfirmationModal.bind(this);
     }
 
     state = initialState
 
     componentDidMount(){
         NProgress.done();
+        if (this.props.auth != null){
+            this.setState({
+                planDetails: {
+                    ...this.state.planDetails,
+                    mobile_number: this.props.auth.mobile_number
+                }
+            })
+        }
+        
     }
 
     getInternetBalance = (e) => {
@@ -64,6 +87,51 @@ class Flexiplan extends Component{
         this.setState({validity: e.target.innerHTML});
     }
 
+    openConfirmationModal = (e)=> {
+        if(parseInt(this.state.internetBalance)>15){
+            this.setState({
+                activeModal: 'plan-confirm',
+                planDetails: {
+                    ...this.state.planDetails,
+                    internet: parseInt(this.state.internetBalance),
+                    talktime: parseInt(this.state.talktimeBalance),
+                    sms: parseInt(this.state.SMSBalance),
+                    validity: parseInt(this.state.validity),
+                    amount: this.state.internetAmount+this.state.smsAmount+this.state.talktimeAmount
+                }
+            }
+        );}
+        else{
+            this.setState({
+                activeModal: 'plan-confirm',
+                planDetails: {
+                    ...this.state.planDetails,
+                    internet: parseInt(this.state.internetBalance)*1024,
+                    talktime: parseInt(this.state.talktimeBalance),
+                    sms: parseInt(this.state.SMSBalance),
+                    validity: parseInt(this.state.validity),
+                    amount: this.state.internetAmount+this.state.smsAmount+this.state.talktimeAmount
+                }
+            }
+        );
+        }
+        
+        //console.log(this.state.planDetails)
+    }
+
+    updateAccount =(e)=>{
+        e.preventDefault();
+        console.log(this.state.planDetails);
+        this.props.updateAccountInfo(this.state.planDetails);
+        window.location.reload(false);
+    }
+
+    closeConfirmationModal(){
+        this.setState({
+            activeModal: ''
+        });
+        //window.location.reload(false);
+    }
 
     render() {
         if(this.props.auth == null){
@@ -77,7 +145,9 @@ class Flexiplan extends Component{
                 </>
             )
         }
-        else
+        else{
+            
+
         return(
             <>
                 <div className = "plan-title">
@@ -122,9 +192,16 @@ class Flexiplan extends Component{
                             {this.state.validity}<br></br>
                         </div>
                         <div>
-                            <button className = "buy-plan">Buy Now!</button>
+                            <button className = "buy-plan" onClick = {this.openConfirmationModal}>Buy Now!</button>
                         </div>
                     </div>
+                    <Modal className = "confirmation-modal" isOpen={this.state.activeModal === 'plan-confirm'} ariaHideApp={false}>
+                         <div>
+                            Please Confirm Purchase
+                        </div>
+                        <button className ='btn green waves-effect waves-light close-confirmation-modal' onClick={this.updateAccount}>Confirm</button>
+                        <button className ='btn red waves-effect waves-light close-confirmation-modal' onClick={this.closeConfirmationModal}>Exit</button>
+                    </Modal> 
                 </div>
                 
                 <div className = "part">
@@ -209,7 +286,7 @@ class Flexiplan extends Component{
                     </div>
                 </div>
             </>        
-        )
+        )}
 
     }
 }
@@ -222,7 +299,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchtoProps = (dispatch)=>{
     return{
-        
+        updateAccountInfo: (planDetails)=>{
+            dispatch(updateAccountInfo(planDetails))
+        }
     }
 }
 

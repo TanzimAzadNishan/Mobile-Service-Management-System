@@ -275,6 +275,7 @@ class AdminDashboard extends Component {
         this.setState(
             {activeModal: ''}
             );
+            window.location.reload(false);
         }
 
     openSetPkgModal() {
@@ -382,6 +383,7 @@ class AdminDashboard extends Component {
                 }
             }
             ); 
+            window.location.reload(false);
         //this.setState({...initialState})
     }
 
@@ -407,6 +409,7 @@ class AdminDashboard extends Component {
                 }
             }
             ); 
+            window.location.reload(false);
         //this.setState({...initialState})
     }
 
@@ -428,6 +431,7 @@ class AdminDashboard extends Component {
                 }
             }
             );
+            window.location.reload(false);
     }
 
     handleNewfnfSubmit = (e)=>{
@@ -444,6 +448,7 @@ class AdminDashboard extends Component {
                 }
             }
             ); 
+            window.location.reload(false);
         //this.setState({...initialState})
     }
 
@@ -467,6 +472,7 @@ class AdminDashboard extends Component {
                 }
             }
             ); 
+            window.location.reload(false);
         //this.setState({...initialState})
     }
 
@@ -488,6 +494,7 @@ class AdminDashboard extends Component {
                 }
             }
             );
+            window.location.reload(false);
     }
 
     handleNewOfferSubmit = (e)=>{
@@ -513,6 +520,7 @@ class AdminDashboard extends Component {
                 }
             }
             ); 
+            window.location.reload(false);
         //this.setState({...initialState})
     }
 
@@ -545,6 +553,7 @@ class AdminDashboard extends Component {
                 }
             }
             ); 
+            window.location.reload(false);
         //this.setState({...initialState})
     }
 
@@ -573,6 +582,7 @@ class AdminDashboard extends Component {
                 }
             }
             );
+            window.location.reload(false);
     }
 
     render() {
