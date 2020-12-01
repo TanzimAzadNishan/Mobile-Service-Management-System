@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import NProgress from 'nprogress'
 import Modal from 'react-modal'
-import {updateAccountInfo} from '../../store/actions/service/flexiplanActions'
+import {updateAccountInfo, retrieveAccountBalance} from '../../store/actions/service/flexiplanActions'
 import '../../styles/service/FlexiplanStyle.css'
 
 const initialState = {
@@ -48,6 +48,7 @@ class Flexiplan extends Component{
                 }
             })
         }
+        this.props.retrieveAccountBalance(this.props.auth)
         
     }
 
@@ -120,17 +121,21 @@ class Flexiplan extends Component{
     }
 
     updateAccount =(e)=>{
-        e.preventDefault();
-        console.log(this.state.planDetails);
-        this.props.updateAccountInfo(this.state.planDetails);
-        window.location.reload(false);
+        if(this.state.planDetails.amount>this.props.balance){
+            this.setState({activeModal: 'plan-denied'})
+        }
+        else if(this.state.planDetails.amount<=this.props.balance){
+            this.setState({activeModal: 'plan-bought'});
+            this.props.updateAccountInfo(this.state.planDetails);
+        }
+        
     }
 
     closeConfirmationModal(){
         this.setState({
             activeModal: ''
         });
-        //window.location.reload(false);
+        window.location.reload(false);
     }
 
     render() {
@@ -200,6 +205,18 @@ class Flexiplan extends Component{
                             Please Confirm Purchase
                         </div>
                         <button className ='btn green waves-effect waves-light close-confirmation-modal' onClick={this.updateAccount}>Confirm</button>
+                        <button className ='btn red waves-effect waves-light close-confirmation-modal' onClick={this.closeConfirmationModal}>Exit</button>
+                    </Modal> 
+                    <Modal className = "confirmation-modal" isOpen={this.state.activeModal === 'plan-bought'} ariaHideApp={false}>
+                         <div>
+                            Congrats! You have successfully availed your chosen plan!
+                        </div>
+                        <button className ='btn red waves-effect waves-light close-confirmation-modal' onClick={this.closeConfirmationModal}>Exit</button>
+                    </Modal> 
+                    <Modal className = "confirmation-modal" isOpen={this.state.activeModal === 'plan-denied'} ariaHideApp={false}>
+                         <div>
+                            Sorry! You don't have sufficient balance to avail this plan
+                        </div>
                         <button className ='btn red waves-effect waves-light close-confirmation-modal' onClick={this.closeConfirmationModal}>Exit</button>
                     </Modal> 
                 </div>
@@ -294,11 +311,15 @@ class Flexiplan extends Component{
 const mapStateToProps = (state) => {
     return {
         auth: state.auth.auth,
+        balance: state.flexiplan.balance
     }
 }
 
 const mapDispatchtoProps = (dispatch)=>{
     return{
+        retrieveAccountBalance: (personInfo)=>{
+            dispatch(retrieveAccountBalance(personInfo))
+        },
         updateAccountInfo: (planDetails)=>{
             dispatch(updateAccountInfo(planDetails))
         }

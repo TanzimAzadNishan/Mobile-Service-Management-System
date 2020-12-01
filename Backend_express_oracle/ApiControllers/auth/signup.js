@@ -25,7 +25,7 @@ module.exports = function(app){
             current_pkg: 'Default'
         }
 
-        AccountQuery = 
+        /*AccountQuery = 
         `
         INSERT INTO ACCOUNT (ACCOUNT_TRACKING_ID, ACCOUNT_BALANCE, INTERNET_BALANCE, 
             TALKTIME, SMS_BALANCE, POINTS, MOBILE_NUMBER)
@@ -39,21 +39,21 @@ module.exports = function(app){
             sms_bal: 0,
             points: 0,
             mob_num: req.body.mobile_number
-        }
+        }*/
 
         insertOperation(PersonQuery, PersonInfo)
         .then((hasPersonErr)=>{
 
             if(!hasPersonErr){
-                insertOperation(AccountQuery, AccountInfo)
+                /*insertOperation(AccountQuery, AccountInfo)
                 .then((hasAccErr)=>{
 
-                    if(!hasAccErr){
+                    if(!hasAccErr){*/
                         res.json({serverMsg: 'Account Created Succesfully!', 
                         userAccount: PersonInfo})
-                    }
-                })
-            }
+                
+                }
+            
             else{
                 res.json({serverMsg: 'User Already Exists'})   
             }
