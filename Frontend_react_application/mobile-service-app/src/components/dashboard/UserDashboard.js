@@ -4,6 +4,7 @@ import {NavLink, Redirect} from 'react-router-dom'
 import NProgress from 'nprogress'
 import { retrieveAccountInfo } from '../../store/actions/dashboardActions'
 import '../../styles/dashboard/UserDashbaordStyle.css'
+//import {socket} from '../../utilities/SocketIOClient'
 
 
 class UserDashboard extends Component{
@@ -16,6 +17,8 @@ class UserDashboard extends Component{
     componentDidMount(){  
         console.log('before mounting ', this.props.auth)
         if (this.props.auth != null){
+            //socket.emit('socket-connection', {userAuth: this.props.auth})
+            //this.props.storeSocketId()
             this.props.retrieveAccountInfo(this.props.auth)
         }
     }

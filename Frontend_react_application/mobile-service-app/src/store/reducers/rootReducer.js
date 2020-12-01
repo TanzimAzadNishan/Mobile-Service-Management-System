@@ -5,13 +5,15 @@ import dashboardReducer from './dashboardReducer'
 import adminReducer from './adminReducer'
 import adminDashboardReducer from './adminDashboardReducer'
 import packageReducer from './Service/packageReducer'
+import connectionReducer from './Service/connectionReducer'
 
 const rootReducer = combineReducers({
     auth: authReducer,
     dashboard: dashboardReducer,
     admin: adminReducer,
     adminDashboard: adminDashboardReducer,
-    package: packageReducer
+    package: packageReducer,
+    connectWithOthers: connectionReducer
 })
 
 export default rootReducer

@@ -4,7 +4,8 @@ const initState = {
     accountInfo: null,
     profilePic: null,
     current_pkg: null,
-    current_fnf_plan: null
+    current_fnf_plan: null,
+    socketId: null
 }
 
 const dashboardReducer = (state = initState, action)=>{
@@ -13,6 +14,7 @@ const dashboardReducer = (state = initState, action)=>{
     const fnfInStore = localStorage.getItem('current_fnf_plan')    
     const infoInStore = localStorage.getItem('personInfo')
     const dpInStore = localStorage.getItem('profilePic')
+    const socketIdInStore = localStorage.getItem('socketId')
 
 
     if(action.type === 'RETRIEVE_ACCOUNT_DETAILS'){
@@ -80,6 +82,17 @@ const dashboardReducer = (state = initState, action)=>{
         }
     }
 
+    else if(action.type === 'STORE_SOCKET_ID'){
+        console.log('socket id stored')
+        localStorage.setItem('socketId', JSON.stringify(action.socketId))
+        const socketIdData = localStorage.getItem('socketId')
+
+        return{
+            ...state,
+            socketId: socketIdData ? JSON.parse(socketIdData) : null
+        }
+    }
+
     //return state
     return{
         ...state,
@@ -87,7 +100,8 @@ const dashboardReducer = (state = initState, action)=>{
         current_pkg: pkgInStore ? JSON.parse(pkgInStore) : null,
         current_fnf_plan: fnfInStore ? JSON.parse(fnfInStore) : null,
         personInfo: infoInStore ? JSON.parse(infoInStore) : null,
-        profilePic: dpInStore ? JSON.parse(dpInStore) : null
+        profilePic: dpInStore ? JSON.parse(dpInStore) : null,
+        socketId: socketIdInStore ? JSON.parse(socketIdInStore) : null
     }
 }
 

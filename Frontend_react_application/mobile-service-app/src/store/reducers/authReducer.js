@@ -59,6 +59,8 @@ const authReducer = (state = initState, action)=>{
         localStorage.removeItem('personInfo')
         localStorage.removeItem('profilePic')        
         localStorage.removeItem('originalPassword')        
+        localStorage.removeItem('connectionList')        
+        localStorage.removeItem('socketId')        
 
         //location.reload()
         return{

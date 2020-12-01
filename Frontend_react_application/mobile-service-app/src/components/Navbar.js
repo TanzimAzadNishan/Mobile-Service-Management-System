@@ -3,10 +3,33 @@ import '../styles/NavbarStyle.css'
 import { connect } from 'react-redux'
 import {NavLink, withRouter} from 'react-router-dom'
 import {logoutFromAccount} from '../store/actions/authActions'
+import {adminlogoutFromAccount} from '../store/actions/adminAction'
+import { storeSocketId } from '../store/actions/dashboardActions'
+import {socket} from '../utilities/SocketIOClient'
+import {
+    receiveNewConnection
+} from '../store/actions/service/connectionActions'
 
 class Navbar extends Component{
+
+    componentDidMount(){
+        if (this.props.auth != null){
+            socket.emit('socket-connection', {userAuth: this.props.auth})
+        }
+    }
+
+    socketListener = socket.on('store-socket-id', (socketId)=>{
+        console.log('socket id: ', socketId)
+        this.props.storeSocketId(socketId)
+    })
+
+    receiveNewConn = this.props.receiveNewConnection()
+
     handleLogout = ()=>{
         this.props.logout()
+    }
+    handleAdminLogout = ()=>{
+        this.props.adminLogout()
     }
 
     render() {
@@ -25,16 +48,42 @@ class Navbar extends Component{
                     </NavLink>
                 </li> 
             </>            
-        ) : (
+        ) : 
+        (this.props.adminAuth == null) ?
+            (
+                <>
+                    <li>
+                        <NavLink to="/signup" className="itemStyle"> Signup </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/login" className="itemStyle"> Login </NavLink>
+                    </li>  
+                </>            
+            ) : (
+                <>
+                    <li>
+                        <NavLink to="/" onClick={this.handleAdminLogout}
+                                className="itemStyle"
+                        >
+                            Logout 
+                        </NavLink>
+                    </li> 
+                </>
+            )
+
+        const userAuthLink = (this.props.auth) ? (
             <>
                 <li>
-                    <NavLink to="/signup" className="itemStyle"> Signup </NavLink>
+                    <NavLink to="/recharge" className="itemStyle"> Recharge </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/login" className="itemStyle"> Login </NavLink>
-                </li>  
-            </>            
-        )
+                    <NavLink to="/connect" className="itemStyle"> Connect </NavLink>
+                </li>
+                <li>
+                    <NavLink to="/history" className="itemStyle"> My History </NavLink>
+                </li>
+            </>
+        ) : null
 
         return (
             <>
@@ -70,16 +119,8 @@ class Navbar extends Component{
                         <li>
                             <NavLink to="/fnf" className="itemStyle"> FNF </NavLink>
                         </li>
-                        <li>
-                            <NavLink to="/recharge" className="itemStyle"> Recharge </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/connect" className="itemStyle"> Connect </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/history" className="itemStyle"> My History </NavLink>
-                        </li>
-                    
+
+                        {userAuthLink}
                     </ul>
                 </div>
             </nav>
@@ -91,12 +132,22 @@ class Navbar extends Component{
 const mapStateToProps = (state) => {
     return {
       auth: state.auth.auth,
+      adminAuth: state.admin.auth
     }
 }
 const mapDispatchtoProps = (dispatch)=>{
     return{
         logout: ()=>{
             dispatch(logoutFromAccount())
+        },
+        storeSocketId: (id)=>{
+            dispatch(storeSocketId(id))
+        },
+        receiveNewConnection: ()=>{
+            dispatch(receiveNewConnection())
+        },
+        adminLogout: ()=>{
+            dispatch(adminlogoutFromAccount())
         }
     }
 }

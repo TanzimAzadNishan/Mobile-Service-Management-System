@@ -104,10 +104,15 @@ class AdminLogin extends Component {
     }
 
     render(){
+        if(this.props.userAuth != null){
+            console.log('redirected')
+            return <Redirect to='/dashboard' />
+        }
+
         if (this.props.auth != null){
             console.log('redirected')
             return <Redirect to='/admin/dashboard' />
-        } 
+        }
 
         return (
             <div className="login">
@@ -181,7 +186,8 @@ class AdminLogin extends Component {
 const mapStateToProps = (state) => {
     return {
       auth: state.admin.auth,
-      authError: state.admin.authError
+      authError: state.admin.authError,
+      userAuth: state.auth.auth
     }
 }
 

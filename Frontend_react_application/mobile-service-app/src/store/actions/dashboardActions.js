@@ -1,5 +1,6 @@
 
 import dashboardService from '../../utilities/Services/dashboardService'
+//import {socket} from '../../utilities/SocketIOClient'
 
 export const retrieveAccountInfo = (personInfo)=>{
     return(dispatch, getState)=>{
@@ -8,6 +9,7 @@ export const retrieveAccountInfo = (personInfo)=>{
             console.log(res)
 
             dispatch({type: 'RETRIEVE_ACCOUNT_DETAILS', accountDetails: res.data.accountDetails})
+
 
         }, ()=>{
             console.log('retrieve info failed')
@@ -68,5 +70,16 @@ export const editCurrentFNFPlan = (fnfInfo)=>{
         }, ()=>{
             console.log('edit fnf plan failed')
         })
+    }
+}
+
+export const storeSocketId = (socketId)=>{
+    return(dispatch, getState)=>{
+        
+        /*socket.on('store-socket-id', (socketId)=>{
+            console.log('socket id: ', socketId)
+            dispatch({type: 'STORE_SOCKET_ID', socketId: socketId.socketId})
+        })*/
+        dispatch({type: 'STORE_SOCKET_ID', socketId: socketId.socketId})
     }
 }

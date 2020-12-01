@@ -590,10 +590,15 @@ class AdminDashboard extends Component {
             auth, adminFeedInfo, packageInfo, fnfInfo, offerInfo
         } = this.props
 
-        if (this.props.auth == null){
+        if(this.props.userAuth != null){
+            console.log('redirected')
+            return <Redirect to='/dashboard' />
+        }
+
+        else if (this.props.auth == null){
         //if (0){
             console.log('redirected')
-            return <Redirect to='/' />
+            return <Redirect to='/admin/login' />
         } 
 
         else if(auth == null || adminFeedInfo == null){
@@ -1215,7 +1220,8 @@ const mapStateToProps = (state) => {
       adminFeedInfo : state.adminDashboard.adminFeedInfo,
       packageInfo : state.adminDashboard.packageInfo,
       fnfInfo : state.adminDashboard.fnfInfo,
-      offerInfo : state.adminDashboard.offerInfo
+      offerInfo : state.adminDashboard.offerInfo,
+      userAuth: state.auth.auth
     }
 }
 

@@ -10,6 +10,8 @@ import AdminDashboard from './components/admin/AdminDashboard'
 import EditPersonDetails from './components/dashboard/EditPersonDetails'
 import Package from './components/service/Package'
 import Flexiplan from './components/service/Flexiplan'
+import ConnectWithOthers from './components/service/ConnectWithOthers'
+//import SocketConnection from './components/SocketConnection'
 import logo from './images/5.jpg'
 import 'nprogress/nprogress.css'
 
@@ -31,6 +33,7 @@ class App extends Component{
             <Route path="/admin/dashboard" component={AdminDashboard}></Route>
             <Route path="/package" component={Package}></Route>
             <Route path="/flexiplan" component={Flexiplan}></Route>
+            <Route path="/connect" component={ConnectWithOthers}></Route>
           </Switch>
         </div>
       </BrowserRouter>
