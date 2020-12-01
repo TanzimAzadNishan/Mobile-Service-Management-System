@@ -175,16 +175,16 @@
 }
 
 .pkg-cancel{
-    margin-left: 27%;
-    margin-right: 20%;
+    margin-left: 33%;
+    margin-right: 7%;
 }
 
 .set-pkg-modal{
     height: 70%;
-    width: 25%;
+    width: 30%;
     background-color: white;
     margin-top: 5%;
-    margin-left: 38%;
+    margin-left: 35%;
     padding: 3%;
 }
 
@@ -196,11 +196,12 @@
 }
 
 .pkg-submit{
-    margin-right: 29%;
+    margin-left: 12%;
+    margin-right: 15%;
 }
 
 .pkg-edit-submit{
-    margin-right: 2%;
+    margin-left: 5%;
 }
 
 .pkg-delete-submit{
@@ -298,16 +299,16 @@ label{
 }
 
 .fnf-cancel{
-    margin-left: 27%;
-    margin-right: 20%;
+    margin-left: 33%;
+    margin-right: 7%;
 }
 
 .set-fnf-modal{
     height: 60%;
-    width: 25%;
+    width: 30%;
     background-color: white;
     margin-top: 5%;
-    margin-left: 38%;
+    margin-left: 35%;
     padding: 3%;
 }
 
@@ -319,11 +320,12 @@ label{
 }
 
 .fnf-submit{
-    margin-right: 29%;
+    margin-left: 12%;
+    margin-right: 15%;
 }
 
 .fnf-edit-submit{
-    margin-right: 2%;
+    margin-left: 5%;
 }
 
 .fnf-delete-submit{
@@ -547,16 +549,16 @@ label{
 }
 
 .offer-cancel{
-    margin-left: 27%;
-    margin-right: 20%;
+    margin-left: 33%;
+    margin-right: 7%;
 }
 
 .set-offer-modal{
     height: 90%;
-    width: 25%;
+    width: 30%;
     background-color: white;
     margin-top: 2%;
-    margin-left: 38%;
+    margin-left: 35%;
     padding: 3%;
     overflow: scroll;
 }
@@ -569,11 +571,12 @@ label{
 }
 
 .offer-submit{
-    margin-right: 24%;
+    margin-left: 12%;
+    margin-right: 15%;
 }
 
 .offer-edit-submit{
-    margin-right: 2%;
+    margin-left: 5%;
 }
 
 .offer-delete-submit{

@@ -828,7 +828,7 @@ class AdminDashboard extends Component {
                                             Confirm
                                         </button>              
                                         <button className="btn red pkg-edit-submit" onClick = {() => this.deletePkg()}>Delete</button>
-                                        <button className="btn blue" onClick = {() => this.closeEditPkgModal()}>Exit</button>
+                                        <button className="btn blue pkg-edit-submit" onClick = {() => this.closeEditPkgModal()}>Exit</button>
                                         </div>
                                         
                                 </form>
@@ -919,7 +919,7 @@ class AdminDashboard extends Component {
                                             Confirm
                                         </button>              
                                         <button className="btn red fnf-edit-submit" onClick = {() => this.deletefnf()}>Delete</button>
-                                        <button className="btn blue" onClick = {() => this.closeEditfnfModal()}>Exit</button>
+                                        <button className="btn blue fnf-edit-submit" onClick = {() => this.closeEditfnfModal()}>Exit</button>
                                         </div>
                                         
                                 </form>
@@ -1190,7 +1190,7 @@ class AdminDashboard extends Component {
                                             Confirm
                                         </button>              
                                         <button className="btn red offer-edit-submit" onClick = {() => this.deleteOffer()}>Delete</button>
-                                        <button className="btn blue" onClick = {() => this.closeEditOfferModal()}>Exit</button>
+                                        <button className="btn blue offer-edit-submit" onClick = {() => this.closeEditOfferModal()}>Exit</button>
                                         </div>
                                         
                                 </form>
