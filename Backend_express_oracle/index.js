@@ -4,6 +4,7 @@ const path = require('path')
 const cors = require('cors')
 const http = require('http')
 const multer = require('multer')
+const socketIO = require('socket.io')
 
 const signupController = require('./ApiControllers/auth/signup')
 const loginController = require('./ApiControllers/auth/login')
@@ -13,10 +14,41 @@ const accountInfoController = require('./ApiControllers/Dashboard/accountInfo')
 const editProfileController = require('./ApiControllers/Dashboard/editProfile')
 const packageInfoController = require('./ApiControllers/Services/package')
 const flexiplanController = require('./ApiControllers/Services/flexiplan')
+const connectWithOthersController = require('./ApiControllers/Services/connectWithOthers')
+const socketConController = require('./ApiControllers/SocketConnction')
 
 
 const app = express()
 const server = http.createServer(app)
+
+
+/*------------------- socket connection section starts------------- */
+
+const sio = socketIO(server, 
+    {
+    cors: {
+        origin: "http://localhost:4000",
+        methods: ["GET", "POST"]
+    },
+    handlePreflightRequest: (req, res) => {
+        const headers = {
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            "Access-Control-Allow-Origin": 'http://localhost:4000', //or the specific origin you want to give access to,
+            "Access-Control-Allow-Credentials": true
+        };
+        res.writeHead(200, headers);
+        res.end();
+    }
+})
+
+
+sio.on("connection", () => {
+    console.log("Connected!");
+});
+
+
+/*------------------- socket connection section ends------------- */
+
 
 server.listen(4000)
 
@@ -44,7 +76,7 @@ const upload = multer({
     storage: storage
 })
 
-app.use('/static', express.static(path.join(__dirname, 'static')))
+//app.use('/static', express.static(path.join(__dirname, 'static')))
 app.use(express.static('uploads'))
 
 //--------------- file handling section ends --------------------
@@ -67,3 +99,5 @@ accountInfoController(app)
 editProfileController(app, upload)
 packageInfoController(app)
 flexiplanController(app)
+connectWithOthersController(app, sio)
+socketConController(sio)

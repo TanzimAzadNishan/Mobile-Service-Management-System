@@ -60,7 +60,22 @@ const validateCurrentPKG = (pkg)=>{
     return false 
 }
 
+const validatePoints = (point)=>{
+    if (validator.isEmpty(point)) {
+        return 'This Field is required';
+    }
+    if (!validator.isLength(point, { max: 3 })) {
+        return 'Point should be maximum 3 digits';
+    }
+    var regex = /^[0-9]*$/ 
+
+    if (!regex.test(point)) {
+        return 'Point should be a number';
+    }
+    return false;
+}
+
 export {
     validateName, validatePassword, validateEmail, validateAddress,
-    validatePhoto, validateCurrentPKG
+    validatePhoto, validateCurrentPKG, validatePoints
 }
