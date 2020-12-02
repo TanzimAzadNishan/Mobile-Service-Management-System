@@ -15,6 +15,11 @@ class Navbar extends Component{
     componentDidMount(){
         if (this.props.auth != null){
             socket.emit('socket-connection', {userAuth: this.props.auth})
+            
+            socket.on('store-socket-id', (socketId)=>{
+                console.log('socket id: ', socketId)
+                this.props.storeSocketId(socketId)
+            })
         }
     }
 

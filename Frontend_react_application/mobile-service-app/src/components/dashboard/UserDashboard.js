@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {NavLink, Redirect} from 'react-router-dom'
 import NProgress from 'nprogress'
-import { retrieveAccountInfo } from '../../store/actions/dashboardActions'
+import { retrieveAccountInfo,storeSocketId } from '../../store/actions/dashboardActions'
 import '../../styles/dashboard/UserDashbaordStyle.css'
-//import {socket} from '../../utilities/SocketIOClient'
+import {socket} from '../../utilities/SocketIOClient'
 
 
 class UserDashboard extends Component{
@@ -17,8 +17,12 @@ class UserDashboard extends Component{
     componentDidMount(){  
         console.log('before mounting ', this.props.auth)
         if (this.props.auth != null){
-            //socket.emit('socket-connection', {userAuth: this.props.auth})
-            //this.props.storeSocketId()
+            socket.emit('socket-connection', {userAuth: this.props.auth})
+            
+            socket.on('store-socket-id', (socketId)=>{
+                console.log('socket id: ', socketId)
+                this.props.storeSocketId(socketId)
+            })
             this.props.retrieveAccountInfo(this.props.auth)
         }
     }
@@ -276,6 +280,9 @@ const mapDispatchtoProps = (dispatch)=>{
     return{
         retrieveAccountInfo: (personInfo)=>{
             dispatch(retrieveAccountInfo(personInfo))
+        },
+        storeSocketId: (id)=>{
+            dispatch(storeSocketId(id))
         }
     }
 }
