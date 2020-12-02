@@ -205,7 +205,7 @@ class UserDashboard extends Component{
                                         {accountInfo.INTERNET_BALANCE} MB
                                     </p>
                                     <p className="remainder">
-                                        of 0.00 MB remaining
+                                        of {accountInfo.INTERNET_BALANCE} MB remaining
                                     </p>
                                 </div>
                             </div>
