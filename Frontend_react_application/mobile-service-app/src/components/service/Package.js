@@ -122,7 +122,7 @@ class Package extends Component{
                 </div>
 
                 
-                <div>
+                <div className="pkg-parent">
                     {packageList}
                 </div>
                 </>
