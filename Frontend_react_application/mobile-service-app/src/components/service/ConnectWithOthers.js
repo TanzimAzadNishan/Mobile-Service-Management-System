@@ -46,6 +46,12 @@ class ConnectWithOthers extends Component{
                 value: '',
                 error: ''
             },
+            ModalState: {
+                linkedNumber: '',
+                linkedName: '',
+                points: '',
+                linkId: ''
+            },
             activeModal: ''
         }
 
@@ -59,8 +65,24 @@ class ConnectWithOthers extends Component{
         })
     }
 
-    openModal (name) {
-        this.setState({activeModal: name}); 
+    openModal (name, linkedNumber, linkedName, points, linkId) {
+        this.setState(state => ({
+            Mobile_Number: {
+                value: '',
+                error: ''
+            },
+            Point: {
+                value: '',
+                error: ''
+            },
+            ModalState: {
+                linkedNumber: linkedNumber,
+                linkedName: linkedName,
+                points: points,
+                linkId: linkId
+            },
+            activeModal: name
+        }));
     }
     closeModal () {
         this.setState({activeModal: ''}); 
@@ -89,13 +111,14 @@ class ConnectWithOthers extends Component{
         this.props.deleteAcceptedLink(info)
     }
 
-    discardRequest = (evt, linkedNumber, linkType)=>{
+    discardRequest = (evt, linkedNumber, linkType, linkId)=>{
         this.closeModal()
         evt.preventDefault();
         var info = {
             from: this.props.auth.mobile_number,
             to: linkedNumber,
-            type: linkType
+            type: linkType,
+            linkId: linkId
         }
         console.log('discard : ', info)
         this.props.discardLinkRequest(info)
@@ -109,7 +132,7 @@ class ConnectWithOthers extends Component{
 
         if ([pointError].every(e => e === false)){
             console.log('point request form submitted successfully')
-            document.getElementById('Point').blur()
+            //document.getElementById('Point').blur()
 
             var info = {
                 from: this.props.auth.mobile_number,
@@ -130,6 +153,12 @@ class ConnectWithOthers extends Component{
                     value: '',
                     error: ''
                 },
+                ModalState: {
+                    linkedNumber: '',
+                    linkedName: '',
+                    points: '',
+                    linkId: ''
+                },
                 activeModal: ''
             }));
         }
@@ -146,25 +175,32 @@ class ConnectWithOthers extends Component{
                     ...state.Point,
                     error: pointError
                 },
+                ModalState: {
+                    linkedNumber: linkedNumber,
+                    linkedName: '',
+                    points: '',
+                    linkId: ''
+                },
                 activeModal: 'collect-points-modal'
             }));
         }
     }
 
-    transferPoint = (evt, linkedNumber)=>{
+    transferPoint = (evt, linkedNumber, linkId)=>{
         evt.preventDefault();
         const { Point } = this.state;
         var pointError = validatePoints(Point.value)
 
         if ([pointError].every(e => e === false)){
             console.log('point request form submitted successfully')
-            document.getElementById('Point').blur()
+            //document.getElementById('Point').blur()
 
             var info = {
                 from: this.props.auth.mobile_number,
                 to: linkedNumber,
                 points: Point.value,
-                link_type: 'PR'
+                link_type: 'PR',
+                linkId: linkId
             }
 
             if(this.props.accountInfo.POINTS >= Number(Point.value) + 50){
@@ -180,6 +216,12 @@ class ConnectWithOthers extends Component{
                         value: '',
                         error: ''
                     },
+                    ModalState: {
+                        linkedNumber: '',
+                        linkedName: '',
+                        points: '',
+                        linkId: ''
+                    },
                     activeModal: ''
                 }));
             }
@@ -193,6 +235,12 @@ class ConnectWithOthers extends Component{
                     Point: {
                         ...state.Point,
                         error: pointError
+                    },
+                    ModalState: {
+                        linkedNumber: this.state.ModalState.linkedNumber,
+                        linkedName: this.state.ModalState.linkedName,
+                        points: this.state.ModalState.points,
+                        linkId: this.state.ModalState.linkId
                     },
                     activeModal: 'give-points-modal'
                 }));
@@ -211,6 +259,12 @@ class ConnectWithOthers extends Component{
                     ...state.Point,
                     error: pointError
                 },
+                ModalState: {
+                    linkedNumber: this.state.ModalState.linkedNumber,
+                    linkedName: this.state.ModalState.linkedName,
+                    points: this.state.ModalState.points,
+                    linkId: this.state.ModalState.linkId
+                },
                 activeModal: 'give-points-modal'
             }));
         }
@@ -228,6 +282,22 @@ class ConnectWithOthers extends Component{
             value: fieldVal,
             error: validationFunc(fieldVal)
           }
+        }));
+    }
+    handlePointChange = (evt)=>{
+        const fieldVal = evt.target.value;
+        console.log(fieldVal)
+        console.log(evt.target.id)
+        this.setState(state => ({
+            Mobile_Number: {
+                value: '',
+                error: ''
+            },
+            Point: {
+                value: fieldVal,
+                error: validatePoints(fieldVal)
+            },
+            activeModal: this.state.activeModal
         }));
     }
 
@@ -257,6 +327,13 @@ class ConnectWithOthers extends Component{
                         ...state.Point,
                         error: ''
                     },
+                    
+                    ModalState: {
+                        linkedNumber: '',
+                        linkedName: '',
+                        points: '',
+                        linkId: ''
+                    },
                     activeModal: ''
                 }));
             }
@@ -270,6 +347,12 @@ class ConnectWithOthers extends Component{
                     Point: {
                         value: '',
                         error: ''
+                    },
+                    ModalState: {
+                        linkedNumber: '',
+                        linkedName: '',
+                        points: '',
+                        linkId: ''
                     },
                     activeModal: ''
                 }));
@@ -289,6 +372,12 @@ class ConnectWithOthers extends Component{
                 Point: {
                     ...state.Point,
                     error: ''
+                },
+                ModalState: {
+                    linkedNumber: '',
+                    linkedName: '',
+                    points: '',
+                    linkId: ''
                 },
                 activeModal: ''
             }));
@@ -312,86 +401,30 @@ class ConnectWithOthers extends Component{
             const acceptedConnectionsList = this.props.connectionList.list.map((item, index) =>{
                 return(item.linkType === 'A')?(
                 <div key={index}>
-                <div 
-                    className="card"
-                >
-                    <div className="card-title"
-                        onClick = {() => this.openModal('collect-points-modal')}
+                    <div 
+                        className="card"
                     >
-                        {item.linkedName}
-                    </div>
-                    <div className="card-subtitle"
-                        onClick = {() => this.openModal('collect-points-modal')}
-                    >
-                        {item.linkedNumber}
-                    </div>
-
-                    <button 
-                        className="waves-effect waves-light btn-small delete-btn"
-                        onClick={(evt)=>{this.deleteAcceptedLink(evt, 
-                            item.linkedNumber, item.linkType)}}
-                    >
-                        Delete
-                    </button>
-                </div>
-
-                <Modal
-                    className = "collect-points-modal"
-                    isOpen={this.state.activeModal === 'collect-points-modal'} 
-                    ariaHideApp={false}    
-                >
-
-                    <div className="modal-title">
-                        Ask For Points
-                    </div>
-
-                    <div className="interact-mob-num">
-                        From:  {item.linkedNumber}
-                    </div>
-
-                        <div className="input-field">
-                            <i 
-                                className="material-icons prefix"
-                                style={this.state.Point.error ? ({color: "red"}):(null)}
-                            >
-                                redeem
-                            </i>
-                            <input type="text" id="Point"
-                                className="validate"
-                                style={this.state.Point.error ? ({color: "red"}):(null)}
-                                value={this.state.Point.value}
-                                onChange={(e)=>{this.handleChange(e, validatePoints)}} 
-                            />
-
-                            <label 
-                                htmlFor="points"
-                                style={this.state.Point.error ? ({color: "red"}):(null)} 
-                            > 
-                                Points
-                            </label>
-                            <div style={{color: "red"}}>
-                                {this.state.Point.error}
-                            </div>
+                        <div className="card-title"
+                            onClick = {() => this.openModal('collect-points-modal',
+                            item.linkedNumber, '', '', item.linkId)}
+                        >
+                            {item.linkedName}
+                        </div>
+                        <div className="card-subtitle"
+                            onClick = {() => this.openModal('collect-points-modal',
+                            item.linkedNumber, '', '', item.linkId)}
+                        >
+                            {item.linkedNumber}
                         </div>
 
-
-                    <div className="btn-part">
                         <button 
-                            className="btn-small req-btn"
-                            onClick={(evt)=>{this.handlePointRequest(evt, item.linkedNumber)}}
+                            className="waves-effect waves-light btn-small delete-btn"
+                            onClick={(evt)=>{this.deleteAcceptedLink(evt, 
+                                item.linkedNumber, item.linkType)}}
                         >
-                            Send Request
-                        </button>
-
-                        <button 
-                            className ='close-collect-points-modal btn-small exit-btn' 
-                            onClick={this.closeModal}
-                        >
-                            Exit
+                            Delete
                         </button>
                     </div>
-
-                </Modal>
 
                 </div>
                 ) : (
@@ -417,12 +450,14 @@ class ConnectWithOthers extends Component{
                     className="single-req"
                 >
                     <div className="mob-num"
-                        onClick = {() => this.openModal('accept-req-modal')}
+                        onClick = {() => this.openModal('accept-req-modal',
+                        item.linkedNumber, item.linkedName, '', item.linkId)}
                     >
                         {item.linkedNumber}
                     </div>
                     <div className="name"
-                        onClick = {() => this.openModal('accept-req-modal')}
+                        onClick = {() => this.openModal('accept-req-modal',
+                        item.linkedNumber, item.linkedName, '', item.linkId)}
                     >
                         ({item.linkedName})
                     </div>
@@ -436,40 +471,6 @@ class ConnectWithOthers extends Component{
                     </button>
                 </div>
 
-                <Modal
-                    className = "accept-req-modal"
-                    isOpen={this.state.activeModal === 'accept-req-modal'} 
-                    ariaHideApp={false}    
-                >
-                    <div className="modal-title">
-                        Connection Request
-                    </div>
-
-                    <div className="name">
-                        {item.linkedName}
-                    </div>
-                    <div className="mob-num">
-                        {item.linkedNumber}
-                    </div>
-
-                    <div className="btn-part">
-                        <button 
-                            className="btn-small req-btn"
-                            onClick={(evt)=>{this.acceptLinkRequest(item.linkedName,
-                                item.linkedNumber, evt)}}
-                        >
-                            Accept
-                        </button>
-
-                        <button 
-                            className ='close-accept-req-modal btn-small exit-btn' 
-                            onClick={this.closeModal}
-                        >
-                            Exit
-                        </button>
-                    </div>
-
-                </Modal>
                 </div>
 
                 ) : (
@@ -479,12 +480,14 @@ class ConnectWithOthers extends Component{
                                 className="single-req"
                             >
                                 <div className="mob-num"
-                                    onClick = {() => this.openModal('give-points-modal')}
+                                    onClick = {() => this.openModal('give-points-modal',
+                                    item.linkedNumber, '', item.points, item.linkId)}
                                 >
                                     {item.linkedNumber}
                                 </div>
                                 <div className="name"
-                                    onClick = {() => this.openModal('give-points-modal')}
+                                    onClick = {() => this.openModal('give-points-modal',
+                                    item.linkedNumber, '', item.points, item.linkId)}
                                 >
                                     ({item.linkedName})
                                 </div>
@@ -492,93 +495,11 @@ class ConnectWithOthers extends Component{
                                 <button 
                                     className="waves-effect waves-light btn-small discard-btn"
                                     onClick={(evt)=>{this.discardRequest(evt, item.linkedNumber,
-                                        item.linkType)}}
+                                        item.linkType, item.linkId)}}
                                 >
                                     Discard
                                 </button>
                             </div>
-
-                            <Modal
-                                className = "give-points-modal"
-                                isOpen={this.state.activeModal === 'give-points-modal'} 
-                                ariaHideApp={false}    
-                            >
-
-                                <div className="modal-title">
-                                    Request For Points
-                                </div>
-
-                                <div style={{textAlign: 'center'}}>
-                                <div className="interact-mob-num">
-                                    {item.linkedNumber}
-                                </div>
-                                <div style={{
-                                    display: "inline-block", paddingRight: '2%',
-                                    fontWeight: '500', fontSize: '1.2rem'
-                                }}
-                                > 
-                                    requested for 
-                                </div>
-                                <div style={{display: "inline-block", paddingRight: '2%', 
-                                    color: '#FF5733', fontWeight: '500', fontSize: '1.2rem'
-                                }}> 
-                                    {item.points} 
-                                </div>
-                                <div style={{display: "inline-block",
-                                    fontWeight: '500', fontSize: '1.2rem'
-                                }}
-                                > 
-                                    points 
-                                </div>
-                                <div className="question">
-                                    How many points you want to give?
-                                </div>
-                                </div>
-
-                                <div className="input-field">
-
-                                    <i 
-                                        className="material-icons prefix"
-                                        style={this.state.Point.error ? ({color: "red"}):(null)}  
-                                    >
-                                        redeem
-                                    </i>
-                                    <input type="text" id="Point"
-                                        className="validate"
-                                        style={this.state.Point.error ? ({color: "red"}):(null)}
-                                        value={this.state.Point.value}
-                                        onChange={(e)=>{this.handleChange(e, validatePoints)}}  
-                                    />
-
-                                    <label 
-                                        htmlFor="points"
-                                        style={this.state.Point.error ? ({color: "red"}):(null)}  
-                                    > 
-                                        Points
-                                    </label>
-
-                                    <div style={{color: "red"}}>
-                                        {this.state.Point.error}
-                                    </div>
-                                </div>
-
-                                <div className="btn-part">
-                                    <button 
-                                        className="btn-small req-btn"
-                                        onClick={(evt)=>{this.transferPoint(evt, item.linkedNumber)}}
-                                    >
-                                        Transfer
-                                    </button>
-
-                                    <button 
-                                        className ='close-give-points-modal btn-small exit-btn' 
-                                        onClick={this.closeModal}
-                                    >
-                                        Exit
-                                    </button>
-                                </div>
-
-                            </Modal>
 
                         </div>
                     ) : null
@@ -613,6 +534,65 @@ class ConnectWithOthers extends Component{
 
                             <div className="connection-list">
                                 {acceptedList}
+
+                                <Modal
+                                    className = "collect-points-modal"
+                                    isOpen={this.state.activeModal === 'collect-points-modal'} 
+                                    ariaHideApp={false}    
+                                >
+
+                                    <div className="modal-title">
+                                        Ask For Points
+                                    </div>
+
+                                    <div className="interact-mob-num">
+                                        From:  {this.state.ModalState.linkedNumber}
+                                    </div>
+
+                                    <div className="input-field">
+                                        <i 
+                                            className="material-icons prefix"
+                                            style={this.state.Point.error ? ({color: "red"}):(null)}
+                                        >
+                                            redeem
+                                        </i>
+                                        <input type="text" id={this.state.ModalState.linkId}
+                                            className="validate"
+                                            style={this.state.Point.error ? ({color: "red"}):(null)}
+                                            value={this.state.Point.value}
+                                            onChange={(e)=>{this.handlePointChange(e)}} 
+                                        />
+
+                                        <label 
+                                            htmlFor="points"
+                                            style={this.state.Point.error ? ({color: "red"}):(null)} 
+                                        > 
+                                            Points
+                                        </label>
+                                        <div style={{color: "red"}}>
+                                            {this.state.Point.error}
+                                        </div>
+                                    </div>
+
+
+                                    <div className="btn-part">
+                                        <button 
+                                            className="btn-small req-btn"
+                                            onClick={(evt)=>{this.handlePointRequest(evt,
+                                                this.state.ModalState.linkedNumber)}}
+                                        >
+                                            Send Request
+                                        </button>
+
+                                        <button 
+                                            className ='close-collect-points-modal btn-small exit-btn' 
+                                            onClick={this.closeModal}
+                                        >
+                                            Exit
+                                        </button>
+                                    </div>
+
+                                </Modal>
 
                             </div>
 
@@ -678,6 +658,126 @@ class ConnectWithOthers extends Component{
                                     <div className="card-content">
                                         {pendingList}
                                     
+                                        <Modal
+                                            className = "accept-req-modal"
+                                            isOpen={this.state.activeModal === 'accept-req-modal'} 
+                                            ariaHideApp={false}    
+                                        >
+                                            <div className="modal-title">
+                                                Connection Request
+                                            </div>
+
+                                            <div className="name">
+                                                {this.state.ModalState.linkedName}
+                                            </div>
+                                            <div className="mob-num">
+                                                {this.state.ModalState.linkedNumber}
+                                            </div>
+
+                                            <div className="btn-part">
+                                                <button 
+                                                    className="btn-small req-btn"
+                                                    onClick={(evt)=>{this.acceptLinkRequest(
+                                                        this.state.ModalState.linkedName,
+                                                        this.state.ModalState.linkedNumber, evt)}}
+                                                >
+                                                    Accept
+                                                </button>
+
+                                                <button 
+                                                    className ='close-accept-req-modal btn-small exit-btn' 
+                                                    onClick={this.closeModal}
+                                                >
+                                                    Exit
+                                                </button>
+                                            </div>
+
+                                        </Modal>
+
+                                        <Modal
+                                            className = "give-points-modal"
+                                            isOpen={this.state.activeModal === 'give-points-modal'} 
+                                            ariaHideApp={false}    
+                                        >
+
+                                            <div className="modal-title">
+                                                Request For Points
+                                            </div>
+
+                                            <div style={{textAlign: 'center'}}>
+                                            <div className="interact-mob-num">
+                                                {this.state.ModalState.linkedNumber}
+                                            </div>
+                                            <div style={{
+                                                display: "inline-block", paddingRight: '2%',
+                                                fontWeight: '500', fontSize: '1.2rem'
+                                            }}
+                                            > 
+                                                requested for 
+                                            </div>
+                                            <div style={{display: "inline-block", paddingRight: '2%', 
+                                                color: '#FF5733', fontWeight: '500', fontSize: '1.2rem'
+                                            }}> 
+                                                {this.state.ModalState.points} 
+                                            </div>
+                                            <div style={{display: "inline-block",
+                                                fontWeight: '500', fontSize: '1.2rem'
+                                            }}
+                                            > 
+                                                points 
+                                            </div>
+                                            <div className="question">
+                                                How many points you want to give?
+                                            </div>
+                                            </div>
+
+                                            <div className="input-field">
+
+                                                <i 
+                                                    className="material-icons prefix"
+                                                    style={this.state.Point.error ? ({color: "red"}):(null)}  
+                                                >
+                                                    redeem
+                                                </i>
+                                                <input type="text" id={this.state.ModalState.linkId}
+                                                    className="validate"
+                                                    style={this.state.Point.error ? ({color: "red"}):(null)}
+                                                    value={this.state.Point.value}
+                                                    onChange={(e)=>{this.handlePointChange(e)}}  
+                                                />
+
+                                                <label 
+                                                    htmlFor="points"
+                                                    style={this.state.Point.error ? ({color: "red"}):(null)}  
+                                                > 
+                                                    Points
+                                                </label>
+
+                                                <div style={{color: "red"}}>
+                                                    {this.state.Point.error}
+                                                </div>
+                                            </div>
+
+                                            <div className="btn-part">
+                                                <button 
+                                                    className="btn-small req-btn"
+                                                    onClick={(evt)=>{this.transferPoint(evt, 
+                                                        this.state.ModalState.linkedNumber, 
+                                                        this.state.ModalState.linkId)}}
+                                                >
+                                                    Transfer
+                                                </button>
+
+                                                <button 
+                                                    className ='close-give-points-modal btn-small exit-btn' 
+                                                    onClick={this.closeModal}
+                                                >
+                                                    Exit
+                                                </button>
+                                            </div>
+
+                                        </Modal>
+
                                     </div>
                                 </div>
                             </div>

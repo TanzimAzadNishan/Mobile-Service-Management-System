@@ -3,19 +3,19 @@ const executeQuery = require('../../Database/queryIntoDB')
 const oracledb = require('oracledb')
 const insertOperation = require('../../Database/insertOperation')
 
-const getRandomId = require('../../Database/idGenerator')
+//const getRandomId = require('../../Database/idGenerator')
 
 
 var RetrieveLinkQuery =
 `
-SELECT LINKED_MOBILE_NUMBER, LINK_TYPE, NAME
+SELECT LINK_ID, LINKED_MOBILE_NUMBER, LINK_TYPE, NAME
 FROM LINK JOIN PERSON 
 ON (LINK.LINKED_MOBILE_NUMBER = PERSON.MOBILE_NUMBER)
 WHERE LINK_CREATOR = :fromNum
 `
 var OtherLinkQuery =
 `
-SELECT LINK_CREATOR, LINK_TYPE, NAME, LINK.POINTS AS LP
+SELECT LINK_ID, LINK_CREATOR, LINK_TYPE, NAME, LINK.POINTS AS LP
 FROM LINK JOIN PERSON
 ON (LINK.LINK_CREATOR = PERSON.MOBILE_NUMBER) 
 WHERE LINKED_MOBILE_NUMBER = :fromNum
@@ -41,8 +41,10 @@ function retrieveAllTypesOfLinks(req, res){
             item.linkedName = links.rows[i].NAME
             item.linkedNumber = links.rows[i].LINKED_MOBILE_NUMBER
             item.linkType = links.rows[i].LINK_TYPE
+            item.linkId = links.rows[i].LINK_ID
 
             if(item.linkType === 'A'){
+                console.log('link id.......... : ', item.linkId)
                 list.push(item)
             }
         }
@@ -55,6 +57,7 @@ function retrieveAllTypesOfLinks(req, res){
                 item.linkedName = record.rows[i].NAME
                 item.linkedNumber = record.rows[i].LINK_CREATOR
                 item.linkType = record.rows[i].LINK_TYPE
+                item.linkId = record.rows[i].LINK_ID
 
                 if(item.linkType === 'A'){
                     list.push(item)
@@ -103,6 +106,7 @@ function emitAfterRetrieving(req, sio){
                 item.linkedName = links.rows[i].NAME
                 item.linkedNumber = links.rows[i].LINKED_MOBILE_NUMBER
                 item.linkType = links.rows[i].LINK_TYPE
+                item.linkId = links.rows[i].LINK_ID
 
                 if(item.linkType === 'A'){
                     list.push(item)
@@ -116,6 +120,7 @@ function emitAfterRetrieving(req, sio){
                     item.linkedName = record.rows[i].NAME
                     item.linkedNumber = record.rows[i].LINK_CREATOR
                     item.linkType = record.rows[i].LINK_TYPE
+                    item.linkId = record.rows[i].LINK_ID
 
                     if(item.linkType === 'A'){
                         list.push(item)
@@ -179,18 +184,26 @@ module.exports = function(app, sio){
 
     app.post('/discard-link-request', (req, res)=>{
         console.log(req.body)
-        var DeleteQuery = 
+        /*var DeleteQuery = 
         `
         DELETE FROM LINK
         WHERE LINK_CREATOR = :toNum
         AND LINKED_MOBILE_NUMBER = :fromNum
         AND LINK_TYPE = :link_type
         `
-
         var DeleteInfo = {
             fromNum: req.body.from,
             toNum: req.body.to,
             link_type: req.body.type
+        }*/
+
+        var DeleteQuery = 
+        `
+        DELETE FROM LINK
+        WHERE LINK_ID = :linkId
+        `
+        var DeleteInfo = {
+            linkId: req.body.linkId
         }
 
         executeQuery(DeleteQuery, DeleteInfo)
@@ -230,15 +243,33 @@ module.exports = function(app, sio){
 
     app.post('/transfer-point', (req, res)=>{
         console.log(req.body)
-        var UpdateQuery = 
+        /*var UpdateQuery = 
         `
         UPDATE LINK
         SET POINTS = :points
         WHERE LINK_CREATOR = :toNum
         AND LINKED_MOBILE_NUMBER = :fromNum
         AND LINK_TYPE = :link_type
+        `*/
+        var UpdateQuery = 
+        `
+        UPDATE LINK
+        SET POINTS = :points
+        WHERE LINK_ID = :linkId
         `
         var UpdateInfo = {
+            linkId: req.body.linkId,
+            points: req.body.points
+        }
+        var DeleteQuery = 
+        `
+        DELETE FROM LINK
+        WHERE LINK_ID = :linkId
+        `
+        var DeleteInfo = {
+            linkId: req.body.linkId
+        }
+        /*var UpdateInfo = {
             fromNum: req.body.from,
             toNum: req.body.to,
             link_type: req.body.link_type,
@@ -255,7 +286,7 @@ module.exports = function(app, sio){
             fromNum: req.body.from,
             toNum: req.body.to,
             link_type: req.body.link_type
-        }
+        }*/
 
         executeQuery(UpdateQuery, UpdateInfo)
         .then(()=>{
