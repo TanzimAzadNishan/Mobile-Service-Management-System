@@ -23,7 +23,13 @@ const connectionReducer = (state = initState, action)=>{
             ...state,
             connectionErr: action.error
         }
-    }    
+    }   
+    else if(action.type === 'REFRESH_LINK_ERROR'){
+        return{
+            ...state,
+            connectionErr: null
+        }
+    }  
 
     return{
         ...state,

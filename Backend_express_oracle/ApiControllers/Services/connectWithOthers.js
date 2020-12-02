@@ -207,10 +207,9 @@ module.exports = function(app, sio){
         var LinkQuery =
         `
         INSERT INTO LINK (LINK_ID, LINK_CREATOR, LINKED_MOBILE_NUMBER, LINK_TYPE, POINTS)
-        VALUES (:link_id, :fromNum, :toNum, :link_type, :points)
+        VALUES (LINK_ID_SEQ.NEXTVAL, :fromNum, :toNum, :link_type, :points)
         `
         var LinkInfo = {
-            link_id: getRandomId(20),
             fromNum: req.body.from,
             toNum: req.body.to,
             link_type: req.body.link_type,
@@ -291,10 +290,9 @@ module.exports = function(app, sio){
         var LinkQuery =
         `
         INSERT INTO LINK (LINK_ID, LINK_CREATOR, LINKED_MOBILE_NUMBER, LINK_TYPE)
-        VALUES (:link_id, :fromNum, :toNum, :link_type)
+        VALUES (LINK_ID_SEQ.NEXTVAL, :fromNum, :toNum, :link_type)
         `
         var LinkInfo = {
-            link_id: getRandomId(20),
             fromNum: req.body.from,
             toNum: req.body.to,
             link_type: req.body.link_type
@@ -314,7 +312,8 @@ module.exports = function(app, sio){
                         emitAfterRetrieving(req, sio)
                     }
                     else{
-                       console.log('connect with others failed')    
+                       console.log('connect with others failed')
+                       res.json({serverMsg: 'This Mobile Number is not found'})     
                     }
                 })
             }

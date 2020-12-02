@@ -28,7 +28,7 @@ module.exports = async function(sqlQuery, bindingVar = null){
   
     } catch (err) {
       console.error(err);
-      console.log(message.errorMsg)
+      //console.log(message.errorMsg)
       return true
 
     } finally {

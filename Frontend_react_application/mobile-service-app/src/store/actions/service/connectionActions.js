@@ -27,6 +27,17 @@ export const createNewConnection = (info) => {
             }
             else if(res.data.serverMsg === 'You have already requested for this link!'){
                 dispatch({type: 'CONNECTION_LINK_ERR', error: res.data.serverMsg})
+
+                setTimeout(()=>{
+                    dispatch({type: 'REFRESH_LINK_ERROR'})
+                }, 3000)
+            }
+            else if(res.data.serverMsg === 'This Mobile Number is not found'){
+                dispatch({type: 'CONNECTION_LINK_ERR', error: res.data.serverMsg})
+
+                setTimeout(()=>{
+                    dispatch({type: 'REFRESH_LINK_ERROR'})
+                }, 3000)
             }
             
         }, ()=>{
