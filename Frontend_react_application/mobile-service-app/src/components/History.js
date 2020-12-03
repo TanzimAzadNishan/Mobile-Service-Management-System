@@ -21,8 +21,9 @@ class History extends Component{
 
     componentDidMount(){
         NProgress.done();
-        console.log(this.props.auth.mobile_number)
-        this.props.retrieveHistoryInfo(this.props.auth);
+        if(this.props.auth != null){
+            this.props.retrieveHistoryInfo(this.props.auth);
+        }
     }
 
     openHistoryTab(e,tabname) {
@@ -43,7 +44,8 @@ class History extends Component{
     }
 
     render(){
-        const{historyInfo} = this.props
+        if(this.props.auth != null){
+            const{historyInfo} = this.props
         var history = []
         var colors =['#ffffff','#fffdde']
         var obj = historyInfo
@@ -213,6 +215,12 @@ class History extends Component{
             </div>
             </>
         )
+    }
+    else{
+        return(<></>)
+    }
+        
+        
     }
 }
 
