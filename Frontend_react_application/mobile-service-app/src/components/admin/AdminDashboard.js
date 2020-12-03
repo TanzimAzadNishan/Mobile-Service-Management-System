@@ -383,8 +383,7 @@ class AdminDashboard extends Component {
                 }
             }
             ); 
-            window.location.reload(false);
-        //this.setState({...initialState})
+            this.props.retrieveAdminInfo(this.props.auth)
     }
 
     handleNewPkgChange = (e)=>{
@@ -409,8 +408,7 @@ class AdminDashboard extends Component {
                 }
             }
             ); 
-            window.location.reload(false);
-        //this.setState({...initialState})
+            this.props.retrieveAdminInfo(this.props.auth)
     }
 
     handleEditPkgChange = (e)=>{
@@ -431,7 +429,7 @@ class AdminDashboard extends Component {
                 }
             }
             );
-            window.location.reload(false);
+            this.props.retrieveAdminInfo(this.props.auth)
     }
 
     handleNewfnfSubmit = (e)=>{
@@ -448,8 +446,7 @@ class AdminDashboard extends Component {
                 }
             }
             ); 
-            window.location.reload(false);
-        //this.setState({...initialState})
+            this.props.retrieveAdminInfo(this.props.auth)
     }
 
     handleNewfnfChange = (e)=>{
@@ -472,8 +469,7 @@ class AdminDashboard extends Component {
                 }
             }
             ); 
-            window.location.reload(false);
-        //this.setState({...initialState})
+            this.props.retrieveAdminInfo(this.props.auth)
     }
 
     handleEditfnfChange = (e)=>{
@@ -494,7 +490,7 @@ class AdminDashboard extends Component {
                 }
             }
             );
-            window.location.reload(false);
+            this.props.retrieveAdminInfo(this.props.auth)
     }
 
     handleNewOfferSubmit = (e)=>{
@@ -520,8 +516,7 @@ class AdminDashboard extends Component {
                 }
             }
             ); 
-            window.location.reload(false);
-        //this.setState({...initialState})
+            this.props.retrieveAdminInfo(this.props.auth)
     }
 
     handleNewOfferChange = (e)=>{
@@ -553,8 +548,7 @@ class AdminDashboard extends Component {
                 }
             }
             ); 
-            window.location.reload(false);
-        //this.setState({...initialState})
+            this.props.retrieveAdminInfo(this.props.auth)
     }
 
     handleEditOfferChange = (e)=>{
@@ -582,7 +576,7 @@ class AdminDashboard extends Component {
                 }
             }
             );
-            window.location.reload(false);
+            this.props.retrieveAdminInfo(this.props.auth)
     }
 
     render() {

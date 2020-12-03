@@ -55,7 +55,6 @@ class Package extends Component{
                                 <div className="card-content">
                                     <div className="card-title"  onClick = {() => this.selectPkg(pkg.PKG_NAME)} style = {{background: colors[Math.floor(Math.random() * colors.length)]}}>
                                         {pkg.PKG_NAME}
-                                    
                                     </div>
                                     <div className="details">
                                         <p style={{color: "#FF5733"}}>

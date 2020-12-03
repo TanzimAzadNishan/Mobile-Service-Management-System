@@ -16,6 +16,7 @@ const packageInfoController = require('./ApiControllers/Services/package')
 const flexiplanController = require('./ApiControllers/Services/flexiplan')
 const connectWithOthersController = require('./ApiControllers/Services/connectWithOthers')
 const socketConController = require('./ApiControllers/SocketConnction')
+const historyController = require('./ApiControllers/history')
 
 
 const app = express()
@@ -101,3 +102,4 @@ packageInfoController(app)
 flexiplanController(app)
 connectWithOthersController(app, sio)
 socketConController(sio)
+historyController(app)

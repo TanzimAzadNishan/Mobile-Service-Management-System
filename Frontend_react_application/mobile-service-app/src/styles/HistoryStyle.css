@@ -1,0 +1,167 @@
+.history-title{
+    margin-top: 30px;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: rgb(255, 166, 0);
+}
+.history-names{
+    margin-top: 2%;
+    margin-left: 7%;
+    margin-right: 6.5%;
+}
+
+.history-button{
+    background-color: inherit;
+    border: none;
+    float: left;
+    cursor: pointer;
+    border-bottom: rgb(255, 166, 0) 5px solid;
+    padding: 1.5%;
+    padding-left: 2%;
+    padding-right: 2%;
+    font-size: 1.3rem;
+}
+
+.history-button:hover{
+    background-color: rgb(252, 245, 245);
+}
+
+/*.history-button.active{
+    background-color:  rgb(238, 200, 131);
+}*/
+
+.history-button:focus{
+    background-color:  rgb(238, 200, 131);
+}
+
+.tabcontent{
+    display: none;
+}
+
+.call-tab{
+    display: block;
+}
+
+.history-tab{
+    margin-top: 7%;
+    margin-left: 7%;
+    margin-right: 6.5%;
+}
+
+
+/*---------call tab-------------*/
+
+#call .history-column-div{
+    height: 50px;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+#call .history-column-title{
+    flex: 0 1 20%;
+    margin-left: 7.5%;
+    margin-right: 5%;
+    font-size: 1.3rem;
+}
+
+.call-history-details{
+    height: 60px;
+    padding-top: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+    display: flex;
+}
+
+.call-history-columns{
+    flex: 0 1 30%;
+    font-size: 1.1rem;
+    
+}
+
+/*---------sms tab-------------*/
+
+#sms .history-column-div{
+    height: 50px;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+#sms .history-column-title{
+    flex: 0 1 20%;
+    margin-left: 9.8%;
+    margin-right: 11%;
+    font-size: 1.3rem;
+}
+
+.sms-history-details{
+    height: 60px;
+    padding-top: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+    display: flex;
+}
+
+.sms-history-columns{
+    flex: 0 1 40%;
+    font-size: 1.1rem;
+    
+}
+
+/*---------internet tab-------------*/
+
+#internet .history-column-div{
+    height: 50px;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+#internet .history-column-title{
+    flex: 0 1 80%;
+    margin-left: 23%;
+    margin-right: 20%;
+    font-size: 1.3rem;
+}
+
+.int-history-details{
+    height: 60px;
+    padding-top: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+    display: flex;
+}
+
+.int-history-columns{
+    flex: 0 1 80%;
+    font-size: 1.1rem;
+    
+}
+
+/*---------internet tab-------------*/
+
+#recharge .history-column-div{
+    height: 50px;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+#recharge .history-column-title{
+    flex: 0 1 80%;
+    margin-left: 9.8%;
+    margin-right: 11%;
+    font-size: 1.3rem;
+}
+
+.rec-history-details{
+    height: 60px;
+    padding-top: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+    display: flex;
+}
+
+.rec-history-columns{
+    flex: 0 1 50%;
+    font-size: 1.1rem;
+    
+}

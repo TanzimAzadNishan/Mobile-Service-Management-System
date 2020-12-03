@@ -2,7 +2,7 @@ const executeQuery = require('../../Database/queryIntoDB')
 
 module.exports = function(app){
     app.post('/admin/get-info', (req, res)=>{
-        console.log(req.body)
+        //console.log(req.body)
     
         adminInfo = {
             feedback_sub: null,
@@ -35,25 +35,25 @@ module.exports = function(app){
 
         executeQuery(FeedbackSubQuery, [req.body.NID])
         .then((record)=>{
-            console.log(record)
+            //console.log(record)
             adminInfo.feedback_sub = record.rows[0].ASSIGNED_FEEDBACK_SUB
             console.log('admin info retrieved')
 
             executeQuery(adminPkgQuery, [])
             .then((pkgRecord)=>{
-                console.log(pkgRecord)
+                //console.log(pkgRecord)
                 adminInfo.packageInfo = pkgRecord.rows
                 console.log('package Information Retrieved')
 
                 executeQuery(adminFNFQuery, [])
                 .then((fnfRecord)=>{
-                console.log(fnfRecord)
+                //console.log(fnfRecord)
                 adminInfo.fnfInfo = fnfRecord.rows
                 console.log('fnf Information Retrieved')
 
                 executeQuery(adminOfferQuery, [])
                 .then((offerRecord)=>{
-                    console.log(offerRecord)
+                    //console.log(offerRecord)
                     adminInfo.offerInfo = offerRecord.rows
                     console.log('Offer Information Retrieved')
                     res.json({serverMsg: 'admin Information Retrieved', 
@@ -63,9 +63,6 @@ module.exports = function(app){
 
             })
         })
-
-
-        
 
         })
     })
@@ -122,10 +119,18 @@ module.exports = function(app){
         DELETE FROM PACKAGE
         WHERE PKG_NAME = :name
         `
-        executeQuery(deletePackageQuery,del)
-        .then(()=>{
-            res.json({serverMsg: 'package deleted'})
-        })
+        if(req.body.edit_pkg_name == 'Default'){
+            console.log('not deleted')
+            res.json({serverMsg: 'cannnot delete default package'})
+        }
+        else{
+            executeQuery(deletePackageQuery,del)
+            .then(()=>{
+                console.log('deleted')
+                res.json({serverMsg: 'package deleted'})
+            })
+        }
+        
     })
 
     app.post('/admin/set-new-fnf',(req,res)=>{

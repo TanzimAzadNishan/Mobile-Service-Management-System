@@ -7,6 +7,7 @@ import adminDashboardReducer from './adminDashboardReducer'
 import packageReducer from './Service/packageReducer'
 import flexiplanReducer from './Service/flexiplanReducer'
 import connectionReducer from './Service/connectionReducer'
+import historyReducer from './historyReducer'
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     adminDashboard: adminDashboardReducer,
     package: packageReducer,
     flexiplan: flexiplanReducer,
-    connectWithOthers: connectionReducer
+    connectWithOthers: connectionReducer,
+    history: historyReducer
 })
 
 export default rootReducer
