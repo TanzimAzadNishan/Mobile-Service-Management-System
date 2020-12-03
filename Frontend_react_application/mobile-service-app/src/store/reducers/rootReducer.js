@@ -8,6 +8,7 @@ import packageReducer from './Service/packageReducer'
 import flexiplanReducer from './Service/flexiplanReducer'
 import connectionReducer from './Service/connectionReducer'
 import historyReducer from './historyReducer'
+import fnfReducer from './Service/fnfReducer'
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     admin: adminReducer,
     adminDashboard: adminDashboardReducer,
     package: packageReducer,
+    fnf: fnfReducer,
     flexiplan: flexiplanReducer,
     connectWithOthers: connectionReducer,
     history: historyReducer
