@@ -15,3 +15,8 @@ export const retrievePackageInfo = (packageInfo) => {
     }
 }
 
+export const updatePackageInfo = (packageDetails) => {
+    return() => {
+        packageService.updatePackage(packageDetails)
+    }
+}

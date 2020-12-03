@@ -22,5 +22,27 @@ module.exports = function(app){
         
     })
 
+    app.post('/package/set', (req, res)=>{
+        console.log('updating package details: ', req.body)
+
+        pkgInfo = {
+            name: req.body.name,
+            mobile_number: req.body.number
+        }
+        
+        packageUpdateQuery =
+        `
+        UPDATE PERSON 
+        SET CURRENT_PKG = :name
+        WHERE MOBILE_NUMBER = :mobile_number
+        `
+        executeQuery(packageUpdateQuery,pkgInfo)
+        .then(()=>{
+            console.log('Package Information Updated')
+            res.json({serverMsg: 'Package Information Updated'})
+
+        })
+    })
+
     
 }

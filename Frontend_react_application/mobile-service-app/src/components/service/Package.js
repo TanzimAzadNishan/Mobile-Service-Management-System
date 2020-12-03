@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-modal'
 import NProgress from 'nprogress'
-import {retrievePackageInfo} from '../../store/actions/service/packageActions'
+import {retrievePackageInfo, updatePackageInfo} from '../../store/actions/service/packageActions'
 import '../../styles/service/PackageStyle.css'
 
 class Package extends Component{
@@ -13,6 +13,7 @@ class Package extends Component{
         this.state = {activeModal:'',pkgName:''}
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.confirmPackage = this.confirmPackage.bind(this);
         //this.handleModalChangeEnter = this.handleModalChange.bind(this, true);
         //this.handleModalChangeLogin = this.handleModalChange.bind(this, false);
     }
@@ -22,6 +23,16 @@ class Package extends Component{
         this.setState({activeModal:''}); }
     selectPkg(name){
         this.setState({activeModal: 'sel', pkgName: name});
+    }
+    confirmPackage() {
+        const packageDetails = {
+            name: this.state.pkgName,
+            number: this.props.auth.mobile_number
+        }
+        console.log(packageDetails)
+        this.props.updatePackageInfo(packageDetails)
+        this.setState({activeModal: '', pkgName: ''});
+
     }
 
     componentDidMount(){
@@ -71,8 +82,9 @@ class Package extends Component{
                             </div>
                             <Modal className = "pkg-details-modal" isOpen={this.state.activeModal === 'sel'} ariaHideApp={false}>
                                 <div>
-                                    You have successfully selected {this.state.pkgName} package!
+                                    Do you want to select {this.state.pkgName} as your current Package?
                                 </div>
+                                <button className ='btn green waves-effect waves-light close-pkg-modal' onClick={this.confirmPackage}>Confirm</button>
                                 <button className ='btn red waves-effect waves-light close-pkg-modal' onClick={this.closeModal}>Exit</button>
                             </Modal>                        
                         </div>
@@ -142,7 +154,10 @@ const mapDispatchtoProps = (dispatch)=>{
     return{
         retrievePackageInfo: (packageInfo)=>{
             dispatch(retrievePackageInfo(packageInfo))
-        }
+        },
+        updatePackageInfo: (packageDetails)=>{
+            dispatch(updatePackageInfo(packageDetails))
+        },
     }
 }
 
