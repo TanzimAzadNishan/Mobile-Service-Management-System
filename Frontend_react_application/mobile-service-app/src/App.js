@@ -14,6 +14,7 @@ import Flexiplan from './components/service/Flexiplan'
 import ConnectWithOthers from './components/service/ConnectWithOthers'
 //import SocketConnection from './components/SocketConnection'
 import History from './components/History'
+import Feedback from './components/service/Feedback'
 import logo from './images/5.jpg'
 import 'nprogress/nprogress.css'
 
@@ -38,6 +39,7 @@ class App extends Component{
             <Route path="/flexiplan" component={Flexiplan}></Route>
             <Route path="/connect" component={ConnectWithOthers}></Route>
             <Route path="/history" component={History}></Route>
+            <Route path="/feedback" component={Feedback}></Route>
           </Switch>
         </div>
       </BrowserRouter>

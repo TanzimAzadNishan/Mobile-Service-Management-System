@@ -1,0 +1,211 @@
+
+.feedback-title{
+    margin-top: 40px;
+    padding-bottom: 40px;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #02575B;
+    margin-bottom: 20px;
+}
+
+.feedback-details{
+    display: grid;
+    grid-template-columns: repeat(25, 1fr);
+    /*grid-auto-rows: auto;*/
+    grid-template-rows: repeat(5, 100px);
+
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/*------------------------ left section ---------------------------*/
+
+.feedback-details .left-section{
+    grid-column: 2/12;
+    /*grid-row: 1/6;*/
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(10, 50px);
+}
+.feedback-details .left-section .left-section-title{
+    grid-column: 1/6;
+    justify-self: start;
+    align-self: center;
+
+    font-weight: 500;
+    font-size: 1.38rem;
+    color: #C70039;
+    margin-bottom: 30px;
+}
+
+.feedback-details .left-section .feedback-form{
+    grid-column: 1/6;
+}
+.feedback-details .left-section .feedback-form .body-area{
+    margin-top: 40px;
+}
+.feedback-details .left-section .send-feedback-btn{
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    margin-top: 30px;
+    margin-right: -20px;
+}
+.feedback-details .left-section .send-feedback-btn button{
+    grid-column: 8/13;
+    justify-self: end;
+    background: #4CAF50;
+    height: 35px;
+    width: 120px;
+    border-radius: 5px;
+    border: 1px solid;
+}
+.feedback-details .left-section .send-feedback-btn button:hover{
+    background: #3F91BE;
+}
+.feedback-details .left-section .send-feedback-btn button:disabled{
+    border: 1px solid #999999;
+    background: #cccccc;
+    color: #666666;
+}
+
+
+/*------------------------ right section ---------------------------*/
+
+.feedback-details .right-section{
+    grid-column: 15/25;
+}
+.feedback-details .right-section .right-section-title{
+    font-weight: 500;
+    font-size: 1.38rem;
+    color: #3C6DB4;
+    margin-bottom: 20px;
+}
+
+/*----------------- feedback list --------------------*/
+
+.feedback-details .right-section .feedback-list .single-item{
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    max-height: 25px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+.feedback-details .right-section .feedback-list .single-item:hover{
+    cursor: pointer;
+}
+.feedback-details .right-section .feedback-list .subject{
+    grid-column: 1/3;
+    color: #900C3F;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+.feedback-details .right-section .feedback-list .body-placeholder{
+    grid-column: 3/10;
+    color: #FF5733;
+    font-size: 1.1rem;
+    font-weight: 330;
+    justify-self: end;
+}
+.feedback-details .right-section .feedback-list .body-end{
+    grid-column: 10/11;
+    color: #FF5733;
+    font-size: 1.1rem;
+    font-weight: 330;
+    justify-self: start;
+}
+
+/*------------------ feedback modal----------------*/
+
+.feedback-modal{
+    height: 60%;
+    width: 40%;
+    margin-top: 10%;
+    margin-left: 30%;
+    padding-top: 3%;
+    padding-bottom: 2%;
+    background: white;
+}
+.feedback-modal .modal-title{
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #421c05;
+    margin-bottom: 4%;
+}
+.feedback-modal .exit-btn{
+    margin-top: 3%;
+    background: #C70039;
+    margin-left: 45%;
+}
+.feedback-modal .exit-btn:hover{
+    background: red;
+}
+.feedback-modal .subject-header{
+    margin-left: 5%;
+    display: inline-block;
+    color: black;
+    padding-right: 2%;
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-bottom: 1%;
+}
+.feedback-modal .subject-name{
+    color: #FF5733;
+    display: inline-block;
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-bottom: 1%;
+}
+.feedback-modal .date-header{
+    margin-left: 5%;
+    display: inline-block;
+    color: black;
+    padding-right: 2%;
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-bottom: 1%;
+}
+.feedback-modal .date-name{
+    color: #0B773B;
+    display: inline-block;
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-bottom: 1%;
+}
+
+.feedback-modal .body-header{
+    margin-left: 5%;
+    display: inline-block;
+    color: #900C3F;
+    padding-right: 2%;
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-bottom: 1%;
+}
+.feedback-modal .body-msg{
+    text-align: justify;
+    color: black;
+    margin-left: 5%;
+    font-weight: 400;
+    font-size: 1rem;
+    margin-bottom: 1%;
+    margin-right: 5%;
+    overflow-y: scroll;
+    height: 40%;
+}
+.feedback-modal .body-msg::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+
+
+
+
+

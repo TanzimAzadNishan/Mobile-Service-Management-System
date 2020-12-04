@@ -5,10 +5,17 @@ import {NavLink, withRouter} from 'react-router-dom'
 import {logoutFromAccount} from '../store/actions/authActions'
 import {adminlogoutFromAccount} from '../store/actions/adminAction'
 import { storeSocketId } from '../store/actions/dashboardActions'
+import { storeAdminSocketId } from '../store/actions/adminDashboardActions'
 import {socket} from '../utilities/SocketIOClient'
 import {
     receiveNewConnection
 } from '../store/actions/service/connectionActions'
+import {
+    receiveNewFeedback
+} from '../store/actions/adminDashboardActions'
+import {
+    receiveReply
+} from '../store/actions/service/feedbackAction.js'
 
 class Navbar extends Component{
 
@@ -20,6 +27,14 @@ class Navbar extends Component{
                 console.log('socket id: ', socketId)
                 this.props.storeSocketId(socketId)
             })
+        }
+        if(this.props.adminAuth != null){
+            socket.emit('admin-socket-connection', {adminAuth: this.props.adminAuth})
+            
+            socket.on('store-admin-socket-id', (socketId)=>{
+                console.log('socket id: ', socketId)
+                this.props.storeAdminSocketId(socketId)
+            })   
         }
     }
 
@@ -40,8 +55,16 @@ class Navbar extends Component{
     render() {
         //const userAuth = localStorage.getItem('userAccount')
         //const userAuthData = userAuth ? JSON.parse(userAuth) : null
+        this.props.receiveNewFeedback()
+        socket.on('receive-admin-reply', (res)=>{
+            this.props.receiveReply(res.feedbackInfo)
+        })
+
         const links = (this.props.auth) ? (
             <>
+                <li>
+                    <NavLink to="/connect" className="itemStyle"> Connect </NavLink>
+                </li>
                 <li>
                     <NavLink to="/dashboard" className="itemStyle"> Dashboard </NavLink>
                 </li>
@@ -67,6 +90,9 @@ class Navbar extends Component{
             ) : (
                 <>
                     <li>
+                        <NavLink to="/admin/dashboard" className="itemStyle"> Admin Dashboard </NavLink>
+                    </li>
+                    <li>
                         <NavLink to="/" onClick={this.handleAdminLogout}
                                 className="itemStyle"
                         >
@@ -82,7 +108,7 @@ class Navbar extends Component{
                     <NavLink to="/recharge" className="itemStyle"> Recharge </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/connect" className="itemStyle"> Connect </NavLink>
+                    <NavLink to="/feedback" className="itemStyle"> Feedback </NavLink>
                 </li>
                 <li>
                     <NavLink to="/history" className="itemStyle"> My History </NavLink>
@@ -153,6 +179,15 @@ const mapDispatchtoProps = (dispatch)=>{
         },
         adminLogout: ()=>{
             dispatch(adminlogoutFromAccount())
+        },
+        storeAdminSocketId: (id)=>{
+            dispatch(storeAdminSocketId(id))
+        },
+        receiveNewFeedback: ()=>{
+            dispatch(receiveNewFeedback())
+        },
+        receiveReply: (info)=>{
+            dispatch(receiveReply(info))
         }
     }
 }

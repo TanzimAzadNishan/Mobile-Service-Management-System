@@ -1,5 +1,6 @@
 
 import adminDashboardService from '../../utilities/Services/adminDashboardService'
+import {socket} from '../../utilities/SocketIOClient'
 
 export const retrieveAdminInfo = (adminInfo)=>{
     return(dispatch, getState)=>{
@@ -67,4 +68,27 @@ export const deleteOffer = (editedOffer)=>{
     return()=>{
         adminDashboardService.deleteOffer(editedOffer)
     }  
+}
+
+export const storeAdminSocketId = (socketId)=>{
+    return(dispatch, getState)=>{
+        
+        dispatch({type: 'STORE_ADMIN_SOCKET_ID', socketId: socketId.socketId})
+    }
+}
+
+export const receiveNewFeedback = () => {
+    return(dispatch, getState) => {            
+        socket.on('send-new-feedback', (res)=>{
+            dispatch({type: 'STORE_ADMIN_FEEDBACKS', feedbackInfo: res.feedbackInfo})
+        }) 
+    }
+}
+export const receiveAllFeedback = (info) => {
+    return(dispatch, getState) => {
+        adminDashboardService.onRetrieveFeedbackList(info)
+        .then((res)=>{
+            dispatch({type: 'STORE_ADMIN_FEEDBACKS', feedbackInfo: res.data.feedbackInfo})
+        })            
+    }
 }

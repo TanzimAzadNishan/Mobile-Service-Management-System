@@ -3,10 +3,14 @@ const initstate = {
     adminFeedInfo: null,
     packageInfo: null,
     fnfInfo: null,
-    offerInfo: null
+    offerInfo: null,
+    adminSocketId: null,
+    adminFeedbackList: null
 }
 
 const adminDashboardReducer = (state = initstate, action)=>{
+    const socketIdInStore = localStorage.getItem('adminSocketId')
+    const adminFeedbackListInStore = localStorage.getItem('adminFeedbackList')
     
     if(action.type === 'RETRIEVE_ADMIN_ACCOUNT_DETAILS'){
         console.log('admin details retrieved')
@@ -29,7 +33,34 @@ const adminDashboardReducer = (state = initstate, action)=>{
             offerInfo: offerData ? JSON.parse(offerData) : null,
         }
     }
-    return state
+    else if(action.type === 'STORE_ADMIN_SOCKET_ID'){
+        console.log('admin socket id stored')
+        localStorage.setItem('adminSocketId', JSON.stringify(action.socketId))
+        const socketIdData = localStorage.getItem('adminSocketId')
+
+        return{
+            ...state,
+            adminSocketId: socketIdData ? JSON.parse(socketIdData) : null
+        }
+    }
+
+    else if(action.type === 'STORE_ADMIN_FEEDBACKS'){
+        console.log('feedback list to admin stored')
+        localStorage.setItem('adminFeedbackList', JSON.stringify(action.feedbackInfo))
+        const listData = localStorage.getItem('adminFeedbackList')
+
+        return{
+            ...state,
+            adminFeedbackList: listData ? JSON.parse(listData) : null
+        }
+    }
+
+    return{
+        ...state,
+        adminSocketId: socketIdInStore ? JSON.parse(socketIdInStore) : null,
+        adminFeedbackList: adminFeedbackListInStore ? 
+            JSON.parse(adminFeedbackListInStore) : null
+    }
 }
 
 export default adminDashboardReducer;

@@ -40,4 +40,7 @@ export default{
     deleteOffer(editedOffer){
         return baseApi.post('/admin/delete-offer',editedOffer)
     },
+    onRetrieveFeedbackList(info){
+        return baseApi.post('/retrieve-admin-feedback', info)
+    }
 }

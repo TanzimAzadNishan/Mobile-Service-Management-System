@@ -9,6 +9,7 @@ import flexiplanReducer from './Service/flexiplanReducer'
 import connectionReducer from './Service/connectionReducer'
 import historyReducer from './historyReducer'
 import fnfReducer from './Service/fnfReducer'
+import feedbackReducer from './Service/feedbackReducer'
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     fnf: fnfReducer,
     flexiplan: flexiplanReducer,
     connectWithOthers: connectionReducer,
-    history: historyReducer
+    history: historyReducer,
+    feedback: feedbackReducer
 })
 
 export default rootReducer

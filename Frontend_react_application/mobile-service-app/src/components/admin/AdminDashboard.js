@@ -4,8 +4,16 @@ import {Redirect} from 'react-router-dom'
 import Modal from 'react-modal'
 import NProgress from 'nprogress'
 import {validateMobileNumber} from '../../utilities/Validators/AuthValidator'
-import { retrieveAdminInfo,setNewPackage,editPackage,deletePackage,setNewfnf,editFnf,deletefnf,setNewOffer,editOffer,deleteOffer} from '../../store/actions/adminDashboardActions'
+import { 
+    retrieveAdminInfo,setNewPackage,editPackage,deletePackage,setNewfnf,editFnf,
+    deletefnf,setNewOffer,editOffer,deleteOffer, storeAdminSocketId,
+    receiveAllFeedback
+} from '../../store/actions/adminDashboardActions'
+
 import '../../styles/admin/AdminDashboardStyle.css'
+import {socket} from '../../utilities/SocketIOClient'
+import {sendReplyOfFeedback} from '../../store/actions/service/feedbackAction'
+
 
 const initialState = {
     Mobile_Number: {
@@ -37,6 +45,7 @@ const initialState = {
     feedbackID: '',
     feedbackBody: '',
     feeedbackSender: '',
+    feedbackReplyBody: '',
     newPkg: {
         new_pkg_name: '',
         new_pkg_callrate: '',
@@ -114,6 +123,18 @@ class AdminDashboard extends Component {
             this.setState({editPkg: {...this.state.editPkg,edit_pkg_setter: this.props.auth.NID}})
             this.setState({newOffer: {...this.state.newOffer,new_offer_setter: this.props.auth.NID}})
             this.setState({editedOffer: {...this.state.editedOffer,edited_offer_setter: this.props.auth.NID}})
+            
+            socket.emit('admin-socket-connection', {adminAuth: this.props.auth})
+            
+            socket.on('store-admin-socket-id', (socketId)=>{
+                console.log('socket id: ', socketId)
+                this.props.storeAdminSocketId(socketId)
+                var info = {
+                    NID: this.props.auth.NID
+                }
+                this.props.receiveAllFeedback(info)
+            })
+
             this.props.retrieveAdminInfo(this.props.auth)
         }
     }
@@ -579,6 +600,33 @@ class AdminDashboard extends Component {
             this.props.retrieveAdminInfo(this.props.auth)
     }
 
+    disableButton = ()=>{
+        if(this.state.feedbackReplyBody.length < 20 ){
+            return true
+        }
+        else{
+            return false
+        }
+    }
+
+    feedbackReplyChange = (evt)=>{
+        const fieldVal = evt.target.value;
+        this.setState({
+            feedbackReplyBody: fieldVal
+        })
+    }
+
+    sendReplyOfFeedback = (evt)=>{
+        evt.preventDefault();
+        var info = {
+            subject: this.props.adminFeedInfo,
+            reviewer: this.state.feeedbackSender,
+            body: this.state.feedbackReplyBody,
+            NID: this.props.auth.NID 
+        }
+        this.props.sendReplyOfFeedback(info)
+    }
+
     render() {
         const {
             auth, adminFeedInfo, packageInfo, fnfInfo, offerInfo
@@ -664,6 +712,27 @@ class AdminDashboard extends Component {
                     </>
                 )
             })
+
+            const feedbackList = this.props.adminFeedbackList.map((item, index)=>{
+                return(
+                    <div 
+                        className="feedback-details" 
+                        style={{color: "black"}}
+                        key={index}
+                    >
+                        <span className="container feedback-body" 
+                            onClick = {
+                                () => this.openFeedbackModal(item.FEEDBACK_ID,
+                                item.FEEDBACK_BODY ,
+                                item.REVIEWER)}>
+                                    
+                            ID: {item.FEEDBACK_ID}
+                        </span>
+                    </div>
+                )
+            })
+
+            console.log('feedback list: ', feedbackList)
 
         return (
             <div className = "main-divs">
@@ -938,11 +1007,9 @@ class AdminDashboard extends Component {
                                     </div>
                                 </div>
                                 <div className="details">
-                                    <div className="feedback-details" style={{color: "black"}}>
-                                        <span className="container feedback-body" onClick = {() => this.openFeedbackModal('7653372578','This is a feedback message.This is a feedback message. This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.This is a feedback message.','01714356432')}>
-                                            ID: 7653372578
-                                        </span>
-                                    </div>
+
+                                    {feedbackList}
+
                                 </div>
                             </div>
                         </div>
@@ -962,10 +1029,16 @@ class AdminDashboard extends Component {
                                             <i className = "material-icons prefix" style = {({color : "black "})}>
                                                 reply
                                             </i>
-                                            <input type = "text" id = "feed-reply" style = {({color : "red "})}/>
-                                                <label style = {({color : "red "})}>
-                                                    Write a reply
-                                                </label>
+                                            <input 
+                                                type = "text" 
+                                                id = "feed-reply" 
+                                                style = {({color : "red "})}
+                                                value={this.state.feedbackReplyBody}
+                                                onChange={(e)=>{this.feedbackReplyChange(e)}}
+                                            />
+                                            <label style = {({color : "red "})}>
+                                                Write a reply
+                                            </label>
                                         </div>
                                     </form>
                                 </div>
@@ -973,8 +1046,15 @@ class AdminDashboard extends Component {
                                 <span className = "feed-cancel" onClick = {() => (this.closeFeedbackModal())}>
                                     <button className="btn red">Close</button>
                                 </span>
-                                <span className = "feed-send" onClick = {() => (this.closeFeedbackModalOpenSentModal())}>
-                                    <button className="btn green">Send</button>
+                                <span className = "feed-send" 
+                                onClick = {() => (this.closeFeedbackModalOpenSentModal())}>
+                                    <button 
+                                        className="btn green"
+                                        disabled={this.disableButton()}
+                                        onClick={(e)=>{this.sendReplyOfFeedback(e)}}
+                                    >
+                                        Send
+                                    </button>
                                 </span>
                                 </div>
                         </Modal>
@@ -1215,7 +1295,8 @@ const mapStateToProps = (state) => {
       packageInfo : state.adminDashboard.packageInfo,
       fnfInfo : state.adminDashboard.fnfInfo,
       offerInfo : state.adminDashboard.offerInfo,
-      userAuth: state.auth.auth
+      userAuth: state.auth.auth,
+      adminFeedbackList: state.adminDashboard.adminFeedbackList
     }
 }
 
@@ -1251,7 +1332,15 @@ const mapDispatchtoProps = (dispatch)=>{
         deleteOffer: (editedOffer)=>{
             dispatch(deleteOffer(editedOffer))
         },
-
+        storeAdminSocketId: (id)=>{
+            dispatch(storeAdminSocketId(id))
+        },
+        receiveAllFeedback: (info)=>{
+            dispatch(receiveAllFeedback(info))
+        },
+        sendReplyOfFeedback: (info)=>{
+            dispatch(sendReplyOfFeedback(info))
+        }
     }
 }
 
