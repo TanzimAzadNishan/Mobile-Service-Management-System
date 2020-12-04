@@ -164,8 +164,9 @@ class Feedback extends Component{
         else{
             NProgress.done()
             //console.log(this.props.feedbackReplyList)
-
-            const feedbackList = this.props.feedbackReplyList.map((item, index)=>{
+            var feedbackList;
+            if(this.props.feedbackReplyList!=null)
+            {feedbackList = this.props.feedbackReplyList.map((item, index)=>{
                 return(
                     <div className="single-item"
                         key={index}
@@ -185,7 +186,8 @@ class Feedback extends Component{
                         </div>      
                     </div>
                 )
-            })
+            })}
+            else{feedbackList = null}
 
             return (
                 <>
@@ -211,7 +213,7 @@ class Feedback extends Component{
                                     </i>
                                     <input type="text" id="Mobile_Number"
                                         className="validate"
-                                        defaultValue={`01724729159`}
+                                        defaultValue={this.props.auth.mobile_number}
                                         disabled
                                     />
                                     <label htmlFor="mobile-number"

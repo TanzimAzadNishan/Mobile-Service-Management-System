@@ -392,14 +392,16 @@ label{
 }
 
 .admin-dashboard-lower .feedback .card .feedback-details{
-    padding: 2%;
+    padding: 5%;
     border-bottom: 1px solid black;
+    height: 80px;
+    margin-right: 5%;
 }
 
 .admin-dashboard-lower .feedback .details .feedback-body{
     color: crimson;
     text-decoration: none;
-    padding-left: 40%;
+    padding-left: 8.5em;
 }
 
 .admin-dashboard-lower .feedback .details .feedback-body:hover{

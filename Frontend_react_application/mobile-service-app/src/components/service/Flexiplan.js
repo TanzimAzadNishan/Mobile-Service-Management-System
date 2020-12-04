@@ -10,16 +10,16 @@ const initialState = {
     internetBalance: '0MB',
     talktimeBalance: '0 Min',
     SMSBalance: '0 SMS',
-    validity: '0 Days',
+    validity: '1 Day',
     internetAmount: 0,
     talktimeAmount: 0,
     smsAmount: 0,
-    //totalAmount: 0,
+    buttonState: 0,
     planDetails: {
         internet: 0,
         talktime: 0,
         sms: 0,
-        validity: 0,
+        validity: 1,
         mobile_number: '',
         amount: 0
     },
@@ -34,6 +34,7 @@ class Flexiplan extends Component{
         this.updateAccount = this.updateAccount.bind(this);
         this.openConfirmationModal = this.openConfirmationModal.bind(this);
         this.closeConfirmationModal = this.closeConfirmationModal.bind(this);
+        this.disable = this.disable.bind(this);
     }
 
     state = initialState
@@ -54,6 +55,7 @@ class Flexiplan extends Component{
 
     getInternetBalance = (e) => {
         this.setState({internetBalance: e.target.innerHTML});
+        this.disable();
         if(parseInt(e.target.innerHTML)<30){
             this.setState({internetAmount: parseInt(e.target.innerHTML)*1000*.08})
         }
@@ -66,6 +68,7 @@ class Flexiplan extends Component{
 
     getTalktimeBalance = (e) => {
         this.setState({talktimeBalance: e.target.innerHTML});
+        this.disable();
         if(parseInt(e.target.innerHTML)<200){
             this.setState({talktimeAmount: parseInt(e.target.innerHTML)*.9})
         }
@@ -76,6 +79,7 @@ class Flexiplan extends Component{
 
     getSMSBalance = (e) => {
         this.setState({SMSBalance: e.target.innerHTML});
+        this.disable();
         if(parseInt(e.target.innerHTML)<1000){
             this.setState({smsAmount: parseInt(e.target.innerHTML)*.5})
         }
@@ -132,10 +136,18 @@ class Flexiplan extends Component{
     }
 
     closeConfirmationModal(){
-        this.setState({
-            activeModal: ''
-        });
-        window.location.reload(false);
+        //this.setState({
+            //activeModal: ''
+        //});
+        //window.location.reload(false);
+        this.setState({...initialState})
+    }
+
+    disable(){
+        if(this.state.internetBalance === '0MB' && this.state.SMSBalance === '0 SMS' && (this.state.talktimeBalance ==='0 Min' || this.state.talktimeBalance ==='0 Mins')){
+            return 0;
+        }
+        else{return 1;}
     }
 
     render() {
@@ -151,7 +163,6 @@ class Flexiplan extends Component{
             )
         }
         else{
-            
 
         return(
             <>
@@ -197,7 +208,7 @@ class Flexiplan extends Component{
                             {this.state.validity}<br></br>
                         </div>
                         <div>
-                            <button className = "buy-plan" onClick = {this.openConfirmationModal}>Buy Now!</button>
+                            <button id="buy" className = "buy-plan" disabled={!this.disable()} onClick = {this.openConfirmationModal}>Buy Now!</button>
                         </div>
                     </div>
                     <Modal className = "confirmation-modal" isOpen={this.state.activeModal === 'plan-confirm'} ariaHideApp={false}>

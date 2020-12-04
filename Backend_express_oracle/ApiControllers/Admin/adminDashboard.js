@@ -1,3 +1,4 @@
+const insertOperation = require('../../Database/insertOperation')
 const executeQuery = require('../../Database/queryIntoDB')
 
 module.exports = function(app){
@@ -82,9 +83,11 @@ module.exports = function(app){
         INSERT INTO PACKAGE (PKG_NAME,CALL_RATE,SMS_RATE,FNF_NUM,SETTER_ID)
         VALUES(:name, :callrate, :smsrate, :fnfno, :NID)
         `
-        executeQuery(setNewPackageQuery,newPkg)
-        .then(()=>{
-            res.json({serverMsg: 'new package set'})
+        insertOperation(setNewPackageQuery,newPkg)
+        .then((pkgError)=>{
+            if(!pkgError){
+            res.json({serverMsg: 'new package set'})}
+            else{res.json({serverMsg: 'package already exists'})}
         })
     })
 
@@ -146,9 +149,11 @@ module.exports = function(app){
         INSERT INTO FNF (FNF_TYPE,CALL_RATE,SMS_RATE)
         VALUES(:name, :callrate, :smsrate)
         `
-        executeQuery(setNewfnfQuery,newfnf)
-        .then(()=>{
-            res.json({serverMsg: 'new fnf set'})
+        insertOperation(setNewfnfQuery,newfnf)
+        .then((fnfError)=>{
+            if(!fnfError){
+            res.json({serverMsg: 'new fnf set'})}
+            else{res.json({serverMsg: 'fnf already exists'})}
         })
     })
 
@@ -211,9 +216,11 @@ module.exports = function(app){
         INSERT INTO OFFER (OFFER_ID, SETTER_ID, MONEY, VALIDITY, EARNED_PTS, INT_BAL, BONUS_INT_BAL, BONUS_PTS, MIN_BAL, BONUS_MIN_BAL, SMS_BAL, BONUS_SMS)
         VALUES(:id, :setter, :money, :validity, :pts, :int, :bnsint, :bnspts, :talktime, :bnstalktime, :sms, :bnssms)
         `
-        executeQuery(setNewOfferQuery,newOffer)
-        .then(()=>{
-            res.json({serverMsg: 'new offer set'})
+        insertOperation(setNewOfferQuery,newPkg)
+        .then((offerError)=>{
+            if(!offerError){
+            res.json({serverMsg: 'new offer set'})}
+            else{res.json({serverMsg: 'offer already exists'})}
         })
     })
 

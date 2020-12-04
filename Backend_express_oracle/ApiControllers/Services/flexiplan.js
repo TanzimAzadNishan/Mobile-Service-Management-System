@@ -1,4 +1,5 @@
 const executeQuery = require('../../Database/queryIntoDB')
+const insertOperation = require('../../Database/insertOperation')
 const getRandomId = require('../../Database/idGenerator')
 
 module.exports = function(app){
@@ -113,25 +114,28 @@ module.exports = function(app){
         executeQuery(flexiplanExistsQuery,planInfo)
         .then((record)=>{
             if(record.rows.length!=0){
-                executeQuery(UpdatePersonExistingFlexiplanQuery,planExistsAccountInfo)
-                .then(()=>{
+                insertOperation(UpdatePersonExistingFlexiplanQuery,planExistsAccountInfo)
+                .then((planerr)=>{
+                    if(!planerr){
                     executeQuery(updateAccountQuery,accountPlanDetails)
                     .then(()=>{
                         console.log('existing flexplan updated for user')
                         res.json({serverMsg: 'existing flexplan updated for user'})
-                    })
+                    })}
                 })
             }
             else{
                 executeQuery(updateAccountQuery,accountPlanDetails)
                 .then(()=>{
-                    executeQuery(setNewFlexiplanQuery,planDetails)
-                    .then(()=>{
-                        executeQuery(UpdatePersonFlexiplanQuery,linkBuyerPlan)
-                        .then(()=>{
+                    insertOperation(setNewFlexiplanQuery,planDetails)
+                    .then((planerr)=>{
+                        if(!planerr){
+                        insertOperation(UpdatePersonFlexiplanQuery,linkBuyerPlan)
+                        .then((personplanerr)=>{
+                            if(!personplanerr){
                             console.log('flexplan updated for user')
                             res.json({serverMsg: 'flexplan updated for user'})
-                        })
+                        }})}
                     })
                 })
             }

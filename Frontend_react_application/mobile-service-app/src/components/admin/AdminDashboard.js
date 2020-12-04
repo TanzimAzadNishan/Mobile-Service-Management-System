@@ -712,25 +712,27 @@ class AdminDashboard extends Component {
                     </>
                 )
             })
-
-            const feedbackList = this.props.adminFeedbackList.map((item, index)=>{
+            var feedbackList;
+            if(this.props.adminFeedbackList!=null)
+            {feedbackList = this.props.adminFeedbackList.map((item, index)=>{
                 return(
                     <div 
                         className="feedback-details" 
                         style={{color: "black"}}
                         key={index}
                     >
-                        <span className="container feedback-body" 
+                        <div className="container feedback-body" 
                             onClick = {
                                 () => this.openFeedbackModal(item.FEEDBACK_ID,
                                 item.FEEDBACK_BODY ,
                                 item.REVIEWER)}>
                                     
-                            ID: {item.FEEDBACK_ID}
-                        </span>
+                            <p>ID:{item.FEEDBACK_ID}</p>
+                        </div>
                     </div>
                 )
-            })
+            })}
+            else {feedbackList = null}
 
             console.log('feedback list: ', feedbackList)
 
@@ -1007,9 +1009,7 @@ class AdminDashboard extends Component {
                                     </div>
                                 </div>
                                 <div className="details">
-
                                     {feedbackList}
-
                                 </div>
                             </div>
                         </div>

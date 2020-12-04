@@ -129,6 +129,10 @@
     width: 150px;
 }
 
+.buy-plan:disabled{
+    background: gray;
+}
+
 .confirmation-modal{
     height: 40%;
     width: 50%;
