@@ -10,6 +10,7 @@ import AdminDashboard from './components/admin/AdminDashboard'
 import EditPersonDetails from './components/dashboard/EditPersonDetails'
 import Package from './components/service/Package'
 import FNF from './components/service/FNF'
+import Offer from './components/service/Offer'
 import Flexiplan from './components/service/Flexiplan'
 import ConnectWithOthers from './components/service/ConnectWithOthers'
 //import SocketConnection from './components/SocketConnection'
@@ -37,6 +38,7 @@ class App extends Component{
             <Route path="/admin/dashboard" component={AdminDashboard}></Route>
             <Route path="/package" component={Package}></Route>
             <Route path="/fnf" component={FNF}></Route>
+            <Route path="/offers" component={Offer}></Route>
             <Route path="/flexiplan" component={Flexiplan}></Route>
             <Route path="/connect" component={ConnectWithOthers}></Route>
             <Route path="/history" component={History}></Route>

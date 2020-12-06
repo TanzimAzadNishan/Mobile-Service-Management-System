@@ -21,7 +21,7 @@ module.exports = function(app){
         res.json({serverMsg: 'account balance retrieved', 
                     personInfo:personBalance})
     })
-    })
+})
 
     app.post('/flexiplan/update-account', (req,res)=>{
         //console.log(req.body)
