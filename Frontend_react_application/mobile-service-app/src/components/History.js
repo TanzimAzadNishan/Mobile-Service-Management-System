@@ -46,6 +46,7 @@ class History extends Component{
     render(){
         if(this.props.auth != null){
             const{historyInfo} = this.props
+            console.log(historyInfo)
         var history = []
         var colors =['#ffffff','#fffdde']
         var obj = historyInfo
@@ -54,14 +55,14 @@ class History extends Component{
         history.push(obj[i]);
             
             var flag = 1;
-            const callHistory = history.map(hist => {
+            const callHistory = history.map((hist, index) => {
                     var date = (hist.TIME_SLOT).toString().replace("T"," ").replace(".000Z","");
                     var type = 'Outgoing';
                     if(hist.CALL_TYPE === 'i'){type = 'Incoming'}
                     flag = flag^1;
                     if(hist.HISTORY_TYPE === 'call'){
                         return(
-                            <>
+                        
                         <div className="call-history-details" key={history.HISTORY_ID} style={{background: colors[flag^1]}}>
                             <span className = "call-history-columns">{date}</span>
                             <span className = "call-history-columns">{hist.CONTACT_NUMBER}  {hist.CONTACT_NAME}</span>
@@ -69,7 +70,7 @@ class History extends Component{
                             <span className = "call-history-columns">{hist.AMOUNT.toFixed(2)} bdt</span>
                             <span className = "call-history-columns">{Math.round(hist.CALL_DURATION)}:{Math.round((hist.CALL_DURATION-Math.floor(hist.CALL_DURATION))*100)}</span>
                         </div>
-                        </>
+                        
                         )
                     }
                     else{
@@ -85,14 +86,13 @@ class History extends Component{
                     flag = flag^1;
                     if(hist.HISTORY_TYPE === 'sms'){
                         return(
-                            <>
                         <div className="sms-history-details" key={history.HISTORY_ID} style={{background: colors[flag^1]}}>
                             <span className = "sms-history-columns">{date}</span>
                             <span className = "sms-history-columns">{hist.CONTACT_NUMBER}  {hist.CONTACT_NAME}</span>
                             <span className = "sms-history-columns">{type}</span>
                             <span className = "sms-history-columns">{hist.AMOUNT.toFixed(2)} bdt</span>
                         </div>
-                        </>
+                        
                         )
                     }
                     else{
@@ -108,12 +108,11 @@ class History extends Component{
                         
                     var date1 = (hist.TIME_SLOT_END).toString().replace("T"," ").replace(".000Z","");
                         return(
-                            <>
                         <div className="int-history-details" key={history.HISTORY_ID} style={{background: colors[flag^1]}}>
                             <span className = "int-history-columns">{date} - {date1}</span>
                             <span className = "int-history-columns">{(hist.DATA_VOLUME).toFixed(2)} MB</span>
                         </div>
-                        </>
+                    
                         )
                     }
                     else{
@@ -122,7 +121,7 @@ class History extends Component{
                 })
 
                 flag = 1;
-                const recHistory = history.map(hist => {
+                const recHistory = history.map((hist) => {
                     console.log(JSON.stringify(hist.TIME_SLOT))
                     var date = (hist.TIME_SLOT).toString().replace("T"," ").replace(".000Z","");
                     var type = 'Sent';
@@ -133,14 +132,13 @@ class History extends Component{
                     flag = flag^1;
                     if(hist.HISTORY_TYPE === 'rec'){
                         return(
-                            <>
-                        <div className="rec-history-details" key={history.HISTORY_ID} style={{background: colors[flag^1]}}>
-                            <span className = "rec-history-columns">{date}</span>
-                            <span className = "rec-history-columns">{hist.CONTACT_NUMBER}</span>
-                            <span className = "rec-history-columns">{type}</span>
-                            <span className = "rec-history-columns">{(hist.AMOUNT).toFixed(2)} bdt</span>
-                        </div>
-                        </>
+                            <div className="rec-history-details" key={history.HISTORY_ID} style={{background: colors[flag^1]}}>
+                                <span className = "rec-history-columns">{date}</span>
+                                <span className = "rec-history-columns">{hist.CONTACT_NUMBER}</span>
+                                <span className = "rec-history-columns">{type}</span>
+                                <span className = "rec-history-columns">{(hist.AMOUNT).toFixed(2)} bdt</span>
+                            </div>
+                            
                         )
                     }
                     else{

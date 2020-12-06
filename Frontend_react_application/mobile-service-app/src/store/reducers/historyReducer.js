@@ -3,6 +3,8 @@ const initstate = {
 }
 
 const historyReducer = (state = initstate, action)=>{
+    const historyinfoinstore =  localStorage.getItem('historyInfo')
+
     if (action.type === 'RETRIEVE_HISTORY_DETAILS'){
         console.log('history details retrieved')
 
@@ -16,7 +18,10 @@ const historyReducer = (state = initstate, action)=>{
         }
     }
 
-    return state
+    return {
+        ...state,
+        historyInfo: (historyinfoinstore) ? JSON.parse(historyinfoinstore) : null
+    }
 }
 
 export default historyReducer

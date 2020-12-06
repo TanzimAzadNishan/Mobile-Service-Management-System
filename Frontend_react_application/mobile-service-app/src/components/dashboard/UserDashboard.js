@@ -365,7 +365,9 @@ class UserDashboard extends Component{
                         <br/>
                         <div className="fnf-num-reminder">
                                 You can add another {
+                                    (this.props.personFNFList) ? 
                                     this.props.current_pkg.FNF_NUM - this.props.personFNFList.length
+                                    : this.props.current_pkg.FNF_NUM
                                 } numbers to fnf list
                         </div>
 

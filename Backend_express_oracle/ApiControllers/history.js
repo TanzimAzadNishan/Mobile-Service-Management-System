@@ -10,8 +10,11 @@ module.exports = function(app){
         `
         SELECT *
         FROM PERSON_HISTORY
-        WHERE ACCOUNT_TRACKING_ID = (SELECT ACCOUNT_TRACKING_ID FROM ACCOUNT
-                                        WHERE MOBILE_NUMBER = :mobile_number)
+        WHERE ACCOUNT_TRACKING_ID = (
+            SELECT ACCOUNT_TRACKING_ID FROM ACCOUNT
+            WHERE MOBILE_NUMBER = :mobile_number
+        )
+        ORDER BY TIME_SLOT DESC
         `
         executeQuery(historyDetailsQuery,[req.body.mobile_number])
         .then((historyrecord)=>{

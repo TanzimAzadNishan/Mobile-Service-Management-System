@@ -9,6 +9,12 @@ const rechargeReducer = (state = initState, action)=>{
             rechargeError: action.error
         }
     }
+    else if(action.type === 'REFRESH_RECHARGE_ERROR'){
+        return{
+            ...state,
+            rechargeError: null
+        }
+    }
     return state
 }
 

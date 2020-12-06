@@ -3,41 +3,36 @@ const insertOperation = require('../../Database/insertOperation')
 const oracledb = require('oracledb')
 
 
-function retrieveBalance(sender, receiver, res, sio){
-    var AccountQuery = 
+function emitUpdate(receiver, sio){
+    var accountQuery = 
     `
-    SELECT ACCOUNT_BALANCE, INTERNET_BALANCE, TALKTIME, SMS_BALANCE, POINTS
+    SELECT ACCOUNT_BALANCE, INTERNET_BALANCE, TALKTIME, SMS_BALANCE, POINTS,  SOCKET_ID
+    FROM ACCOUNT
+    WHERE MOBILE_NUMBER = :mobile_number 
     `
-    var info = {}
-    if(sender != null){
-        AccountQuery = AccountQuery + 
-        `
-        FROM ACCOUNT
+    var historyQuery =  
+    `
+    SELECT *
+    FROM PERSON_HISTORY
+    WHERE ACCOUNT_TRACKING_ID = (
+        SELECT ACCOUNT_TRACKING_ID FROM ACCOUNT
         WHERE MOBILE_NUMBER = :mobile_number
-        `
-        info.mobile_number = sender
-    }
-    else if(receiver != null){
-        AccountQuery = AccountQuery + 
-        `
-        , SOCKET_ID 
-        FROM ACCOUNT
-        WHERE MOBILE_NUMBER = :mobile_number
-        `
-        info.mobile_number = receiver
-    }
+    )
+    ORDER BY TIME_SLOT DESC
+    `
 
-    executeQuery(AccountQuery, info)
+    executeQuery(accountQuery, [receiver])
     .then((record)=>{
-        if(sender != null){
-            res.json({serverMsg: 'Recharged Succesfully!', 
-            accountBalance: record.rows[0]})
-        }
-        else if(receiver != null){
-            var socketid = record.rows[0].SOCKET_ID
-            sio.to(socketid).emit('transfer-new-recharge',
-            {accountBalance: record.rows[0]})
-        }
+        var socketid = record.rows[0].SOCKET_ID
+
+        sio.to(socketid).emit('transfer-new-recharge',
+        {accountBalance: record.rows[0]})
+
+        executeQuery(historyQuery, [receiver])
+        .then((data)=>{
+            sio.to(socketid).emit('send-updated-history',
+            {historyInfo: data.rows})
+        })
     })
 
 }
@@ -105,11 +100,17 @@ module.exports = function(app, sio){
                 .then((hasSenderErr)=>{
                     if(!hasSenderErr){
                         insertOperation(historyQuery, receiverInfo)
+                        .then((hasHistoryErr)=>{
+                            if(!hasHistoryErr){
+                                emitUpdate(req.body.receiver, sio)
+                            }
+                        })
                     }
                 })
             }
 
             else{
+                console.log(result.outBinds.msg)
                 res.json({serverMsg: 'Your account does not have sufficient balance'})
             }
         })
