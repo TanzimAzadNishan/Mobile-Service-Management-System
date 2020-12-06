@@ -1,0 +1,76 @@
+
+.recharge{
+    max-width: 400px;
+    z-index: 5;
+    margin: 0 auto;
+    background: #fff;
+    width: auto;
+}
+
+.recharge-title{
+    margin-top: 40px;
+    padding-bottom: 40px;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #FF5733;
+    margin-bottom: 20px;
+}
+
+.recharge .recharge-btn{
+    margin-top: 20px;
+    font-size: 1.25rem;
+    font-weight: 500;
+    height: 40px;
+    width: 130px;
+    background: red;
+    text-align: center;
+    border: 1px solid #E74343;
+    color: white;
+    border-radius: 5px;
+}
+.recharge .recharge-btn:hover{
+    color: black;
+    cursor: pointer;
+}
+
+
+/*---------------- recharge-modal -----------------*/
+
+.recharge-modal{
+    height: 30%;
+    width: 30%;
+    margin-top: 15%;
+    margin-left: 35%;
+    padding-top: 3%;
+    padding-bottom: 2%;
+    background: white;
+}
+.recharge-modal .modal-title{
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #421c05;
+    margin-bottom: 4%;
+}
+.recharge-modal .btn-part{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    margin-top: 10%;
+}
+.recharge-modal .exit-btn{
+    grid-column: 4/6;
+    justify-self: center;
+    background: #C70039;
+}
+.recharge-modal .exit-btn:hover{
+    background: red;
+}
+.recharge-modal .confirm-btn{
+    grid-column: 2/4;
+    justify-self: end;
+    background: #3C6DB4;
+}
+.recharge-modal .confirm-btn:hover{
+    background: #3F91BE;
+}

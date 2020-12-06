@@ -15,6 +15,7 @@ import ConnectWithOthers from './components/service/ConnectWithOthers'
 //import SocketConnection from './components/SocketConnection'
 import History from './components/History'
 import Feedback from './components/service/Feedback'
+import Recharge from './components/service/Recharge'
 import logo from './images/5.jpg'
 import 'nprogress/nprogress.css'
 
@@ -40,6 +41,7 @@ class App extends Component{
             <Route path="/connect" component={ConnectWithOthers}></Route>
             <Route path="/history" component={History}></Route>
             <Route path="/feedback" component={Feedback}></Route>
+            <Route path="/recharge" component={Recharge}></Route>
           </Switch>
         </div>
       </BrowserRouter>

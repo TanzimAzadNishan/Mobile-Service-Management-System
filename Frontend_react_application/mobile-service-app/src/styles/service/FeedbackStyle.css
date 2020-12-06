@@ -85,6 +85,13 @@
     color: #3C6DB4;
     margin-bottom: 20px;
 }
+.feedback-details .right-section .card{
+    max-height: 230px;
+    overflow-y: scroll;
+}
+.feedback-details .right-section .card::-webkit-scrollbar {
+    display: none;
+}
 
 /*----------------- feedback list --------------------*/
 

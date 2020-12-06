@@ -59,6 +59,9 @@ class Navbar extends Component{
         socket.on('receive-admin-reply', (res)=>{
             this.props.receiveReply(res.feedbackInfo)
         })
+        /*socket.on('transfer-new-recharge', (res)=>{
+            localStorage.setItem('accountInfo', JSON.stringify(res.accountBalance))
+        })*/
 
         const links = (this.props.auth) ? (
             <>

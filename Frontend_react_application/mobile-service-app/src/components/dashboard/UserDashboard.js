@@ -5,6 +5,13 @@ import NProgress from 'nprogress'
 import { retrieveAccountInfo,storeSocketId } from '../../store/actions/dashboardActions'
 import '../../styles/dashboard/UserDashbaordStyle.css'
 import {socket} from '../../utilities/SocketIOClient'
+import Modal from 'react-modal'
+import {
+    validateMobileNumber
+} from '../../utilities/Validators/RechargeValidator.js'
+import { 
+    addPersonFNF, deletePersonFNF, getPersonFNF
+} from '../../store/actions/service/personFNFAction'
 
 
 class UserDashboard extends Component{
@@ -12,11 +19,41 @@ class UserDashboard extends Component{
         super(props);
         NProgress.start();
         NProgress.configure({ ease: 'ease', speed: 500 });
+
+        this.state = {
+            Mobile_Number: {
+                value: '',
+                error: ''
+            },
+            activeModal: ''
+        }
+        this.openModal = this.openModal.bind(this)
+        this.closeModal = this.closeModal.bind(this)
+    }
+
+    openModal = (name)=>{
+        this.setState({
+            activeModal: name
+        })
+    }
+    closeModal = ()=>{
+        this.setState({
+            Mobile_Number: {
+                value: '',
+                error: ''
+            },
+            activeModal: ''
+        })
     }
 
     componentDidMount(){  
         console.log('before mounting ', this.props.auth)
         if (this.props.auth != null){
+            var fnflistinfo = {
+                sender: this.props.auth.mobile_number
+            }
+            this.props.getPersonFNF(fnflistinfo)
+            
             socket.emit('socket-connection', {userAuth: this.props.auth})
             
             socket.on('store-socket-id', (socketId)=>{
@@ -26,6 +63,64 @@ class UserDashboard extends Component{
             this.props.retrieveAccountInfo(this.props.auth)
         }
     }
+
+    handleMobNumChange = (evt)=>{
+        var fieldval = evt.target.value
+
+        this.setState({
+            Mobile_Number: {
+                value: fieldval,
+                error: ''
+            }
+        })
+    }
+
+    addFNF = (evt)=>{
+        evt.preventDefault();
+        const { Mobile_Number } = this.state;
+        var mobErr = validateMobileNumber(Mobile_Number.value)
+
+        if(this.props.auth.mobile_number === this.state.Mobile_Number.value){
+            mobErr = 'This is your mobile number!'
+        }
+
+        if ([mobErr].every(e => e === false)){
+            console.log('add fnf form submitted successfully')
+
+            var addInfo = {
+                sender: this.props.auth.mobile_number,
+                receiver: Mobile_Number.value
+            }
+            this.props.addPersonFNF(addInfo)
+            console.log(addInfo)
+            this.setState(state => ({
+                Mobile_Number: {
+                    value: '',
+                    error: ''
+                },
+                activeModal: 'add-fnf-modal'
+            }))
+        }
+
+        else{
+            console.log(mobErr)
+            this.setState(state => ({
+                Mobile_Number: {
+                    value: '',
+                    error: mobErr
+                },
+                activeModal: 'add-fnf-modal'
+            }))
+        }
+    }
+    deleteFNF = (evt, receiver)=>{
+        var deleteInfo = {
+            sender: this.props.auth.mobile_number,
+            receiver: receiver
+        }
+        this.props.deletePersonFNF(deleteInfo) 
+    }
+
     render() {
         const {
             auth, accountInfo, current_pkg, current_fnf_plan, profilePic
@@ -58,6 +153,40 @@ class UserDashboard extends Component{
                     account_circle
                 </i>
             )
+
+            var personfnflist = null
+            if(this.props.personFNFList != null && this.props.personFNFList.length > 0){
+                personfnflist = this.props.personFNFList.map((item, index)=>{
+                    return(
+                        <div 
+                            className="single-item"
+                            key={index}
+                        >
+                            <div className="mob-num">
+                                {item.RECEIVER}
+                            </div>
+                            <div className="name">
+                                ({item.NAME})
+                            </div>
+    
+                            <button
+                                className="btn-small delete-btn"
+                                onClick={(e)=>{this.deleteFNF(e, item.RECEIVER)}}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    )
+                })
+            }
+            else{
+                personfnflist = (
+                    <div className="no-fnf">
+                        You have not added any FNF
+                    </div>
+                )
+            }
+
 
         return (
             <>
@@ -141,8 +270,115 @@ class UserDashboard extends Component{
                                         : 'Empty'} 
                                     </p>
                                 </div>
+
+                                <div className="card-action">
+                                    <button 
+                                        className="add-fnf"
+                                        onClick={(e)=>{this.openModal('add-fnf-modal')}}
+                                    >
+                                        Add FNF
+                                    </button>
+
+                                    <button
+                                        className="show-fnf"
+                                        onClick={(e)=>{this.openModal('show-fnf-modal')}}
+                                    >
+                                        FNF List
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                    
+                    <Modal
+                        className = "add-fnf-modal"
+                        isOpen={this.state.activeModal === 'add-fnf-modal'} 
+                        ariaHideApp={false} 
+                    >
+                    
+                        <div className="modal-title">
+                            Add New FNF
+                        </div>
+
+                        <div className="input-field">
+
+                            <i 
+                                className="material-icons prefix"
+                                style={this.state.Mobile_Number.error ? ({color: "red"}):(null)}  
+                            >
+                                settings_cell
+                            </i>
+                            <input type="text"
+                                className="validate"
+                                style={this.state.Mobile_Number.error ? ({color: "red"}):(null)}
+                                value={this.state.Mobile_Number.value}
+                                onChange={(e)=>{this.handleMobNumChange(e)}}  
+                            />
+
+                            <label 
+                                htmlFor="mobile_number"
+                                style={this.state.Mobile_Number.error ? ({color: "red"}):(null)}  
+                            > 
+                                Mobile Number
+                            </label>
+
+                            <div style={{color: "red"}}>
+                                {this.state.Mobile_Number.error}
+                            </div>
+                            <div style={{color: "red"}}>
+                                {this.props.personFNFError}
+                            </div>
+                        </div>
+
+                        <div className="btn-part">
+
+                            <button 
+                                className ='btn-small add-btn' 
+                                onClick={(e)=>{this.addFNF(e)}}
+                            >
+                                Add
+                            </button>
+
+                            <button 
+                            className ='btn-small exit-btn' 
+                            onClick={this.closeModal}
+                        >
+                            Exit
+                        </button>
+                        </div>
+                    </Modal>
+
+                    <Modal
+                        className = "show-fnf-modal"
+                        isOpen={this.state.activeModal === 'show-fnf-modal'} 
+                        ariaHideApp={false} 
+                    >
+                    
+                        <div className="modal-title">
+                            Your FNF List
+                        </div>
+                        
+                        <div className="fnf-list">
+                            {personfnflist}
+                        </div>
+
+                        <br/>
+                        <br/>
+                        <div className="fnf-num-reminder">
+                                You can add another {
+                                    this.props.current_pkg.FNF_NUM - this.props.personFNFList.length
+                                } numbers to fnf list
+                        </div>
+
+                        <div className="btn-part">
+                            <button 
+                                className ='btn-small exit-btn' 
+                                onClick={this.closeModal}
+                            >
+                                Exit
+                            </button>
+                        </div>
+                    </Modal>
+                    
                     </div>
 
                 </div>
@@ -273,6 +509,8 @@ const mapStateToProps = (state) => {
         profilePic: state.dashboard.profilePic,
         current_pkg: state.dashboard.current_pkg,
         current_fnf_plan: state.dashboard.current_fnf_plan,
+        personFNFList: state.personFNF.personFNFList,
+        personFNFError: state.personFNF.personFNFError
     }
 }
 
@@ -283,6 +521,15 @@ const mapDispatchtoProps = (dispatch)=>{
         },
         storeSocketId: (id)=>{
             dispatch(storeSocketId(id))
+        },
+        addPersonFNF: (info)=>{
+            dispatch(addPersonFNF(info))
+        },
+        deletePersonFNF: (info)=>{
+            dispatch(deletePersonFNF(info))
+        },
+        getPersonFNF: (info)=>{
+            dispatch(getPersonFNF(info))
         }
     }
 }

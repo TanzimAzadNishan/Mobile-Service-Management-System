@@ -2,10 +2,10 @@ const executeQuery = require('../Database/queryIntoDB')
 
 module.exports = function(sio){
     sio.on("connection", (socket) => {
-        //console.log('made socket connection ',socket.id)
+        console.log('made socket connection ',socket.id)
 
         socket.on('socket-connection', (data)=>{
-            //console.log('establisihing connection...', data.userAuth)
+            console.log('establisihing connection...', data.userAuth)
 
             SocketQuery = 
             `

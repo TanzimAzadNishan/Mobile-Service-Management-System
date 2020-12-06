@@ -123,9 +123,13 @@ class History extends Component{
 
                 flag = 1;
                 const recHistory = history.map(hist => {
+                    console.log(JSON.stringify(hist.TIME_SLOT))
                     var date = (hist.TIME_SLOT).toString().replace("T"," ").replace(".000Z","");
                     var type = 'Sent';
-                    if(hist.RECHARGE_TYPE === 'r'){type = 'Received'}
+                    //if(hist.RECHARGE_TYPE === 'r'){type = 'Received'}
+                    if(hist.RECHARGE_TYPE === 'i'){
+                        type = 'Received'
+                    }
                     flag = flag^1;
                     if(hist.HISTORY_TYPE === 'rec'){
                         return(

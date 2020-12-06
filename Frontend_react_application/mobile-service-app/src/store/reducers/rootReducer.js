@@ -10,6 +10,8 @@ import connectionReducer from './Service/connectionReducer'
 import historyReducer from './historyReducer'
 import fnfReducer from './Service/fnfReducer'
 import feedbackReducer from './Service/feedbackReducer'
+import rechargeReducer from './Service/rechargeReducer'
+import personFNFReducer from './Service/personFNFReducer'
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -21,7 +23,9 @@ const rootReducer = combineReducers({
     flexiplan: flexiplanReducer,
     connectWithOthers: connectionReducer,
     history: historyReducer,
-    feedback: feedbackReducer
+    feedback: feedbackReducer,
+    recharge: rechargeReducer,
+    personFNF: personFNFReducer
 })
 
 export default rootReducer

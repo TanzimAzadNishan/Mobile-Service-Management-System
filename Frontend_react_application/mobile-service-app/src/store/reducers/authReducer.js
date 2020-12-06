@@ -61,6 +61,7 @@ const authReducer = (state = initState, action)=>{
         localStorage.removeItem('originalPassword')        
         localStorage.removeItem('connectionList')        
         localStorage.removeItem('socketId')        
+        localStorage.removeItem('personFNFList')        
 
         //location.reload()
         return{

@@ -146,6 +146,9 @@
 .user-dashboard .fnf-part{
     grid-column: 20/25;
 }
+.user-dashboard .fnf-part .card{
+    max-height: 230px;
+}
 .user-dashboard .fnf-part .card-content{
     padding: 0px;
     padding-bottom: 24px;
@@ -169,7 +172,170 @@
     padding-top: 10px;
     padding-left: 24px;
 }
+.user-dashboard .fnf-part .card-action{
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+}
+.user-dashboard .fnf-part .add-fnf{
+    grid-column: 1/4;
+    font-size: 0.9rem;
+    font-weight: 400;
+    height: 30px;
+    justify-self: center;
+    border: 1px solid #02575B;
+    background: #02575B;
+    color: white;
+    cursor: pointer;
+}
+.user-dashboard .fnf-part .add-fnf:hover{
+    background: green;
+}
+.user-dashboard .fnf-part .show-fnf{
+    grid-column: 4/7;
+    font-size: 0.9rem;
+    font-weight: 400;
+    height: 30px;
+    justify-self: center;
+    border: 1px solid #480B77;
+    background: #480B77;
+    color: white;
+    cursor: pointer;
+}
+.user-dashboard .fnf-part .show-fnf:hover{
+    background: darkviolet;
+}
 
+/*-------------- show-fnf-modal ------------------------------*/
+
+.show-fnf-modal{
+    height: 50%;
+    width: 40%;
+    margin-top: 15%;
+    margin-left: 35%;
+    padding-top: 1.5%;
+    padding-bottom: 2%;
+    background: white;
+}
+.show-fnf-modal .modal-title{
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #421c05;
+    margin-bottom: 5%;
+}
+.show-fnf-modal .btn-part{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    margin-top: 3%;
+}
+.show-fnf-modal .exit-btn{
+    grid-column: 3/5;
+    justify-self: center;
+    background: #C70039;
+    margin-bottom: 7%;
+}
+.show-fnf-modal .exit-btn:hover{
+    background: red;
+}
+.show-fnf-modal .fnf-list{
+    padding-left: 5%;
+    padding-right: 5%;
+    height: 140px;
+    overflow-y: scroll;
+}
+.show-fnf-modal .fnf-list::-webkit-scrollbar {
+    display: none;
+}
+.show-fnf-modal .single-item{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    margin-bottom: 15px;
+}
+.show-fnf-modal .single-item .mob-num{
+    grid-column: 1/2;
+    color: #900C3F;
+    font-size: 1.15rem;
+    font-weight: 500;
+}
+.show-fnf-modal .single-item .name{
+    grid-column: 2/5;
+    color: #3F91BE;
+    font-size: 1.15rem;
+    font-weight: 500;
+    padding-left: 5%;
+}
+.show-fnf-modal .single-item .delete-btn{
+    grid-column: 5/7;
+    background: #C70039 ;
+    justify-self: end;
+    display: none;
+}
+.show-fnf-modal .single-item .delete-btn:hover{
+    background: #FF5733;
+}
+.show-fnf-modal .single-item:hover .delete-btn{
+    display: block;
+    cursor: pointer;
+}
+.show-fnf-modal .fnf-list .no-fnf{
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #FF5733;
+    text-align: center;
+    /*padding-left: 10%;*/
+}
+.show-fnf-modal .fnf-num-reminder{
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #675923;
+    text-align: center;
+}
+
+
+/*-------------- add-fnf-modal ------------------------------*/
+
+.add-fnf-modal{
+    height: 40%;
+    width: 30%;
+    margin-top: 15%;
+    margin-left: 35%;
+    padding-top: 3%;
+    padding-bottom: 2%;
+    background: white;
+}
+.add-fnf-modal .modal-title{
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #421c05;
+    margin-bottom: 4%;
+}
+.add-fnf-modal .input-field{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.add-fnf-modal .btn-part{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    margin-top: 10%;
+}
+.add-fnf-modal .exit-btn{
+    grid-column: 4/6;
+    justify-self: center;
+    background: #C70039;
+}
+.add-fnf-modal .exit-btn:hover{
+    background: red;
+}
+.add-fnf-modal .add-btn{
+    grid-column: 2/4;
+    justify-self: center;
+    background: #3C6DB4;
+}
+.add-fnf-modal .add-btn:hover{
+    background: #3F91BE;
+}
 
 
 /*---------------------account-summary----------------------------------*/
