@@ -71,30 +71,30 @@ const initialState = {
     },
     newOffer: {
         new_offer_ID: '',
-        new_offer_money: '',
-        new_offer_validity: '',
-        new_offer_pts: '',
-        new_offer_bns_pts: '',
-        new_offer_int: '',
-        new_offer_bns_int: '',
-        new_offer_talktime: '',
-        new_offer_bns_talktime: '',
-        new_offer_sms: '',
-        new_offer_bns_sms: '',
+        new_offer_money: '0',
+        new_offer_validity: '0',
+        new_offer_pts: '0',
+        new_offer_bns_pts: '0',
+        new_offer_int: '0',
+        new_offer_bns_int: '0',
+        new_offer_talktime: '0',
+        new_offer_bns_talktime: '0',
+        new_offer_sms: '0',
+        new_offer_bns_sms: '0',
         new_offer_setter: ''
     },
     editedOffer: {
         edited_offer_ID: '',
-        edited_offer_money: '',
-        edited_offer_validity: '',
-        edited_offer_pts: '',
-        edited_offer_bns_pts: '',
-        edited_offer_int: '',
-        edited_offer_bns_int: '',
-        edited_offer_talktime: '',
-        edited_offer_bns_talktime: '',
-        edited_offer_sms: '',
-        edited_offer_bns_sms: '',
+        edited_offer_money: '0',
+        edited_offer_validity: '0',
+        edited_offer_pts: '0',
+        edited_offer_bns_pts: '0',
+        edited_offer_int: '0',
+        edited_offer_bns_int: '0',
+        edited_offer_talktime: '0',
+        edited_offer_bns_talktime: '0',
+        edited_offer_sms: '0',
+        edited_offer_bns_sms: '0',
         edited_offer_setter: ''
     }
 }
@@ -114,6 +114,7 @@ class AdminDashboard extends Component {
         this.closeFeedbackModal = this.closeFeedbackModal.bind(this);
         this.closeFeedbackModalOpenSentModal = this.closeFeedbackModalOpenSentModal.bind(this);
         this.closeSentModal = this.closeSentModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     componentDidMount(){ 
@@ -140,6 +141,11 @@ class AdminDashboard extends Component {
     }
 
     state = initialState
+
+    closeModal(){
+        this.setState({activeModal : ''}) 
+        this.props.retrieveAdminInfo(this.props.auth)
+    }
 
     openPkgModal (name,callRate,SMSRate,fnfno) {
         this.setState(
@@ -390,12 +396,9 @@ class AdminDashboard extends Component {
 
     handleNewPkgSubmit = (e)=>{
         e.preventDefault();
-        //this.state.newPkg.new_pkg_setter = this.state.auth.NID
-        //console.log(this.state.newPkg)
-        
         this.props.setNewPackage(this.state.newPkg)
         this.setState(
-            {activeModal:'',
+            {activeModal:'msg',
             newPkg: {...this.state.newPkg,
                 new_pkg_name: '',
                 new_pkg_callrate: '',
@@ -403,8 +406,7 @@ class AdminDashboard extends Component {
                 new_pkg_fnfno: ''
                 }
             }
-            ); 
-            this.props.retrieveAdminInfo(this.props.auth)
+            );
     }
 
     handleNewPkgChange = (e)=>{
@@ -415,12 +417,9 @@ class AdminDashboard extends Component {
 
     handleEditPkgSubmit = (e)=>{
         e.preventDefault();
-        //this.state.newPkg.new_pkg_setter = this.state.auth.NID
-        //console.log(this.state.newPkg)
-        console.log(this.state.editPkg)
         this.props.editPackage(this.state.editPkg)
         this.setState(
-            {activeModal:'',
+            {activeModal:'msg',
             editPkg: {...this.state.editPkg,
                 edit_pkg_name: '',
                 edit_pkg_callrate: '',
@@ -428,8 +427,7 @@ class AdminDashboard extends Component {
                 edit_pkg_fnfno: ''
                 }
             }
-            ); 
-            this.props.retrieveAdminInfo(this.props.auth)
+            );
     }
 
     handleEditPkgChange = (e)=>{
@@ -441,7 +439,7 @@ class AdminDashboard extends Component {
     deletePkg(){
         this.props.deletePackage(this.state.editPkg)
         this.setState(
-            {activeModal:'',
+            {activeModal:'msg',
             editPkg: {...this.state.editPkg,
                 edit_pkg_name: '',
                 edit_pkg_callrate: '',
@@ -450,24 +448,20 @@ class AdminDashboard extends Component {
                 }
             }
             );
-            this.props.retrieveAdminInfo(this.props.auth)
     }
 
     handleNewfnfSubmit = (e)=>{
         e.preventDefault();
-        //this.state.newPkg.new_pkg_setter = this.state.auth.NID
-        //console.log(this.state.newPkg)
         this.props.setNewfnf(this.state.newfnf)
         this.setState(
-            {activeModal:'',
+            {activeModal:'msg',
             newfnf: {...this.state.newfnf,
                 new_fnf_type: '',
                 new_fnf_callrate: '',
                 new_fnf_smsrate: ''
                 }
             }
-            ); 
-            this.props.retrieveAdminInfo(this.props.auth)
+            );
     }
 
     handleNewfnfChange = (e)=>{
@@ -478,11 +472,9 @@ class AdminDashboard extends Component {
 
     handleEditfnfSubmit = (e)=>{
         e.preventDefault();
-        //this.state.newPkg.new_pkg_setter = this.state.auth.NID
-        console.log(this.state.editfnf)
         this.props.editFnf(this.state.editfnf)
         this.setState(
-            {activeModal:'',
+            {activeModal:'msg',
             editfnf: {...this.state.editfnf,
                 edit_fnf_type: '',
                 edit_fnf_callrate: '',
@@ -490,7 +482,6 @@ class AdminDashboard extends Component {
                 }
             }
             ); 
-            this.props.retrieveAdminInfo(this.props.auth)
     }
 
     handleEditfnfChange = (e)=>{
@@ -500,10 +491,9 @@ class AdminDashboard extends Component {
     }
 
     deletefnf(){
-        console.log(this.state.editfnf)
         this.props.deletefnf(this.state.editfnf)
         this.setState(
-            {activeModal:'',
+            {activeModal:'msg',
             editfnf: {...this.state.editfnf,
                 edit_fnf_type: '',
                 edit_fnf_callrate: '',
@@ -511,33 +501,28 @@ class AdminDashboard extends Component {
                 }
             }
             );
-            this.props.retrieveAdminInfo(this.props.auth)
     }
 
     handleNewOfferSubmit = (e)=>{
         e.preventDefault();
-        //this.state.newPkg.new_pkg_setter = this.state.auth.NID
-        //console.log(this.state.newPkg)
-        
         this.props.setNewOffer(this.state.newOffer)
         this.setState(
-            {activeModal:'',
+            {activeModal:'msg',
             newOffer: {...this.state.newOffer,
                 new_offer_ID: '',
-                new_offer_money: '',
-                new_offer_validity: '',
-                new_offer_pts: '',
-                new_offer_bns_pts: '',
-                new_offer_int: '',
-                new_offer_bns_int: '',
-                new_offer_talktime: '',
-                new_offer_bns_talktime: '',
-                new_offer_sms: '',
-                new_offer_bns_sms: ''
+                new_offer_money: '0',
+                new_offer_validity: '0',
+                new_offer_pts: '0',
+                new_offer_bns_pts: '0',
+                new_offer_int: '0',
+                new_offer_bns_int: '0',
+                new_offer_talktime: '0',
+                new_offer_bns_talktime: '0',
+                new_offer_sms: '0',
+                new_offer_bns_sms: '0'
                 }
             }
-            ); 
-            this.props.retrieveAdminInfo(this.props.auth)
+            );
     }
 
     handleNewOfferChange = (e)=>{
@@ -548,28 +533,24 @@ class AdminDashboard extends Component {
 
     handleEditOfferSubmit = (e)=>{
         e.preventDefault();
-        //this.state.newPkg.new_pkg_setter = this.state.auth.NID
-        //console.log(this.state.newPkg)
-        console.log(this.state.editedOffer)
         this.props.editOffer(this.state.editedOffer)
         this.setState(
-            {activeModal:'',
+            {activeModal:'msg',
             editedOffer: {...this.state.editedOffer,
                 edited_offer_ID: '',
-                edited_offer_money: '',
-                edited_offer_validity: '',
-                edited_offer_pts: '',
-                edited_offer_bns_pts: '',
-                edited_offer_int: '',
-                edited_offer_bns_int: '',
-                edited_offer_talktime: '',
-                edited_offer_bns_talktime: '',
-                edited_offer_sms: '',
-                edited_offer_bns_sms: ''
+                edited_offer_money: '0',
+                edited_offer_validity: '0',
+                edited_offer_pts: '0',
+                edited_offer_bns_pts: '0',
+                edited_offer_int: '0',
+                edited_offer_bns_int: '0',
+                edited_offer_talktime: '0',
+                edited_offer_bns_talktime: '0',
+                edited_offer_sms: '0',
+                edited_offer_bns_sms: '0'
                 }
             }
-            ); 
-            this.props.retrieveAdminInfo(this.props.auth)
+            );
     }
 
     handleEditOfferChange = (e)=>{
@@ -581,23 +562,22 @@ class AdminDashboard extends Component {
     deleteOffer(){
         this.props.deleteOffer(this.state.editedOffer)
         this.setState(
-            {activeModal:'',
+            {activeModal:'msg',
             editedOffer: {...this.state.editedOffer,
                 edited_offer_ID: '',
-                edited_offer_money: '',
-                edited_offer_validity: '',
-                edited_offer_pts: '',
-                edited_offer_bns_pts: '',
-                edited_offer_int: '',
-                edited_offer_bns_int: '',
-                edited_offer_talktime: '',
-                edited_offer_bns_talktime: '',
-                edited_offer_sms: '',
-                edited_offer_bns_sms: ''
+                edited_offer_money: '0',
+                edited_offer_validity: '0',
+                edited_offer_pts: '0',
+                edited_offer_bns_pts: '0',
+                edited_offer_int: '0',
+                edited_offer_bns_int: '0',
+                edited_offer_talktime: '0',
+                edited_offer_bns_talktime: '0',
+                edited_offer_sms: '0',
+                edited_offer_bns_sms: '0'
                 }
             }
             );
-            this.props.retrieveAdminInfo(this.props.auth)
     }
 
     disableButton = ()=>{
@@ -737,7 +717,14 @@ class AdminDashboard extends Component {
             console.log('feedback list: ', feedbackList)
 
         return (
+            
             <div className = "main-divs">
+                    <Modal className = "fnf-details-modal" isOpen={this.state.activeModal === 'msg'} ariaHideApp={false}>
+                        <div>
+                            {this.props.msg}
+                        </div>
+                            <button className ='btn red waves-effect waves-light close-fnf-modal' onClick = {() => this.closeModal()}>Exit</button>
+                    </Modal>
                 <div className="admin-dashboard-title">
                     Admin Dashboard
                 </div> 
@@ -1295,6 +1282,7 @@ const mapStateToProps = (state) => {
       packageInfo : state.adminDashboard.packageInfo,
       fnfInfo : state.adminDashboard.fnfInfo,
       offerInfo : state.adminDashboard.offerInfo,
+      msg: state.adminDashboard.msg,
       userAuth: state.auth.auth,
       adminFeedbackList: state.adminDashboard.adminFeedbackList
     }

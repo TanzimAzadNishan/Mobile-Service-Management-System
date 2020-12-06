@@ -1,5 +1,6 @@
 const insertOperation = require('../../Database/insertOperation')
 const executeQuery = require('../../Database/queryIntoDB')
+const oracledb = require('oracledb')
 
 module.exports = function(app){
     app.post('/admin/get-info', (req, res)=>{
@@ -83,11 +84,39 @@ module.exports = function(app){
         INSERT INTO PACKAGE (PKG_NAME,CALL_RATE,SMS_RATE,FNF_NUM,SETTER_ID)
         VALUES(:name, :callrate, :smsrate, :fnfno, :NID)
         `
-        insertOperation(setNewPackageQuery,newPkg)
-        .then((pkgError)=>{
-            if(!pkgError){
-            res.json({serverMsg: 'new package set'})}
-            else{res.json({serverMsg: 'package already exists'})}
+
+        validatePkg = {
+            callrate: req.body.new_pkg_callrate,
+            smsrate: req.body.new_pkg_smsrate,
+            fnfno: req.body.new_pkg_fnfno,
+            ret: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
+        }
+
+        validatePkgFunc = 
+        `
+        BEGIN
+            :ret := IS_VALID_VALUE_PKG(:callrate, :smsrate, :fnfno);
+        END;
+        `
+
+        executeQuery(validatePkgFunc, validatePkg)
+        .then((result)=>{
+            if(result.outBinds.ret === 'YES'){
+                console.log('values are valid')
+                insertOperation(setNewPackageQuery,newPkg)
+                .then((pkgError)=>{
+                    if(!pkgError){
+                        console.log('pkg set')
+                    res.json({serverMsg: 'new package set'})}
+                    else{
+                        console.log('pkg not set')
+                        res.json({serverMsg: 'package already exists'})}
+                })
+            }
+            else if(result.outBinds.ret === 'NO'){
+                console.log('values are invalid')
+                res.json({serverMsg: 'Invalid values. Please check again'})
+            }
         })
     })
 
@@ -107,10 +136,35 @@ module.exports = function(app){
         SET CALL_RATE = :callrate, SMS_RATE = :smsrate, FNF_NUM = :fnfno, SETTER_ID  = :NID
         WHERE PKG_NAME = :name
         `
-        executeQuery(editPackageQuery,editPkg)
-        .then(()=>{
-            res.json({serverMsg: 'package edited'})
+
+        validatePkg = {
+            callrate: req.body.edit_pkg_callrate,
+            smsrate: req.body.edit_pkg_smsrate,
+            fnfno: req.body.edit_pkg_fnfno,
+            ret: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
+        }
+
+        validatePkgFunc = 
+        `
+        BEGIN
+            :ret := IS_VALID_VALUE_PKG(:callrate, :smsrate, :fnfno);
+        END;
+        `
+
+        executeQuery(validatePkgFunc, validatePkg)
+        .then((result)=>{
+            if(result.outBinds.ret === 'YES'){
+                console.log('values are valid')
+                executeQuery(editPackageQuery,editPkg)
+                .then(()=>{
+                    res.json({serverMsg: 'package edited'})
+                })}
+            else if(result.outBinds.ret === 'NO'){
+                console.log('values are invalid')
+                res.json({serverMsg: 'Invalid values. Please check again'})
+            }
         })
+   
     })
 
     app.post('/admin/delete-package',(req,res)=>{
@@ -149,12 +203,38 @@ module.exports = function(app){
         INSERT INTO FNF (FNF_TYPE,CALL_RATE,SMS_RATE)
         VALUES(:name, :callrate, :smsrate)
         `
-        insertOperation(setNewfnfQuery,newfnf)
-        .then((fnfError)=>{
-            if(!fnfError){
-            res.json({serverMsg: 'new fnf set'})}
-            else{res.json({serverMsg: 'fnf already exists'})}
+
+        validatefnf = {
+            callrate: req.body.new_fnf_callrate,
+            smsrate: req.body.new_fnf_smsrate,
+            ret: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
+        }
+
+        validatefnfFunc = 
+        `
+        BEGIN
+            :ret := IS_VALID_VALUE_FNF(:callrate, :smsrate);
+        END;
+        `
+
+        executeQuery(validatefnfFunc, validatefnf)
+        .then((result)=>{
+            if(result.outBinds.ret === 'YES'){
+                console.log('values are valid')
+                insertOperation(setNewfnfQuery,newfnf)
+                .then((fnfError)=>{
+                    if(!fnfError){
+                    res.json({serverMsg: 'new fnf set'})}
+                    else{res.json({serverMsg: 'fnf already exists'})}
         })
+            }
+            else if(result.outBinds.ret === 'NO'){
+                console.log('values are invalid')
+                res.json({serverMsg: 'Invalid values. Please check again'})
+            }
+        })
+
+        
     })
 
     app.post('/admin/edit-fnf',(req,res)=>{
@@ -171,11 +251,34 @@ module.exports = function(app){
         SET CALL_RATE = :callrate, SMS_RATE = :smsrate
         WHERE FNF_TYPE = :name
         `
-        executeQuery(editfnfQuery,editfnf)
-        .then(()=>{
-            console.log('fnf edited')
-            res.json({serverMsg: 'fnf edited'})
+
+        validatefnf = {
+            callrate: req.body.edit_fnf_callrate,
+            smsrate: req.body.edit_fnf_smsrate,
+            ret: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
+        }
+
+        validatefnfFunc = 
+        `
+        BEGIN
+            :ret := IS_VALID_VALUE_FNF(:callrate, :smsrate);
+        END;
+        `
+        executeQuery(validatefnfFunc, validatefnf)
+        .then((result)=>{
+            if(result.outBinds.ret === 'YES'){
+                console.log('values are valid')
+                executeQuery(editfnfQuery,editfnf)
+                .then(()=>{
+                    console.log('fnf edited')
+                    res.json({serverMsg: 'fnf edited'})
+                })}
+            else if(result.outBinds.ret === 'NO'){
+                console.log('values are invalid')
+                res.json({serverMsg: 'Invalid values. Please check again'})
+            }
         })
+
     })
 
     app.post('/admin/delete-fnf',(req,res)=>{
@@ -194,7 +297,6 @@ module.exports = function(app){
     })
 
     app.post('/admin/set-new-offer',(req,res)=>{
-        console.log('hello')
         console.log(req.body)
         newOffer = {
             id: req.body.new_offer_ID,
@@ -216,17 +318,49 @@ module.exports = function(app){
         INSERT INTO OFFER (OFFER_ID, SETTER_ID, MONEY, VALIDITY, EARNED_PTS, INT_BAL, BONUS_INT_BAL, BONUS_PTS, MIN_BAL, BONUS_MIN_BAL, SMS_BAL, BONUS_SMS)
         VALUES(:id, :setter, :money, :validity, :pts, :int, :bnsint, :bnspts, :talktime, :bnstalktime, :sms, :bnssms)
         `
-        insertOperation(setNewOfferQuery,newPkg)
-        .then((offerError)=>{
-            if(!offerError){
-            res.json({serverMsg: 'new offer set'})}
-            else{res.json({serverMsg: 'offer already exists'})}
+
+        validateOffer = {
+            money: req.body.new_offer_money,
+            validity: req.body.new_offer_validity,
+            pts: req.body.new_offer_pts,
+            bnspts: req.body.new_offer_bns_pts,
+            int: req.body.new_offer_int,
+            bnsint: req.body.new_offer_bns_int,
+            talktime: req.body.new_offer_talktime,
+            bnstalktime: req.body.new_offer_bns_talktime,
+            sms: req.body.new_offer_sms,
+            bnssms: req.body.new_offer_bns_sms,
+            ret: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
+        }
+
+        validateOfferFunc = 
+        `
+        BEGIN
+            :ret := IS_VALID_VALUE_OFFER(:money, :validity, :pts, :bnspts, :int, :bnsint, :talktime, :bnstalktime,:sms, :bnssms);
+        END;
+        `
+
+        executeQuery(validateOfferFunc, validateOffer)
+        .then((result)=>{
+            if(result.outBinds.ret === 'YES'){
+                console.log('values are valid')
+                insertOperation(setNewOfferQuery,newOffer)
+                .then((offerError)=>{
+                    if(!offerError){
+                    res.json({serverMsg: 'new offer set'})}
+                    else{res.json({serverMsg: 'offer already exists'})}
+                })
+            }
+            else if(result.outBinds.ret === 'NO'){
+                console.log('values are invalid')
+                res.json({serverMsg: 'Invalid values. Please check again'})
+            }
         })
+
     })
 
     app.post('/admin/edit-offer',(req,res)=>{
         console.log(req.body)
-        //console.log('hello')
         editedOffer = {
             id: req.body.edited_offer_ID,
             money: req.body.edited_offer_money,
@@ -248,10 +382,40 @@ module.exports = function(app){
         SET SETTER_ID = :setter, MONEY = :money, VALIDITY = :validity, EARNED_PTS = :pts, INT_BAL = :int, BONUS_INT_BAL = :bnsint, BONUS_PTS = :bnspts, MIN_BAL = :talktime, BONUS_MIN_BAL = :bnstalktime, SMS_BAL = :sms, BONUS_SMS = :bnssms
         WHERE OFFER_ID = :id
         `
-        //console.log('hello')
-        executeQuery(editOfferQuery,editedOffer)
-        .then(()=>{
-            res.json({serverMsg: 'Offer edited'})
+        
+        validateOffer = {
+            money: req.body.edited_offer_money,
+            validity: req.body.edited_offer_validity,
+            pts: req.body.edited_offer_pts,
+            bnspts: req.body.edited_offer_bns_pts,
+            int: req.body.edited_offer_int,
+            bnsint: req.body.edited_offer_bns_int,
+            talktime: req.body.edited_offer_talktime,
+            bnstalktime: req.body.edited_offer_bns_talktime,
+            sms: req.body.edited_offer_sms,
+            bnssms: req.body.edited_offer_bns_sms,
+            ret: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
+        }
+
+        validateOfferFunc = 
+        `
+        BEGIN
+            :ret := IS_VALID_VALUE_OFFER(:money, :validity, :pts, :bnspts, :int, :bnsint, :talktime, :bnstalktime,:sms, :bnssms);
+        END;
+        `
+
+        executeQuery(validateOfferFunc, validateOffer)
+        .then((result)=>{
+            if(result.outBinds.ret === 'YES'){
+                console.log('values are valid')
+                executeQuery(editOfferQuery,editedOffer)
+                .then(()=>{
+                    res.json({serverMsg: 'Offer edited'})
+                })}
+            else if(result.outBinds.ret === 'NO'){
+                console.log('values are invalid')
+                res.json({serverMsg: 'Invalid values. Please check again'})
+            }
         })
     })
 

@@ -5,12 +5,17 @@ const initstate = {
     fnfInfo: null,
     offerInfo: null,
     adminSocketId: null,
-    adminFeedbackList: null
+    adminFeedbackList: null,
+    msg: null
 }
 
 const adminDashboardReducer = (state = initstate, action)=>{
     const socketIdInStore = localStorage.getItem('adminSocketId')
     const adminFeedbackListInStore = localStorage.getItem('adminFeedbackList')
+    const feedSubDataInStore = localStorage.getItem('feed_sub')
+    const packageDataInStore = localStorage.getItem('packages')
+    const fnfDataInStore = localStorage.getItem('fnfs')
+    const offerDataInStore = localStorage.getItem('offers')
     
     if(action.type === 'RETRIEVE_ADMIN_ACCOUNT_DETAILS'){
         console.log('admin details retrieved')
@@ -55,11 +60,32 @@ const adminDashboardReducer = (state = initstate, action)=>{
         }
     }
 
+    else if( action.type === 'SET_NEW_PACKAGE' || 
+            action.type === 'EDIT_PACKAGE' ||
+            action.type === 'DELETE_PACKAGE' ||
+            action.type === 'SET_NEW_FNF' ||
+            action.type === 'EDIT_FNF' ||
+            action.type === 'DELETE_FNF' ||
+            action.type === 'SET_NEW_OFFER' ||
+            action.type === 'EDIT_OFFER' ||
+            action.type === 'DELETE_OFFER'){
+        return{
+            ...state,
+            msg: action.msg
+        }
+    }
+
     return{
         ...state,
+        msg: null,
+        adminFeedInfo: feedSubDataInStore ? JSON.parse(feedSubDataInStore) : null,
+        packageInfo: packageDataInStore ? JSON.parse(packageDataInStore) : null,
+        fnfInfo: fnfDataInStore ? JSON.parse(fnfDataInStore) : null,
+        offerInfo: offerDataInStore ? JSON.parse(offerDataInStore) : null,
         adminSocketId: socketIdInStore ? JSON.parse(socketIdInStore) : null,
         adminFeedbackList: adminFeedbackListInStore ? 
-            JSON.parse(adminFeedbackListInStore) : null
+            JSON.parse(adminFeedbackListInStore) : null,
+
     }
 }
 
