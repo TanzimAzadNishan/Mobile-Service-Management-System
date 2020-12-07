@@ -1,0 +1,132 @@
+.top-container{
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.top-image{
+    height: 500px;
+    width: 100%;
+    margin-top: 3%;
+}
+
+.top-text{
+    position: absolute;
+    bottom: 16px;
+    left: 32px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.pkg-fnf-div{
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+    grid-auto-rows: 220px;
+    margin-top: 5%;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25%;
+}
+
+.pkg-card{
+    grid-column: 2/15;
+    width: 100%;
+    height: 450px;
+}
+
+.pkg-card .card-image .card-title{
+    color: black;
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+.pkg-card .card-footer{
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding-left: 3%;
+}
+
+.fnf-card{
+    grid-column: 17/30;
+    width: 100%;
+    height: 450px;
+}
+
+.fnf-card .card-image .card-title{
+    color: black;
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+.fnf-card .card-footer{
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding-left: 3%;
+}
+
+.offer-plan-div{
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+    margin-top: 5%;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10%;
+}
+
+.offer-card{
+    grid-column: 2/15;
+    width: 100%;
+    height: 400px;
+}
+
+.offer-card .card-image .card-title{
+    color: black;
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+.offer-card .card-footer{
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding-left: 3%;
+}
+
+.plan-card{
+    grid-column: 17/30;
+    width: 100%;
+    height: 400px;
+}
+
+.plan-card .card-image .card-title{
+    color: black;
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+.plan-card .card-footer{
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding-left: 3%;
+}
+
+.home-footer{
+    background: rgb(230, 220, 220);
+    height: 220px;
+    width: 100%;
+}
+
+.footer-links{
+    padding-top: 1%;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.links{
+    margin: 3%;
+    color: black;
+}

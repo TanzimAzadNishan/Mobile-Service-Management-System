@@ -13,7 +13,7 @@
     text-align: center;
     font-size: 2rem;
     font-weight: 600;
-    color: rgb(235, 62, 105);
+    color: rgb(155, 2, 2);
 }
 
 .part{
@@ -34,7 +34,9 @@
     border-radius: 5px;
     padding-top: 0px;
     padding-bottom: 0px;
-    background-color: rgb(248, 225, 225);
+    background-color: white;
+    border: 3px solid rgb(155, 2, 2);
+    color:  rgb(155, 2, 2);
 }
 
 .internet-upper{
@@ -62,25 +64,32 @@
     width: 120px;
     font-size: 1.5rem;
     font-weight: 450;
-    background: lavender;
+    background: rgb(250, 232, 230);
     border: 1px solid black;
     text-align: center;
     border-radius: 5%;
 }
 
 .option-button-internet{
-    background: rgb(236, 181, 181);
+    background: white;
     margin: 1.7%;
     border-radius: 50%;
-    width: 6%;
+    width: 6.3%;
     height: 115%;
-    border: 1px solid red;
+    border: 2px solid rgb(155, 2, 2);
     text-decoration: none;
     font-weight: 450;
 }
 
 .option-button-internet:focus{
-    background: rgb(241, 94, 94);
+    background: rgb(155, 2, 2);
+    border: 2px solid rgb(0, 0, 0);
+    color: white;
+}
+.option-button-internet:hover{
+    background: rgb(136, 50, 50);
+    border: 2px solid rgb(0, 0, 0);
+    color: white;
 }
 
 
@@ -90,7 +99,9 @@
     grid-column: 25/31;
     display: grid;
     grid-template-rows: repeat(30,1fr);
-    background-color: rgb(248, 225, 225);
+    background: white;
+    border: 3px solid rgb(155, 2, 2);
+    color:  rgb(155, 2, 2);
     height: 280px;
     padding: 5px;
 }
@@ -114,23 +125,41 @@
     text-align: center;
     font-size: 1.3rem;
     font-weight: 300;
+    background: cornsilk;
 }
 
 .buy-plan{
-    background:rgb(235, 72, 72);
+    background: cornsilk;
+    border: 2px solid rgb(155, 2, 2);
     margin: 15px;
     padding: 3px;
     margin-left: 45px;
     text-align: center;
     font-size: 1.5rem;
     font-weight: 600;
-    color: cornsilk;
     cursor: grab;
     width: 150px;
 }
 
+.buy-plan:focus{
+    background: rgb(155, 2, 2);
+    border: 2px solid rgb(0, 0, 0);
+    color: white;
+}
+.buy-plan:hover{
+    background: rgb(136, 50, 50);
+    border: 2px solid rgb(0, 0, 0);
+    color: white;
+}
+
 .buy-plan:disabled{
     background: gray;
+    color: black;
+}
+
+.buy-plan:disabled:hover{
+    background: gray;
+    color: black;
 }
 
 .confirmation-modal{
@@ -160,6 +189,9 @@
     padding-top: 0px;
     padding-bottom: 0px;
     background-color: rgb(248, 225, 225);
+    background-color: white;
+    border: 3px solid rgb(155, 2, 2);
+    color:  rgb(155, 2, 2);
 }
 
 .talktime-upper{
@@ -187,25 +219,33 @@
     width: 120px;
     font-size: 1.5rem;
     font-weight: 450;
-    background: lavender;
+    background: rgb(250, 232, 230);
     border: 1px solid black;
     text-align: center;
     border-radius: 5%;
 }
 
 .option-button-talktime{
-    background: rgb(236, 181, 181);
+    background: white;
     margin: 1.7%;
     border-radius: 50%;
     width: 9%;
     height: 140%;
-    border: 1px solid red;
+    border: 2px solid rgb(155, 2, 2);
     text-decoration: none;
     font-weight: 450;
 }
 
 .option-button-talktime:focus{
-    background: rgb(241, 94, 94);
+    background: rgb(155, 2, 2);
+    border: 2px solid rgb(0, 0, 0);
+    color: white;
+}
+
+.option-button-talktime:hover{
+    background: rgb(136, 50, 50);
+    border: 2px solid rgb(0, 0, 0);
+    color: white;
 }
 
 /*----sms part-----*/
@@ -217,7 +257,9 @@
     border-radius: 5px;
     padding-top: 0px;
     padding-bottom: 0px;
-    background-color: rgb(248, 225, 225);
+    background-color: white;
+    border: 3px solid rgb(155, 2, 2);
+    color:  rgb(155, 2, 2);
 }
 
 .sms-upper{
@@ -245,25 +287,33 @@
     width: 120px;
     font-size: 1.5em;
     font-weight: 450;
-    background: lavender;
+    background: rgb(250, 232, 230);
     border: 1px solid black;
     text-align: center;
     border-radius: 5%;
 }
 
 .option-button-sms{
-    background: rgb(236, 181, 181);
+    background: white;
     margin: 1.7%;
     border-radius: 50%;
     width: 9%;
     height: 140%;
-    border: 1px solid red;
+    border: 2px solid rgb(155, 2, 2);
     text-decoration: none;
     font-weight: 450;
 }
 
 .option-button-sms:focus{
-    background: rgb(241, 94, 94);
+    background: rgb(155, 2, 2);
+    border: 2px solid rgb(0, 0, 0);
+    color: white;
+}
+
+.option-button-sms:hover{
+    background: rgb(136, 50, 50);
+    border: 2px solid rgb(0, 0, 0);
+    color: white;
 }
 
 /*----validity part-----*/
@@ -275,7 +325,9 @@
     border-radius: 5px;
     padding-top: 0px;
     padding-bottom: 0px;
-    background-color: rgb(248, 225, 225);
+    background-color: white;
+    border: 3px solid rgb(155, 2, 2);
+    color:  rgb(155, 2, 2);
 }
 
 .validity-upper{
@@ -303,18 +355,18 @@
     width: 120px;
     font-size: 1.5rem;
     font-weight: 450;
-    background: lavender;
+    background: rgb(250, 232, 230);
     border: 1px solid black;
     text-align: center;
     border-radius: 5%;
 }
 
 .option-button-validity{
-    background: rgb(236, 181, 181);
+    background: white;
     border-radius: 50%;
     width: 11%;
     height: 350%;
-    border: 1px solid red;
+    border: 2px solid rgb(155, 2, 2);
     text-decoration: none;
     font-weight: 450;
     margin-left: 2.8%;
@@ -322,7 +374,14 @@
 }
 
 .option-button-validity:focus{
-    background: rgb(241, 94, 94);
+    background: rgb(155, 2, 2);
+    border: 2px solid rgb(0, 0, 0);
+    color: white;
+}
+.option-button-validity:hover{
+    background: rgb(136, 50, 50);
+    border: 2px solid rgb(0, 0, 0);
+    color: white;
 }
 
 
