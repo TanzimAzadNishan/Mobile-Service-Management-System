@@ -133,11 +133,12 @@ class Navbar extends Component{
             this.props.updateAccountInfo(res.accountInfo)
         })
         socket.on('someone-calling', (res)=>{
-            localStorage.setItem('lastTalktimeId', JSON.stringify(res.lastTalktimeId))
+            //localStorage.setItem('lastTalktimeId', JSON.stringify(res.lastTalktimeId))
             
             if(localStorage.getItem('inacall') === null || 
                 localStorage.getItem('inacall') === 'false'){
 
+                localStorage.setItem('lastTalktimeId', JSON.stringify(res.lastTalktimeId))
                 localStorage.setItem('inacall', 'true')
                 this.openModal('socket-call-modal', res.sender)
             }
@@ -148,9 +149,9 @@ class Navbar extends Component{
                     user1 : res.sender,
                     user2: this.props.auth.mobile_number,
                     history_id: res.lastTalktimeId
-                }
+                }*/
                 //socket.emit('waiting-call', {waitingInfo: waitingcallInfo})
-                this.props.waitingCall(waitingcallInfo)*/
+                //this.props.waitingCall(waitingcallInfo)
             }
         })
         socket.on('show-cut-call', (res)=>{
@@ -164,7 +165,7 @@ class Navbar extends Component{
         socket.on('call-is-rejected', (res)=>{
             localStorage.setItem('inacall', 'false')
         })
-        /*socket.on('receiver-is-engaged', (res)=>{
+        /*socket.once('receiver-is-engaged', (res)=>{
             console.log('receiver is engaged')
             localStorage.setItem('inacall', 'false')
         })*/

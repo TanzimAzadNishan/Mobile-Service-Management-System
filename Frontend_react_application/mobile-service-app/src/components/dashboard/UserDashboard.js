@@ -749,9 +749,11 @@ class UserDashboard extends Component{
                                     <NavLink to="/recharge" className="recharge">
                                         Recharge
                                     </NavLink>
+                                    {/*
                                     <NavLink to="/dashboard/details" className="details">
                                         Details
                                     </NavLink>
+                                     */}
                                 </div>
                             </div>
                         </div>

@@ -829,7 +829,7 @@ module.exports = function(app, sio){
         })
     })
 
-    /*app.post('/waiting-call', (req, res)=>{
+    app.post('/waiting-call', (req, res)=>{
         console.log('----------- waiting call --------------')
         console.log(req.body)
 
@@ -838,5 +838,5 @@ module.exports = function(app, sio){
             var socketid = socketData.rows[0].SOCKET_ID
             sio.to(socketid).emit('receiver-is-engaged')
         })
-    })*/
+    })
 }
