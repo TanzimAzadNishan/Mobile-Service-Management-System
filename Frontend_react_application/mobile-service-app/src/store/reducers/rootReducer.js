@@ -13,6 +13,7 @@ import offerReducer from './Service/offerReducer'
 import feedbackReducer from './Service/feedbackReducer'
 import rechargeReducer from './Service/rechargeReducer'
 import personFNFReducer from './Service/personFNFReducer'
+import intcallsmsReducer from './Service/intcallsmsReducer'
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
     history: historyReducer,
     feedback: feedbackReducer,
     recharge: rechargeReducer,
-    personFNF: personFNFReducer
+    personFNF: personFNFReducer,
+    intcallsms: intcallsmsReducer
 })
 
 export default rootReducer

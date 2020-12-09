@@ -22,6 +22,7 @@ const socketConController = require('./ApiControllers/SocketConnction')
 const historyController = require('./ApiControllers/history')
 const rechargeController = require('./ApiControllers/Services/recharge')
 const personFnfController = require('./ApiControllers/Services/personFnf')
+const intcallsmsController = require('./ApiControllers/Services/intcallsms')
 
 
 const app = express()
@@ -113,3 +114,4 @@ historyController(app)
 feedbackController(app, sio)
 rechargeController(app, sio)
 personFnfController(app)
+intcallsmsController(app, sio)

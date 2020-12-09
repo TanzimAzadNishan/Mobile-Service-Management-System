@@ -83,3 +83,10 @@ export const storeSocketId = (socketId)=>{
         dispatch({type: 'STORE_SOCKET_ID', socketId: socketId.socketId})
     }
 }
+
+export const updateAccountInfo = (accountInfo)=>{
+    return(dispatch, getState)=>{
+
+        dispatch({type: 'UPDATE_ACCOUNT_BALANCE', accountInfo: accountInfo})
+    }
+}

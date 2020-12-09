@@ -93,6 +93,17 @@ const dashboardReducer = (state = initState, action)=>{
         }
     }
 
+    else if(action.type === 'UPDATE_ACCOUNT_BALANCE'){
+        console.log('acc info updated')
+        localStorage.setItem('accountInfo', JSON.stringify(action.accountInfo))
+        const accountInfoData = localStorage.getItem('accountInfo')
+
+        return{
+            ...state,
+            accountInfo: accountInfoData ? JSON.parse(accountInfoData) : null
+        }
+    }
+
     //return state
     return{
         ...state,

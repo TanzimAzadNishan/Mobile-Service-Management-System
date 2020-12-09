@@ -1,5 +1,12 @@
 const executeQuery = require('../Database/queryIntoDB')
 
+var emitToReceiverQuery = 
+`
+SELECT SOCKET_ID
+FROM ACCOUNT
+WHERE MOBILE_NUMBER = :mobile_number
+`
+
 module.exports = function(sio){
     sio.on("connection", (socket) => {
         console.log('made socket connection ',socket.id)
@@ -46,5 +53,15 @@ module.exports = function(sio){
             })
         })
 
+        /*socket.on('waiting-call', (res)=>{
+            console.log('waiting call.........: ', res.waitingInfo)
+            executeQuery(emitToReceiverQuery, [res.waitingInfo.user1])
+            .then((socketData)=>{
+                var socketId = socketData.rows[0].SOCKET_ID
+        
+                sio.to(socketId).emit('receiver-is-engaged')
+            })
+    
+        })*/
     });
 }

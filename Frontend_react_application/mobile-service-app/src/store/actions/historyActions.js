@@ -14,3 +14,9 @@ export const retrieveHistoryInfo = (personInfo) => {
         })
     }
 }
+
+export const updateHistoryInfo = (historyInfo) => {
+    return(dispatch, getState) => {
+        dispatch({type: 'UPDATE_HISTORY_DETAILS', historyInfo: historyInfo})
+    }
+}

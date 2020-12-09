@@ -57,3 +57,78 @@
 .itemStyle:hover{
     color: red;
 }
+
+
+/*------------------ cut-call-modal------------------------*/
+.cut-call-modal{
+    height: 40%;
+    width: 30%;
+    margin-top: 15%;
+    margin-left: 35%;
+    padding-top: 3%;
+    padding-bottom: 2%;
+    background: white;
+}
+.cut-call-modal .modal-title{
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #421c05;
+    margin-bottom: 4%;
+}
+.cut-call-modal .btn-part{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    margin-top: 10%;
+}
+.cut-call-modal .exit-btn{
+    grid-column: 3/5;
+    justify-self: center;
+    background: #C70039;
+    cursor: pointer;
+}
+.cut-call-modal .exit-btn:hover{
+    background: red;
+}
+
+/*-------------- socket-call-modal ------------------------------*/
+
+.socket-call-modal{
+    height: 40%;
+    width: 30%;
+    margin-top: 15%;
+    margin-left: 35%;
+    padding-top: 3%;
+    padding-bottom: 2%;
+    background: white;
+}
+.socket-call-modal .modal-title{
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #421c05;
+    margin-bottom: 4%;
+}
+.socket-call-modal .btn-part{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    margin-top: 10%;
+}
+.socket-call-modal .exit-btn{
+    grid-column: 4/6;
+    justify-self: center;
+    background: #C70039;
+    cursor: pointer;
+}
+.socket-call-modal .exit-btn:hover{
+    background: red;
+}
+.socket-call-modal .accept-btn{
+    grid-column: 2/4;
+    justify-self: center;
+    background: #3C6DB4;
+    cursor: pointer;
+}
+.socket-call-modal .accept-btn:hover{
+    background: #3F91BE;
+}

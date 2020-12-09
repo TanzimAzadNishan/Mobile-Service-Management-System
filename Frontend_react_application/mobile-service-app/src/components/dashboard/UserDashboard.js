@@ -12,7 +12,12 @@ import {
 import { 
     addPersonFNF, deletePersonFNF, getPersonFNF
 } from '../../store/actions/service/personFNFAction'
+import { 
+    sendSMS, startSession, updateSession, startCall, onGoingCall, clearError
+} from '../../store/actions/service/intcallsmsAction'
 
+
+var intervalId;
 
 class UserDashboard extends Component{
     constructor(props){
@@ -25,7 +30,8 @@ class UserDashboard extends Component{
                 value: '',
                 error: ''
             },
-            activeModal: ''
+            activeModal: '',
+            turnOnOff: false
         }
         this.openModal = this.openModal.bind(this)
         this.closeModal = this.closeModal.bind(this)
@@ -52,6 +58,8 @@ class UserDashboard extends Component{
             var fnflistinfo = {
                 sender: this.props.auth.mobile_number
             }
+            localStorage.setItem('inacall', 'false')
+            localStorage.setItem('turnOnOff', 'false')
             this.props.getPersonFNF(fnflistinfo)
             
             socket.emit('socket-connection', {userAuth: this.props.auth})
@@ -98,7 +106,8 @@ class UserDashboard extends Component{
                     value: '',
                     error: ''
                 },
-                activeModal: 'add-fnf-modal'
+                activeModal: 'add-fnf-modal',
+                turnOnOff: false
             }))
         }
 
@@ -109,7 +118,8 @@ class UserDashboard extends Component{
                     value: '',
                     error: mobErr
                 },
-                activeModal: 'add-fnf-modal'
+                activeModal: 'add-fnf-modal',
+                turnOnOff: false
             }))
         }
     }
@@ -121,9 +131,150 @@ class UserDashboard extends Component{
         this.props.deletePersonFNF(deleteInfo) 
     }
 
+    sendSMS = (evt)=>{
+        evt.preventDefault();
+        const { Mobile_Number } = this.state;
+        var mobErr = validateMobileNumber(Mobile_Number.value)
+
+        if(this.props.auth.mobile_number === this.state.Mobile_Number.value){
+            mobErr = 'This is your mobile number!'
+        }
+
+        if ([mobErr].every(e => e === false)){
+            console.log('sms form submitted successfully')
+
+            var smsInfo = {
+                sender: this.props.auth.mobile_number,
+                receiver: Mobile_Number.value
+            }
+            this.props.sendSMS(smsInfo)
+            //this.props.retrieveAccountInfo(this.props.auth)
+
+            console.log(smsInfo)
+            this.setState(state => ({
+                Mobile_Number: {
+                    value: '',
+                    error: ''
+                },
+                activeModal: 'send-sms-modal',
+                turnOnOff: false
+            }))
+        }
+
+        else{
+            console.log(mobErr)
+            this.setState(state => ({
+                Mobile_Number: {
+                    value: '',
+                    error: mobErr
+                },
+                activeModal: 'send-sms-modal',
+                turnOnOff: false
+            }))
+        }
+    }
+
+    handleTurnOnOff = (evt)=>{
+
+        evt.preventDefault();
+        if(localStorage.getItem('turnOnOff') != null && 
+        localStorage.getItem('turnOnOff') === 'true'){
+            clearInterval(intervalId)
+
+            console.log('update session called')
+            localStorage.setItem('turnOnOff', 'false')
+
+            this.setState({
+                turnOnOff: false
+            })
+        }
+        else{
+            console.log('start session called')
+            localStorage.setItem('turnOnOff', 'true')
+            this.setState({
+                turnOnOff: true
+            })
+
+            var sessionInfo = {
+                sender: this.props.auth.mobile_number
+            }
+            this.props.startSession(sessionInfo)
+            var intInfo = {
+                sender: this.props.auth.mobile_number,
+                history_id: this.props.lastSessionHistoryId
+            }
+
+            intervalId =  setInterval(()=>{
+                console.log('session update: ', intInfo)
+                if(this.props.intcallsmsError != null){
+                    clearInterval(intervalId)
+                    console.log('interval cleared')
+                    localStorage.setItem('turnOnOff', 'false')
+                    this.setState({
+                        turnOnOff: false
+                    })
+                    this.props.clearError()
+                }
+                else{
+                    this.props.updateSession(intInfo)
+                }
+            }, 5000)
+        }
+        //this.closeModal()
+    }
+
+    startCall = (evt)=>{
+        evt.preventDefault();
+        console.log('call button clicked...........')
+        const { Mobile_Number } = this.state;
+        var mobErr = validateMobileNumber(Mobile_Number.value)
+
+        if(this.props.auth.mobile_number === this.state.Mobile_Number.value){
+            mobErr = 'This is your mobile number!'
+        }
+
+        if(localStorage.getItem('inacall') === null || 
+            localStorage.getItem('inacall') === 'false'){
+
+        console.log('call is allowed !')
+        if ([mobErr].every(e => e === false)){
+            console.log('call form submitted successfully')
+
+            var callInfo = {
+                sender: this.props.auth.mobile_number,
+                receiver: Mobile_Number.value
+            }
+            this.props.startCall(callInfo)
+            localStorage.setItem('inacall', 'true')
+
+            console.log(callInfo)
+            this.setState(state => ({
+                Mobile_Number: {
+                    value: '',
+                    error: ''
+                },
+                activeModal: '',
+                turnOnOff: false
+            }))
+        }
+
+        else{
+            console.log(mobErr)
+            this.setState(state => ({
+                Mobile_Number: {
+                    value: '',
+                    error: mobErr
+                },
+                activeModal: 'call-modal',
+                turnOnOff: false
+            }))
+        }
+        }
+    }
+
     render() {
         const {
-            auth, accountInfo, current_pkg, current_fnf_plan, profilePic
+            auth, current_pkg, current_fnf_plan, profilePic
         } = this.props
 
         if (this.props.auth == null){
@@ -131,7 +282,7 @@ class UserDashboard extends Component{
             return <Redirect to='/' />
         } 
 
-        else if(auth == null || accountInfo == null || current_pkg == null){
+        else if(auth == null || this.props.accountInfo == null || current_pkg == null){
             return(
                 <>
                 </>
@@ -141,6 +292,9 @@ class UserDashboard extends Component{
         
         else{
             NProgress.done()
+            /*if(this.props.intcallsmsError != null){
+                this.openModal('call-modal')
+            }*/
 
             const proPic = (profilePic) ? (
                 <img className="profile-pic" 
@@ -187,12 +341,205 @@ class UserDashboard extends Component{
                 )
             }
 
+            const addshowfnf = (current_fnf_plan != null) ? (
+                <div className="card-action">
+                    <button 
+                        className="add-fnf"
+                        onClick={(e)=>{this.openModal('add-fnf-modal')}}
+                    >
+                        Add FNF
+                    </button>
+
+                    <button
+                        className="show-fnf"
+                        onClick={(e)=>{this.openModal('show-fnf-modal')}}
+                    >
+                        FNF List
+                    </button>
+                </div>
+            ) : null
+            
+
 
         return (
             <>
                 <div className="dashboard-title">
                     User Dashboard
-                </div>                
+                </div>
+
+                <div className="three-btn">
+                    <span 
+                        className="material-icons sms-btn"
+                        onClick={(e)=>{this.openModal('send-sms-modal')}}
+                    >
+                        sms
+                    </span>
+                    <span 
+                        className="material-icons call-btn"
+                        onClick={(e)=>{this.openModal('call-modal')}}
+                    >
+                        local_phone
+                    </span>
+                    <span 
+                        className="material-icons int-btn"
+                        onClick={(e)=>{this.openModal('internet-modal')}}
+                        style={(localStorage.getItem('turnOnOff') != null && 
+                            localStorage.getItem('turnOnOff') === 'true')
+                            ? ({color: "green"}): (null)
+                        }
+                    >
+                        network_wifi
+                    </span>
+                </div>
+
+                <Modal
+                    className = "send-sms-modal"
+                    isOpen={this.state.activeModal === 'send-sms-modal'} 
+                    ariaHideApp={false} 
+                >
+                    
+                    <div className="modal-title">
+                        SMS
+                    </div>
+
+                    <div className="input-field">
+
+                        <i 
+                            className="material-icons prefix"
+                            style={this.state.Mobile_Number.error ? ({color: "red"}):(null)}  
+                        >
+                            settings_cell
+                        </i>
+                        <input type="text"
+                            className="validate"
+                            style={this.state.Mobile_Number.error ? ({color: "red"}):(null)}
+                            value={this.state.Mobile_Number.value}
+                            onChange={(e)=>{this.handleMobNumChange(e)}}  
+                        />
+
+                        <label 
+                            htmlFor="mobile_number"
+                            style={this.state.Mobile_Number.error ? ({color: "red"}):(null)}  
+                        > 
+                            Mobile Number
+                        </label>
+
+                        <div style={{color: "red"}}>
+                            {this.state.Mobile_Number.error}
+                        </div>
+                        <div style={{color: "red"}}>
+                            {this.props.intcallsmsError}
+                        </div>
+                    </div>
+
+                    <div className="btn-part">
+
+                        <button 
+                            className ='btn-small send-sms-btn' 
+                            onClick={(e)=>{this.sendSMS(e)}}
+                        >
+                            Send
+                        </button>
+
+                        <button 
+                        className ='btn-small exit-btn' 
+                        onClick={this.closeModal}
+                        >
+                            Exit
+                        </button>
+                    </div>
+                </Modal>
+
+                <Modal
+                    className = "internet-modal"
+                    isOpen={this.state.activeModal === 'internet-modal'} 
+                    ariaHideApp={false} 
+                >
+                    
+                    <div className="modal-title">
+                        Internet
+                    </div>
+                    
+                    <div style={{color: "red"}}>
+                            {this.props.intcallsmsError}
+                    </div>
+
+                    <div className="btn-part">
+
+                        <button 
+                            className ='btn-small turn-btn' 
+                            onClick={(e)=>{this.handleTurnOnOff(e)}}
+                        >
+                            {this.state.turnOnOff ? `Turn Off` : `Turn On`}
+                        </button>
+
+                        <button 
+                        className ='btn-small exit-btn' 
+                        onClick={this.closeModal}
+                        >
+                            Exit
+                        </button>
+                    </div>
+                </Modal>
+
+                <Modal
+                    className = "call-modal"
+                    isOpen={this.state.activeModal === 'call-modal'} 
+                    ariaHideApp={false} 
+                >
+                    
+                    <div className="modal-title">
+                        Call
+                    </div>
+
+                    <div className="input-field">
+
+                        <i 
+                            className="material-icons prefix"
+                            style={this.state.Mobile_Number.error ? ({color: "red"}):(null)}  
+                        >
+                            settings_cell
+                        </i>
+                        <input type="text"
+                            className="validate"
+                            style={this.state.Mobile_Number.error ? ({color: "red"}):(null)}
+                            value={this.state.Mobile_Number.value}
+                            onChange={(e)=>{this.handleMobNumChange(e)}}  
+                        />
+
+                        <label 
+                            htmlFor="mobile_number"
+                            style={this.state.Mobile_Number.error ? ({color: "red"}):(null)}  
+                        > 
+                            Mobile Number
+                        </label>
+
+                        <div style={{color: "red"}}>
+                            {this.state.Mobile_Number.error}
+                        </div>
+                        <div style={{color: "red"}}>
+                            {this.props.intcallsmsError}
+                        </div>
+                    </div>
+
+                    <div className="btn-part">
+
+                        <button 
+                            className ='btn-small call-btn' 
+                            onClick={(e)=>{this.startCall(e)}}
+                        >
+                            Call
+                        </button>
+
+                        <button 
+                        className ='btn-small exit-btn' 
+                        onClick={this.closeModal}
+                        >
+                            Exit
+                        </button>
+                    </div>
+                </Modal>
+
                 <div className="user-dashboard">
                     <div className="user-details-part">
                         <div className="account-icon">
@@ -214,7 +561,7 @@ class UserDashboard extends Component{
                                     Points
                                 </div>
                                 <div className="points">
-                                    {accountInfo.POINTS}
+                                    {this.props.accountInfo.POINTS}
                                 </div>
                             </div>
 
@@ -271,21 +618,7 @@ class UserDashboard extends Component{
                                     </p>
                                 </div>
 
-                                <div className="card-action">
-                                    <button 
-                                        className="add-fnf"
-                                        onClick={(e)=>{this.openModal('add-fnf-modal')}}
-                                    >
-                                        Add FNF
-                                    </button>
-
-                                    <button
-                                        className="show-fnf"
-                                        onClick={(e)=>{this.openModal('show-fnf-modal')}}
-                                    >
-                                        FNF List
-                                    </button>
-                                </div>
+                                {addshowfnf}
                             </div>
                         </div>
                     
@@ -401,7 +734,7 @@ class UserDashboard extends Component{
                                         </p>
 
                                         <p className="amount">
-                                            {accountInfo.ACCOUNT_BALANCE} TK
+                                            {(this.props.accountInfo.ACCOUNT_BALANCE).toFixed(2)} TK
                                         </p>
                                         <p className="remainder">
                                             Valid Till
@@ -440,10 +773,10 @@ class UserDashboard extends Component{
                                     </p>
 
                                     <p className="amount">
-                                        {accountInfo.INTERNET_BALANCE} MB
+                                        {(this.props.accountInfo.INTERNET_BALANCE).toFixed(2)} MB
                                     </p>
                                     <p className="remainder">
-                                        of {accountInfo.INTERNET_BALANCE} MB remaining
+                                        of {50} MB remaining
                                     </p>
                                 </div>
                             </div>
@@ -466,7 +799,7 @@ class UserDashboard extends Component{
                                     </p>
 
                                     <p className="amount">
-                                        {accountInfo.TALKTIME}
+                                        {this.props.accountInfo.TALKTIME.toFixed(2)}
                                     </p>
                                 </div>
                             </div>
@@ -489,7 +822,7 @@ class UserDashboard extends Component{
                                     </p>
 
                                     <p className="amount">
-                                        {accountInfo.SMS_BALANCE}
+                                        {this.props.accountInfo.SMS_BALANCE}
                                     </p>
                                 </div>
                             </div>
@@ -512,7 +845,9 @@ const mapStateToProps = (state) => {
         current_pkg: state.dashboard.current_pkg,
         current_fnf_plan: state.dashboard.current_fnf_plan,
         personFNFList: state.personFNF.personFNFList,
-        personFNFError: state.personFNF.personFNFError
+        personFNFError: state.personFNF.personFNFError,
+        lastSessionHistoryId: state.intcallsms.lastSessionHistoryId,
+        intcallsmsError: state.intcallsms.intcallsmsError
     }
 }
 
@@ -532,6 +867,24 @@ const mapDispatchtoProps = (dispatch)=>{
         },
         getPersonFNF: (info)=>{
             dispatch(getPersonFNF(info))
+        },
+        sendSMS: (info)=>{
+            dispatch(sendSMS(info))
+        },
+        startSession: (info)=>{
+            dispatch(startSession(info))
+        },
+        updateSession: (info)=>{
+            dispatch(updateSession(info))
+        },
+        startCall: (info)=>{
+            dispatch(startCall(info))
+        },
+        onGoingCall: (info)=>{
+            dispatch(onGoingCall(info))
+        },
+        clearError: ()=>{
+            dispatch(clearError())
         }
     }
 }

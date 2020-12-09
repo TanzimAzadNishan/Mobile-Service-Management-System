@@ -17,6 +17,19 @@ const historyReducer = (state = initstate, action)=>{
             historyInfo: historyData ? JSON.parse(historyData) : null
         }
     }
+    
+    else if (action.type === 'UPDATE_HISTORY_DETAILS'){
+        console.log('history details updated')
+
+        localStorage.setItem('historyInfo', JSON.stringify(action.historyInfo))
+
+        const historyData = localStorage.getItem('historyInfo')
+
+        return{
+            ...state,
+            historyInfo: historyData ? JSON.parse(historyData) : null
+        }
+    }
 
     return {
         ...state,

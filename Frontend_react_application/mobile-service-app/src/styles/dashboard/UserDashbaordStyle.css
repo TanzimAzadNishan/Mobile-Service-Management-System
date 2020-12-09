@@ -15,6 +15,181 @@
     color: rgb(9, 47, 119);
     /*padding: 40px 0 25px 0;*/
 }
+
+
+/*------------------ three btn ---------------------------*/
+.three-btn{
+    display: grid;
+    grid-template-columns: repeat(25, 1fr);
+    margin-bottom: 30px;
+}
+.three-btn .sms-btn{
+    grid-column: 22/23;
+    grid-row: 1/2;
+    font-size: 33px;
+    color: #421c05;
+    cursor: pointer;
+}
+.three-btn .sms-btn:hover{
+    color: #af4909;
+}
+.three-btn .call-btn{
+    grid-row: 1/2;
+    grid-column: 21/22;
+    font-size: 33px;
+    cursor: pointer;
+    color: #480B77;
+}
+.three-btn .call-btn:hover{
+    color: darkviolet;
+}
+.three-btn .int-btn{
+    grid-row: 1/2;
+    grid-column: 20/21;
+    font-size: 33px;
+    cursor: pointer;
+    color: #900C3F;
+}
+.three-btn .int-btn:hover{
+    color: red;
+}
+
+
+/*-------------- call-modal ------------------------------*/
+
+.call-modal{
+    height: 40%;
+    width: 30%;
+    margin-top: 15%;
+    margin-left: 35%;
+    padding-top: 3%;
+    padding-bottom: 2%;
+    background: white;
+}
+.call-modal .modal-title{
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #421c05;
+    margin-bottom: 4%;
+}
+.call-modal .input-field{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.call-modal .btn-part{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    margin-top: 10%;
+}
+.call-modal .exit-btn{
+    grid-column: 4/6;
+    justify-self: center;
+    background: #C70039;
+}
+.call-modal .exit-btn:hover{
+    background: red;
+}
+.call-modal .call-btn{
+    grid-column: 2/4;
+    justify-self: center;
+    background: #3C6DB4;
+}
+.call-modal .call-btn:hover{
+    background: #3F91BE;
+}
+
+
+/*-------------- internet-modal ------------------------------*/
+
+.internet-modal{
+    height: 30%;
+    width: 30%;
+    margin-top: 15%;
+    margin-left: 35%;
+    padding-top: 3%;
+    padding-bottom: 2%;
+    background: white;
+}
+.internet-modal .modal-title{
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #421c05;
+    margin-bottom: 4%;
+}
+.internet-modal .btn-part{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    margin-top: 10%;
+}
+.internet-modal .exit-btn{
+    grid-column: 4/6;
+    justify-self: center;
+    background: #C70039;
+    cursor: pointer;
+}
+.internet-modal .exit-btn:hover{
+    background: red;
+}
+.internet-modal .turn-btn{
+    grid-column: 2/4;
+    justify-self: center;
+    background: #3C6DB4;
+    cursor: pointer;
+}
+.internet-modal .turn-btn:hover{
+    background: #3F91BE;
+}
+
+/*-------------- send-sms-modal ------------------------------*/
+
+.send-sms-modal{
+    height: 40%;
+    width: 30%;
+    margin-top: 15%;
+    margin-left: 35%;
+    padding-top: 3%;
+    padding-bottom: 2%;
+    background: white;
+}
+.send-sms-modal .modal-title{
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #421c05;
+    margin-bottom: 4%;
+}
+.send-sms-modal .input-field{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.send-sms-modal .btn-part{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    margin-top: 10%;
+}
+.send-sms-modal .exit-btn{
+    grid-column: 4/6;
+    justify-self: center;
+    background: #C70039;
+}
+.send-sms-modal .exit-btn:hover{
+    background: red;
+}
+.send-sms-modal .send-sms-btn{
+    grid-column: 2/4;
+    justify-self: center;
+    background: #3C6DB4;
+}
+.send-sms-modal .send-sms-btn:hover{
+    background: #3F91BE;
+}
+
+
+
+/*--------------------- user dashboard --------------------------*/
+
 .user-dashboard{
     /*margin-bottom: 30px;*/
     display: grid;

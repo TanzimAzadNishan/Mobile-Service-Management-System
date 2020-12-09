@@ -14,9 +14,21 @@ module.exports = function(app){
             SELECT ACCOUNT_TRACKING_ID FROM ACCOUNT
             WHERE MOBILE_NUMBER = :mobile_number
         )
+        OR (
+            HISTORY_TYPE = :history_type AND
+            CONTACT_NUMBER = :contact_number
+        )
         ORDER BY TIME_SLOT DESC
         `
-        executeQuery(historyDetailsQuery,[req.body.mobile_number])
+
+        var queryInfo = {
+            mobile_number : req.body.mobile_number,
+            history_type : 'call',
+            contact_number : req.body.mobile_number
+
+        }
+
+        executeQuery(historyDetailsQuery, queryInfo)
         .then((historyrecord)=>{
             console.log(historyrecord)
             console.log('history Information Retrieved')
