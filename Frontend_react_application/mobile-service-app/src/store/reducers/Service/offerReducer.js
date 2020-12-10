@@ -5,6 +5,20 @@ const initstate = {
 }
 
 const offerReducer = (state = initstate, action)=>{
+
+    if (action.type === 'RETRIEVE_POPULAR_OFFER_DETAILS'){
+        console.log('popular offer details retrieved')
+
+        localStorage.setItem('popular', JSON.stringify(action.popular))
+
+        const popularData = localStorage.getItem('popular')
+
+        return{
+            ...state,
+            popular: popularData ? JSON.parse(popularData) : null
+        }
+    }
+
     if (action.type === 'RETRIEVE_OFFER_DETAILS'){
         console.log('offer details retrieved')
 

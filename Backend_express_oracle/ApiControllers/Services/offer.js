@@ -2,6 +2,33 @@ const insertOperation = require('../../Database/insertOperation')
 const executeQuery = require('../../Database/queryIntoDB')
 
 module.exports = function(app){
+    app.post('/offer/popular', (req, res)=>{
+        console.log('retrieving popular offer details: ', req.body)
+
+        popular = {offers: null}
+
+        popularofferDetailsQuery =
+        `
+        SELECT * 
+        FROM OFFER
+        WHERE OFFER_ID IN(
+            SELECT OFFER_ID FROM PERSON_OFFER GROUP BY OFFER_ID HAVING COUNT(*) = 
+            (SELECT MAX(c) FROM
+                (SELECT COUNT(OFFER_ID) AS c
+                    FROM PERSON_OFFER
+                    GROUP BY OFFER_ID)))
+        `
+        executeQuery(popularofferDetailsQuery,[])
+        .then((popularofferRecord)=>{
+            console.log(popularofferRecord)
+            console.log('popular offer Information Retrieved')
+            res.json({serverMsg: 'popular offer Information Retrieved', 
+            popular: popularofferRecord.rows})
+
+        })
+        
+    })
+
     app.post('/offer', (req, res)=>{
         console.log('retrieving offer details: ', req.body)
 

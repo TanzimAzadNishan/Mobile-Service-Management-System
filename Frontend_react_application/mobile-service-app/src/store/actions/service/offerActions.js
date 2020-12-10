@@ -1,5 +1,20 @@
 import offerService from '../../../utilities/Services/Service/offerService'
 
+export const retrievePopularOfferInfo = (popular) => {
+    return(dispatch, getState) => {
+        offerService.getpopular(popular)
+        .then((res)=> {
+            console.log(res)
+            if(res.data.serverMsg === 'popular offer Information Retrieved'){
+                dispatch({type: 'RETRIEVE_POPULAR_OFFER_DETAILS', popular: res.data.popular})
+            }
+            
+        }, ()=>{
+            console.log('retrieve info failed')
+        })
+    }
+}
+
 export const retrieveOfferInfo = (offerInfo) => {
     return(dispatch, getState) => {
         offerService.getOffers(offerInfo)

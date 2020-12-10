@@ -1,6 +1,9 @@
 import {baseApi} from '../../ApiControllers/apiCaller'
 
 export default{
+    getpopular(popular){
+        return baseApi.post('/offer/popular',popular)
+    },
     getOffers(OfferInfo){
         return baseApi.post('/offer', OfferInfo)
     },
