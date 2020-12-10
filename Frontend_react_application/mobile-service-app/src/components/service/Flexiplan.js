@@ -136,11 +136,13 @@ class Flexiplan extends Component{
     }
 
     closeConfirmationModal(){
-        //this.setState({
-            //activeModal: ''
-        //});
-        //window.location.reload(false);
         this.setState({...initialState})
+        this.setState({
+            planDetails: {
+                ...this.state.planDetails,
+                mobile_number: this.props.auth.mobile_number
+            }
+        })
     }
 
     disable(){

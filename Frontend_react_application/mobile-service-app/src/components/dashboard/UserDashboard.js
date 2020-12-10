@@ -778,7 +778,6 @@ class UserDashboard extends Component{
                                         {(this.props.accountInfo.INTERNET_BALANCE).toFixed(2)} MB
                                     </p>
                                     <p className="remainder">
-                                        of {50} MB remaining
                                     </p>
                                 </div>
                             </div>
