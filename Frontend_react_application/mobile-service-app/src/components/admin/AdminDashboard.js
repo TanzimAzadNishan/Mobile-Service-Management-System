@@ -936,8 +936,12 @@ class AdminDashboard extends Component {
                                                 style = {({color : "red "})}
                                                 value={this.state.feedbackReplyBody}
                                                 onChange={(e)=>{this.feedbackReplyChange(e)}}
+                                                placeholder={`at least 20 charcters...`}
                                             />
-                                            <label style = {({color : "red "})}>
+                                            <label
+                                                className="active" 
+                                                style = {({color : "red "})}
+                                            >
                                                 Write a reply
                                             </label>
                                         </div>

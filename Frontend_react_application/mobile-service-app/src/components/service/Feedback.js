@@ -251,7 +251,7 @@ class Feedback extends Component{
                                         style={this.state.Feedback_Body.error ? ({color: "red"}):(null)}
                                         value={this.state.Feedback_Body.value} 
                                         onChange={(e)=>{this.handleChange(e, validateFeedbackBody)}}
-                                        placeholder={`mention service name and review...`}
+                                        placeholder={`mention service name and review... at least 20 characters`}
                                     />
                                     <label htmlFor="feedback-subject"
                                         className="active"
