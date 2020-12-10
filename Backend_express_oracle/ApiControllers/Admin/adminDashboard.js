@@ -31,7 +31,7 @@ module.exports = function(app){
         `
         adminOfferQuery =
         `
-        SELECT OFFER_ID, MONEY, VALIDITY, EARNED_PTS, INT_BAL, BONUS_INT_BAL, BONUS_PTS, MIN_BAL, BONUS_MIN_BAL, SMS_BAL, BONUS_SMS
+        SELECT OFFER_ID, MONEY, VALIDITY, EARNED_PTS, INT_BAL, BONUS_INT_BAL, BONUS_PTS, MIN_BAL, BONUS_MIN_BAL, SMS_BAL, BONUS_SMS, MIN_PTS
         FROM OFFER  
         `
 
@@ -304,6 +304,7 @@ module.exports = function(app){
             validity: req.body.new_offer_validity,
             pts: req.body.new_offer_pts,
             bnspts: req.body.new_offer_bns_pts,
+            minpts: req.body.new_offer_min_pts,
             int: req.body.new_offer_int,
             bnsint: req.body.new_offer_bns_int,
             talktime: req.body.new_offer_talktime,
@@ -315,8 +316,8 @@ module.exports = function(app){
 
         setNewOfferQuery = 
         `
-        INSERT INTO OFFER (OFFER_ID, SETTER_ID, MONEY, VALIDITY, EARNED_PTS, INT_BAL, BONUS_INT_BAL, BONUS_PTS, MIN_BAL, BONUS_MIN_BAL, SMS_BAL, BONUS_SMS)
-        VALUES(:id, :setter, :money, :validity, :pts, :int, :bnsint, :bnspts, :talktime, :bnstalktime, :sms, :bnssms)
+        INSERT INTO OFFER (OFFER_ID, SETTER_ID, MONEY, VALIDITY, EARNED_PTS, INT_BAL, BONUS_INT_BAL, BONUS_PTS, MIN_BAL, BONUS_MIN_BAL, SMS_BAL, BONUS_SMS, MIN_PTS)
+        VALUES(:id, :setter, :money, :validity, :pts, :int, :bnsint, :bnspts, :talktime, :bnstalktime, :sms, :bnssms, :minpts)
         `
 
         validateOffer = {
@@ -367,6 +368,7 @@ module.exports = function(app){
             validity: req.body.edited_offer_validity,
             pts: req.body.edited_offer_pts,
             bnspts: req.body.edited_offer_bns_pts,
+            minpts: req.body.edited_offer_min_pts,
             int: req.body.edited_offer_int,
             bnsint: req.body.edited_offer_bns_int,
             talktime: req.body.edited_offer_talktime,
@@ -379,7 +381,7 @@ module.exports = function(app){
         editOfferQuery = 
         `
         UPDATE OFFER
-        SET SETTER_ID = :setter, MONEY = :money, VALIDITY = :validity, EARNED_PTS = :pts, INT_BAL = :int, BONUS_INT_BAL = :bnsint, BONUS_PTS = :bnspts, MIN_BAL = :talktime, BONUS_MIN_BAL = :bnstalktime, SMS_BAL = :sms, BONUS_SMS = :bnssms
+        SET SETTER_ID = :setter, MONEY = :money, VALIDITY = :validity, EARNED_PTS = :pts, INT_BAL = :int, BONUS_INT_BAL = :bnsint, BONUS_PTS = :bnspts, MIN_BAL = :talktime, BONUS_MIN_BAL = :bnstalktime, SMS_BAL = :sms, BONUS_SMS = :bnssms, MIN_PTS = :minpts
         WHERE OFFER_ID = :id
         `
         

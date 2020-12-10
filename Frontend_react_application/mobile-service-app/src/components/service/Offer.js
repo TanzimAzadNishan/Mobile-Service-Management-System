@@ -12,6 +12,7 @@ const initialState = {
         amount: 0,
         pts: 0,
         bonus_pts: 0,
+        min_pts: 0,
         int: 0,
         bonus_int: 0,
         talktime: 0,
@@ -52,19 +53,25 @@ class Offer extends Component{
         this.props.updateAccountOffer(this.state.offerDetails)
     } }
     selectOffer(offer){
-        this.setState({activeModal: 'sel', offerDetails: {
-            ...this.state.offerDetails,
-            name: offer.OFFER_ID,
-            amount: offer.MONEY,
-            pts: offer.EARNED_PTS,
-            bonus_pts: offer.BONUS_PTS,
-            int: offer.INT_BAL,
-            bonus_int: offer.BONUS_INT_BAL,
-            talktime: offer.MIN_BAL,
-            bonus_talktime: offer.BONUS_MIN_BAL,
-            sms: offer.SMS_BAL,
-            bonus_sms: offer.BONUS_SMS
-        }});
+        if(this.props.points<offer.MIN_PTS){
+            this.setState({activeModal: 'minimum_points'})
+        }
+        else{
+            this.setState({activeModal: 'sel', offerDetails: {
+                ...this.state.offerDetails,
+                name: offer.OFFER_ID,
+                amount: offer.MONEY,
+                pts: offer.EARNED_PTS,
+                bonus_pts: offer.BONUS_PTS,
+                min_pts: offer.MIN_PTS,
+                int: offer.INT_BAL,
+                bonus_int: offer.BONUS_INT_BAL,
+                talktime: offer.MIN_BAL,
+                bonus_talktime: offer.BONUS_MIN_BAL,
+                sms: offer.SMS_BAL,
+                bonus_sms: offer.BONUS_SMS
+            }});
+        }  
     }
 
     selectPoint(){
@@ -159,6 +166,9 @@ class Offer extends Component{
                                         <p style={{color: "#FF5733"}}>
                                             Bonus Points: {offer.BONUS_PTS} 
                                         </p>
+                                        <p style={{color: "#FF5733"}}>
+                                            Minimum Points Required: {offer.MIN_PTS} 
+                                        </p>
                                         <p style={{color: "#675923"}}>
                                             Internet: {offer.INT_BAL} 
                                         </p>
@@ -187,6 +197,7 @@ class Offer extends Component{
                                 </div>
                                 <button className ='btn blue waves-effect waves-light close-offer-modal' onClick={this.selectPoint}>Points</button>
                                 <button className ='btn blue waves-effect waves-light close-offer-modal' onClick={this.selectBalance}>Balance</button>
+                                <button className ='btn red waves-effect waves-light close-offer-modal' onClick={this.closeModal}>Exit</button>
                             </Modal>
                             <Modal className = "Offer-last-modal" isOpen={this.state.activeModal === 'insufficient'} ariaHideApp={false}>
                                 <div>
@@ -199,7 +210,13 @@ class Offer extends Component{
                                     Congrats! You have successfully bought this offer! 
                                 </div>
                                 <button className ='btn red waves-effect waves-light close-offer-modal' onClick={this.closeModal}>Exit</button>
-                            </Modal>                         
+                            </Modal>
+                            <Modal className = "Offer-last-modal" isOpen={this.state.activeModal === 'minimum_points'} ariaHideApp={false}>
+                                <div>
+                                    Sorry! You don't have minimum points required to avail this offer! 
+                                </div>
+                                <button className ='btn red waves-effect waves-light close-offer-modal' onClick={this.closeModal}>Exit</button>
+                            </Modal>                          
                         </div>
                     )
                 }
@@ -225,6 +242,9 @@ class Offer extends Component{
                                         </p>
                                         <p style={{color: "#FF5733"}}>
                                             Bonus Points: {offer.BONUS_PTS} 
+                                        </p>
+                                        <p style={{color: "#FF5733"}}>
+                                            Minimum Points Required: {offer.MIN_PTS} 
                                         </p>
                                         <p style={{color: "#675923"}}>
                                             Internet: {offer.INT_BAL} 

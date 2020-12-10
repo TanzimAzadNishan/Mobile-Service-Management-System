@@ -46,16 +46,16 @@ class About extends Component{
             </div>
             <div className = "dev-det-part">
                 <div className = "dev1-det">
-                    <p><h5>Md. Tanzim Azad</h5>
+                    <span><h5>Md. Tanzim Azad</h5>
                     1705074<br></br>
                     Department of Computer Science and Engineering<br></br>
-                    Bangladesh University of Engineering and Technology</p>
+                    Bangladesh University of Engineering and Technology</span>
                 </div>
                 <div className = "dev2-det">
-                <p><h5>Prantik Paul</h5>
+                <span><h5>Prantik Paul</h5>
                     1705071<br></br>
                     Department of Computer Science and Engineering<br></br>
-                    Bangladesh University of Engineering and Technology</p>
+                    Bangladesh University of Engineering and Technology</span>
                 </div>
             </div>
 
@@ -66,10 +66,10 @@ class About extends Component{
             </div>
             <div className = "sup-det-part">
                 <div className = "sup-det">
-                    <p><h5>Dr. Muhammad Abdullah Adnan</h5>
+                    <span><h5>Dr. Muhammad Abdullah Adnan</h5>
                     Associate Professor<br></br>
                     Department of Computer Science and Engineering<br></br>
-                    Bangladesh University of Engineering and Technology</p>
+                    Bangladesh University of Engineering and Technology</span>
                 </div>
             </div>
             <div className="about-footer">

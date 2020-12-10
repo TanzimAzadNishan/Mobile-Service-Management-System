@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import {Redirect} from 'react-router-dom'
 import Modal from 'react-modal'
 import NProgress from 'nprogress'
-import {validateMobileNumber} from '../../utilities/Validators/AuthValidator'
 import { 
     retrieveAdminInfo,setNewPackage,editPackage,deletePackage,setNewfnf,editFnf,
     deletefnf,setNewOffer,editOffer,deleteOffer, storeAdminSocketId,
@@ -16,13 +15,6 @@ import {sendReplyOfFeedback} from '../../store/actions/service/feedbackAction'
 
 
 const initialState = {
-    Mobile_Number: {
-        value: '',
-        validateOnChange: false,
-        error: ''
-    },
-    submitCalled: false,
-    allFieldsValidated: false,
     activeModal: '',
     packageName: '',
     pkgCallRate: 0,
@@ -42,6 +34,7 @@ const initialState = {
     offerBonusTalktime: 0,
     offerSms: 0,
     offerBonusSms: 0,
+    offerMinPts: 0,
     feedbackID: '',
     feedbackBody: '',
     feeedbackSender: '',
@@ -75,6 +68,7 @@ const initialState = {
         new_offer_validity: '0',
         new_offer_pts: '0',
         new_offer_bns_pts: '0',
+        new_offer_min_pts: '0',
         new_offer_int: '0',
         new_offer_bns_int: '0',
         new_offer_talktime: '0',
@@ -89,6 +83,7 @@ const initialState = {
         edited_offer_validity: '0',
         edited_offer_pts: '0',
         edited_offer_bns_pts: '0',
+        edited_offer_min_pts: '0',
         edited_offer_int: '0',
         edited_offer_bns_int: '0',
         edited_offer_talktime: '0',
@@ -217,7 +212,7 @@ class AdminDashboard extends Component {
     }
     
      openOfferModal (name, amount, validity,points,bonusPoints,internet,bonusInternet,
-     talktime,bonusTalktime,sms,bonusSms) {
+     talktime,bonusTalktime,sms,bonusSms,minPts) {
         this.setState(
             {activeModal:'offer-details',
             offerID: name,
@@ -230,7 +225,8 @@ class AdminDashboard extends Component {
             offerTalktime: talktime,
             offerBonusTalktime: bonusTalktime,
             offerSms: sms,
-            offerBonusSms: bonusSms}
+            offerBonusSms: bonusSms,
+            offerMinPts: minPts}
             ); 
         }
         
@@ -247,7 +243,8 @@ class AdminDashboard extends Component {
             offerTalktime: 0,
             offerBonusTalktime: 0,
             offerSms: 0,
-            offerBonusSms: 0}
+            offerBonusSms: 0,
+            offerMinPts: 0}
             ); 
         }
 
@@ -265,7 +262,8 @@ class AdminDashboard extends Component {
                 edited_offer_talktime: this.state.offerTalktime,
                 edited_offer_bns_talktime: this.state.offerBonusTalktime,
                 edited_offer_sms: this.state.offerSms,
-                edited_offer_bns_sms: this.state.offerBonusSms
+                edited_offer_bns_sms: this.state.offerBonusSms,
+                edited_offer_min_pts: this.state.offerMinPts
                 }
             }
         ); 
@@ -339,59 +337,6 @@ class AdminDashboard extends Component {
         this.setState(
             {activeModal: ''}
         );
-    }
-
-    handleChange = (evt, validationFunc)=>{
-        const field = evt.target.id
-        const fieldVal = evt.target.value;
-        this.setState(state => ({
-          [field]: {
-            ...state[field],
-            value: fieldVal,
-            error: state[field]['validateOnChange'] ? validationFunc(fieldVal) : ''
-          }
-        }));
-    }
-
-    handleBlur = (e, validationFunc)=>{
-        const field = e.target.id
-        if (this.state[field]['validateOnChange'] === false &&
-            this.state.submitCalled === false
-        ){
-            this.setState(state => ({
-              [field]: {
-                ...state[field],
-                validateOnChange: true,
-                error: validationFunc(state[field].value)
-              }
-            }));
-        }
-    }
-
-    handleSubmit = (evt)=>{
-        evt.preventDefault();
-        // validate all fields
-        const { Mobile_Number } = this.state;
-        const mobNumError = validateMobileNumber(Mobile_Number.value);
-        if ([mobNumError].every(e => e === false)) {
-          // no errors submit the form
-          console.log('form submitted successfully');
-
-          this.setState({...initialState})
-          
-          // clear state and show all fields are validated
-          //this.setState({ ...initialState, allFieldsValidated: true });
-        } else {
-          console.log(mobNumError)
-          // update the state with errors
-          this.setState(state => ({
-            Mobile_Number: {
-              ...state.Mobile_Number,
-              validateOnChange: true,
-              error: mobNumError
-            }
-          }));
-        }
     }
 
     handleNewPkgSubmit = (e)=>{
@@ -514,6 +459,7 @@ class AdminDashboard extends Component {
                 new_offer_validity: '0',
                 new_offer_pts: '0',
                 new_offer_bns_pts: '0',
+                new_offer_min_pts: '0',
                 new_offer_int: '0',
                 new_offer_bns_int: '0',
                 new_offer_talktime: '0',
@@ -542,6 +488,7 @@ class AdminDashboard extends Component {
                 edited_offer_validity: '0',
                 edited_offer_pts: '0',
                 edited_offer_bns_pts: '0',
+                edited_offer_min_pts: '0',
                 edited_offer_int: '0',
                 edited_offer_bns_int: '0',
                 edited_offer_talktime: '0',
@@ -569,6 +516,7 @@ class AdminDashboard extends Component {
                 edited_offer_validity: '0',
                 edited_offer_pts: '0',
                 edited_offer_bns_pts: '0',
+                edited_offer_min_pts: '0',
                 edited_offer_int: '0',
                 edited_offer_bns_int: '0',
                 edited_offer_talktime: '0',
@@ -618,13 +566,11 @@ class AdminDashboard extends Component {
         }
 
         else if (this.props.auth == null){
-        //if (0){
             console.log('redirected')
             return <Redirect to='/admin/login' />
         } 
 
         else if(auth == null || adminFeedInfo == null){
-        //else if(0){
             return(
                 <>
                 </>
@@ -632,8 +578,6 @@ class AdminDashboard extends Component {
         }
         else{
             NProgress.done()
-            //this.state.newPkg.new_pkg_setter= auth.NID
-            //console.log(auth.NID)
             var packages = []
             var obj = packageInfo
             for(var i in obj)
@@ -679,12 +623,11 @@ class AdminDashboard extends Component {
                 offers.push(obj[i]);
 
             const offerList = offers.map(offer => {
-
                 return(
                     <>
                      <div className="details" key = {offer.OFFER_ID}>
                         <p style={{color: "#FF5733"}}>
-                            <span className="offer-name" onClick = {() => this.openOfferModal(offer.OFFER_ID, offer.MONEY, offer.VALIDITY, offer.EARNED_PTS, offer.BONUS_PTS, offer.INT_BAL, offer.BONUS_INT_BAL, offer.MIN_BAL, offer.BONUS_MIN_BAL, offer.SMS_BAL, offer.BONUS_SMS)}>
+                            <span className="offer-name" onClick = {() => this.openOfferModal(offer.OFFER_ID, offer.MONEY, offer.VALIDITY, offer.EARNED_PTS, offer.BONUS_PTS, offer.INT_BAL, offer.BONUS_INT_BAL, offer.MIN_BAL, offer.BONUS_MIN_BAL, offer.SMS_BAL, offer.BONUS_SMS, offer.MIN_PTS)}>
                                 {offer.OFFER_ID}
                             </span>
                         </p>
@@ -728,35 +671,6 @@ class AdminDashboard extends Component {
                 <div className="admin-dashboard-title">
                     Admin Dashboard
                 </div> 
-                    <div className="find-user">
-                        <form onSubmit={this.handleSubmit}>
-                            <div className="input-field">
-                                <i className="material-icons prefix"
-                                style={this.state.Mobile_Number.error ? ({color: "red"}):(null)}
-                                >
-                                    settings_cell 
-                                </i>
-                                <input type="text" id="Mobile_Number"
-                                    className="validate"
-                                    style={this.state.Mobile_Number.error ? ({color: "red"}):(null)}
-                                    value={this.state.Mobile_Number.value} 
-                                    onChange={(e)=>{this.handleChange(e, validateMobileNumber)}}
-                                    onBlur={(e)=>{this.handleBlur(e, validateMobileNumber)}}
-                                />
-                                <label htmlFor="mobile-number"
-                                    style={this.state.Mobile_Number.error ? ({color: "red"}):(null)}
-                                >
-                                    Mobile Number 
-                                </label>
-                                <div style={{color: "red"}}>
-                                    {this.state.Mobile_Number.error}
-                                </div>
-                            </div>
-                        </form> 
-                        <button type="submit" className='btn red'>
-                            find User
-                        </button>
-                    </div>
                 <div className="admin-dashboard-upper">
                     <div className="admin-details">
                         <div className="icons">
@@ -1107,6 +1021,13 @@ class AdminDashboard extends Component {
                                         <label htmlFor = "new-offer-bns-pts">Bonus Points</label>
                                         </div>
                                         <div className= "input-field">
+                                        <input type = "text" id = "new_offer_min_pts"
+                                        value={this.state.newOffer.new_offer_min_pts}
+                                        onChange={(e)=>{this.handleNewOfferChange(e)}}
+                                        />
+                                         <label htmlFor = "new-offer-min-pts">Minimum Points</label>
+                                        </div>
+                                        <div className= "input-field">
                                         <input type = "text" id = "new_offer_int"
                                         value={this.state.newOffer.new_offer_int}
                                         onChange={(e)=>{this.handleNewOfferChange(e)}}
@@ -1163,6 +1084,7 @@ class AdminDashboard extends Component {
                                     Validity : {this.state.offerValidity} days<br></br>
                                     Points : {this.state.offerPoints}<br></br>
                                     Bonus Points : {this.state.offerBonusPoints}<br></br>
+                                    Minimum Points : {this.state.offerMinPts}<br></br>
                                     Internet : {this.state.offerInternet} MB<br></br>
                                     Bonus Internet : {this.state.offerBonusInternet} MB<br></br>
                                     Talktime : {this.state.offerTalktime} minutes<br></br>
@@ -1209,6 +1131,13 @@ class AdminDashboard extends Component {
                                         onChange={(e)=>{this.handleEditOfferChange(e)}}
                                         />
                                         <label htmlFor = "edited-offer-bns-pts">Bonus Points</label>
+                                        </div>
+                                        <div className= "input-field">
+                                        <input type = "text" id = "edited_offer_min_pts"
+                                        value={this.state.editedOffer.edited_offer_min_pts}
+                                        onChange={(e)=>{this.handleEditOfferChange(e)}}
+                                        />
+                                        <label htmlFor = "edited-offer-min-pts">Minimum Points</label>
                                         </div>
                                         <div className= "input-field">
                                         <input type = "text" id = "edited_offer_int"
