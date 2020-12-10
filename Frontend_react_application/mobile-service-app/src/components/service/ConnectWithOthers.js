@@ -203,7 +203,7 @@ class ConnectWithOthers extends Component{
                 linkId: linkId
             }
 
-            if(this.props.accountInfo.POINTS >= Number(Point.value) + 50){
+            //if(this.props.accountInfo.POINTS >= Number(Point.value) + 50){
                 console.log('before transfer : ', info)
                 
                 this.props.transferPoint(info)
@@ -224,8 +224,8 @@ class ConnectWithOthers extends Component{
                     },
                     activeModal: ''
                 }));
-            }
-            else{
+            //}
+            /*else{
                 pointError = 'Your account must have atleast 50 points'
                 this.setState(state => ({
                     Mobile_Number: {
@@ -244,7 +244,7 @@ class ConnectWithOthers extends Component{
                     },
                     activeModal: 'give-points-modal'
                 }));
-            }
+            }*/
         }
         else{
             console.log(pointError)
@@ -756,6 +756,10 @@ class ConnectWithOthers extends Component{
                                                 <div style={{color: "red"}}>
                                                     {this.state.Point.error}
                                                 </div>
+
+                                                <div style={{color: "red"}}>
+                                                    {this.props.pointTransferErr}
+                                                </div>
                                             </div>
 
                                             <div className="btn-part">
@@ -796,7 +800,8 @@ const mapStateToProps = (state) => {
       auth: state.auth.auth,
       connectionList: state.connectWithOthers.connectionList,
       accountInfo: state.dashboard.accountInfo,
-      connectionErr: state.connectWithOthers.connectionErr
+      connectionErr: state.connectWithOthers.connectionErr,
+      pointTransferErr: state.connectWithOthers.pointTransferErr
     }
 }
 

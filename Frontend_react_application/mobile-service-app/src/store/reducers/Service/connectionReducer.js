@@ -1,7 +1,8 @@
 
 const initState = {
     connectionList: null,
-    connectionErr: null
+    connectionErr: null,
+    pointTransferErr: null
 }
 
 const connectionReducer = (state = initState, action)=>{
@@ -29,7 +30,20 @@ const connectionReducer = (state = initState, action)=>{
             ...state,
             connectionErr: null
         }
-    }  
+    }
+
+    else if(action.type === 'POINT_TRANSFER_ERR'){
+        return{
+            ...state,
+            pointTransferErr: action.error
+        }
+    } 
+    else if(action.type === 'REFRESH_POINT_TRANSFER_ERROR'){
+        return{
+            ...state,
+            pointTransferErr: null
+        }
+    } 
 
     return{
         ...state,

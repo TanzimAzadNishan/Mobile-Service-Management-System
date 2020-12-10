@@ -87,7 +87,16 @@ export const transferPoint = (info) => {
         connectionService.onTransferPoint(info)
         .then((res)=>{
             //console.log(res.data.connectionInfo)
-            dispatch({type: 'STORE_ALL_CONNECTIONS', connectionInfo: res.data.connectionInfo})
+            if(res.data.serverMsg === 'Your account must have atleast 50 points'){
+                dispatch({type: 'POINT_TRANSFER_ERR', error: res.data.serverMsg})
+
+                setTimeout(()=>{
+                    dispatch({type: 'REFRESH_POINT_TRANSFER_ERROR'})
+                }, 5000)
+            }
+            else{
+                dispatch({type: 'STORE_ALL_CONNECTIONS', connectionInfo: res.data.connectionInfo})
+            }
         })            
     
     }
@@ -102,3 +111,4 @@ export const deleteAcceptedLink = (info) => {
     
     }
 }
+

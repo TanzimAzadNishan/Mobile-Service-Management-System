@@ -251,6 +251,19 @@ module.exports = function(app, sio){
         AND LINKED_MOBILE_NUMBER = :fromNum
         AND LINK_TYPE = :link_type
         `*/
+
+        var transferAllowQuery = 
+        `
+        BEGIN
+            IS_TRANSFER_POINT_ALLOWED(:sender, :reqPoint, :msg);
+        END;
+        `
+        var transferAllowInfo = {
+            sender: req.body.from,
+            reqPoint: req.body.points,
+            msg: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
+        }
+
         var UpdateQuery = 
         `
         UPDATE LINK
@@ -288,13 +301,36 @@ module.exports = function(app, sio){
             link_type: req.body.link_type
         }*/
 
-        executeQuery(UpdateQuery, UpdateInfo)
+        executeQuery(transferAllowQuery, transferAllowInfo)
+        .then((transferAllowData)=>{
+            console.log(transferAllowData.outBinds);
+
+            if(transferAllowData.outBinds.msg === 'True'){
+
+                executeQuery(UpdateQuery, UpdateInfo)
+                .then(()=>{
+                    executeQuery(DeleteQuery, DeleteInfo)
+                    .then(()=>{
+                        retrieveAllTypesOfLinks(req, res)
+                    })
+                })
+            }
+            else if(transferAllowData.outBinds.msg === 'False'){
+                console.log('Your account must have atleast 50 points')
+                res.json({serverMsg: 'Your account must have atleast 50 points'})
+            }
+            else{
+                console.log('other transfer allow query error')
+            }
+        })
+
+        /*executeQuery(UpdateQuery, UpdateInfo)
         .then(()=>{
             executeQuery(DeleteQuery, DeleteInfo)
             .then(()=>{
                 retrieveAllTypesOfLinks(req, res)
             })
-        })
+        })*/
         
     })
 
