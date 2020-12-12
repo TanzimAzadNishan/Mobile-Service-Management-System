@@ -17,7 +17,7 @@ import {
 import { updateHistoryInfo } from '../store/actions/historyActions'
 
 
-var intervalId;
+//var intervalId;
 
 class Navbar extends Component{
 
@@ -110,7 +110,8 @@ class Navbar extends Component{
         this.props.onGoingCall(callInfo)
         this.props.cutCall(callInfo)
         this.closeModal()
-        clearInterval(intervalId)
+        localStorage.setItem('inacall', 'false')
+        //clearInterval(intervalId)
     }
 
     render() {
@@ -159,7 +160,7 @@ class Navbar extends Component{
         })
         socket.on('remove-cut-call', (res)=>{
             this.closeModal()
-            clearInterval(intervalId)
+            //clearInterval(intervalId)
             localStorage.setItem('inacall', 'false')
         })
         socket.on('call-is-rejected', (res)=>{
@@ -215,6 +216,9 @@ class Navbar extends Component{
         const userAuthLink = (this.props.auth) ? (
             <>
                 <li>
+                    <NavLink to="/flexiplan" className="itemStyle"> Flexiplan </NavLink>
+                </li>
+                <li>
                     <NavLink to="/recharge" className="itemStyle"> Recharge </NavLink>
                 </li>
                 <li>
@@ -253,9 +257,6 @@ class Navbar extends Component{
                         </li>
                         <li>
                             <NavLink to="/package" className="itemStyle"> Package </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/flexiplan" className="itemStyle"> Flexiplan </NavLink>
                         </li>
                         <li>
                             <NavLink to="/fnf" className="itemStyle"> FNF </NavLink>

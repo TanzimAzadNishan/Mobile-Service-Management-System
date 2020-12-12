@@ -5,7 +5,8 @@ const initState = {
     profilePic: null,
     current_pkg: null,
     current_fnf_plan: null,
-    socketId: null
+    socketId: null,
+    validityDate: null
 }
 
 const dashboardReducer = (state = initState, action)=>{
@@ -101,6 +102,18 @@ const dashboardReducer = (state = initState, action)=>{
         return{
             ...state,
             accountInfo: accountInfoData ? JSON.parse(accountInfoData) : null
+        }
+    }
+
+    
+    else if(action.type === 'UPDATE_VALIDITY_DATE'){
+        console.log('validity date updated')
+        localStorage.setItem('validityDate', JSON.stringify(action.validityDate))
+        const validityDateData = localStorage.getItem('validityDate')
+
+        return{
+            ...state,
+            validityDate: validityDateData ? JSON.parse(validityDateData) : null
         }
     }
 

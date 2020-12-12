@@ -17,7 +17,7 @@ import {
 } from '../../store/actions/service/intcallsmsAction'
 
 
-var intervalId;
+//var intervalId;
 
 class UserDashboard extends Component{
     constructor(props){
@@ -179,7 +179,13 @@ class UserDashboard extends Component{
         evt.preventDefault();
         if(localStorage.getItem('turnOnOff') != null && 
         localStorage.getItem('turnOnOff') === 'true'){
-            clearInterval(intervalId)
+            //clearInterval(intervalId)
+
+            var intInfo = {
+                sender: this.props.auth.mobile_number,
+                history_id: this.props.lastSessionHistoryId
+            }
+            this.props.updateSession(intInfo)
 
             console.log('update session called')
             localStorage.setItem('turnOnOff', 'false')
@@ -199,12 +205,16 @@ class UserDashboard extends Component{
                 sender: this.props.auth.mobile_number
             }
             this.props.startSession(sessionInfo)
-            var intInfo = {
+            /*var intInfo = {
                 sender: this.props.auth.mobile_number,
                 history_id: this.props.lastSessionHistoryId
-            }
+            }*/
 
-            intervalId =  setInterval(()=>{
+            /*intervalId =  setInterval(()=>{
+                var intInfo = {
+                    sender: this.props.auth.mobile_number,
+                    history_id: this.props.lastSessionHistoryId
+                }
                 console.log('session update: ', intInfo)
                 if(this.props.intcallsmsError != null){
                     clearInterval(intervalId)
@@ -218,7 +228,7 @@ class UserDashboard extends Component{
                 else{
                     this.props.updateSession(intInfo)
                 }
-            }, 5000)
+            }, 5000)*/
         }
         //this.closeModal()
     }
@@ -358,8 +368,25 @@ class UserDashboard extends Component{
                     </button>
                 </div>
             ) : null
-            
 
+            const rechargeValidity = (
+                <>
+                    <p className="remainder">
+                        Valid Till
+                    </p>
+                    <p className="remainder">
+                        {this.props.validityDate ? (
+                            this.props.validityDate.toString().replace("T"," ").replace(".000Z","")
+                        ) : (
+                            this.props.accountInfo ? (
+                                this.props.accountInfo.VALIDITY_DATE.toString().replace("T"," ").replace(".000Z","")
+                            ) : (
+                                null
+                            )
+                        )}
+                    </p>
+                </>
+            )
 
         return (
             <>
@@ -470,7 +497,9 @@ class UserDashboard extends Component{
                             className ='btn-small turn-btn' 
                             onClick={(e)=>{this.handleTurnOnOff(e)}}
                         >
-                            {this.state.turnOnOff ? `Turn Off` : `Turn On`}
+                            {(localStorage.getItem('turnOnOff') != null && 
+                            localStorage.getItem('turnOnOff') === 'true') 
+                            ? `Turn Off` : `Turn On`}
                         </button>
 
                         <button 
@@ -736,12 +765,9 @@ class UserDashboard extends Component{
                                         <p className="amount">
                                             {(this.props.accountInfo.ACCOUNT_BALANCE).toFixed(2)} TK
                                         </p>
-                                        <p className="remainder">
-                                            Valid Till
-                                        </p>
-                                        <p className="remainder">
-                                            Thursday, January 9, 2020
-                                        </p>
+
+                                        {rechargeValidity}
+
                                     </div>
                                 </div>
 
@@ -778,6 +804,7 @@ class UserDashboard extends Component{
                                         {(this.props.accountInfo.INTERNET_BALANCE).toFixed(2)} MB
                                     </p>
                                     <p className="remainder">
+                                     
                                     </p>
                                 </div>
                             </div>
@@ -848,7 +875,8 @@ const mapStateToProps = (state) => {
         personFNFList: state.personFNF.personFNFList,
         personFNFError: state.personFNF.personFNFError,
         lastSessionHistoryId: state.intcallsms.lastSessionHistoryId,
-        intcallsmsError: state.intcallsms.intcallsmsError
+        intcallsmsError: state.intcallsms.intcallsmsError,
+        validityDate: state.dashboard.validityDate
     }
 }
 

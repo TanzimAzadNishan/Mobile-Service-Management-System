@@ -13,7 +13,10 @@ export const sendSMS = (info) => {
                     dispatch({type: 'REFRESH_INT_CALL_SMS_ERROR'})
                 }, 3000)
             }
-            else if(res.data.serverMsg === 'This Mobile Number is not found!'){
+
+            else if(res.data.serverMsg === 'This Mobile Number is not found!' ||
+                res.data.serverMsg === 'Validity Date Over!'
+            ){
                 dispatch({type: 'INT_CALL_SMS_ERR', error: res.data.serverMsg})
 
                 setTimeout(()=>{
@@ -36,8 +39,15 @@ export const startSession = (info) => {
             if(res.data.serverMsg === 'Session Id Retrieved Succesfully!'){
                 dispatch({type: 'STORE_SESSION_HISTORY_ID', lastSessionHistoryId: res.data.lastSessionHistoryId})
             }
-            else if(res.data.serverMsg === 'Not sufficient balance to start session'){
+            else if(res.data.serverMsg === 'Not sufficient balance to start session' ||
+                res.data.serverMsg === 'Validity Date Over!'
+            ){
+                localStorage.setItem('turnOnOff', 'false')
                 dispatch({type: 'INT_CALL_SMS_ERR', error: res.data.serverMsg})
+
+                setTimeout(()=>{
+                    dispatch({type: 'REFRESH_INT_CALL_SMS_ERROR'})
+                }, 5000)
             }
             
         }, ()=>{
@@ -50,8 +60,15 @@ export const updateSession = (info) => {
         intcallsmsService.onUpdateSession(info)
         .then((res)=> {
             //console.log(res)
-            if(res.data.serverMsg === 'Not sufficient balance to continue session'){
+            if(res.data.serverMsg === 'Not sufficient balance to continue session' ||
+                res.data.serverMsg === 'Validity Date Over!'
+            ){
+                localStorage.setItem('turnOnOff', 'false')
                 dispatch({type: 'INT_CALL_SMS_ERR', error: res.data.serverMsg})
+
+                setTimeout(()=>{
+                    dispatch({type: 'REFRESH_INT_CALL_SMS_ERROR'})
+                }, 5000)
             }
             
         }, ()=>{
@@ -69,7 +86,9 @@ export const startCall = (info) => {
             if(res.data.serverMsg === 'Talktime Id Retrieved Succesfully!'){
                 dispatch({type: 'STORE_TALKTIME_ID', lastTalktimeId: res.data.lastTalktimeId})
             }
-            else if(res.data.serverMsg === 'Not sufficient balance to start call'){
+            else if(res.data.serverMsg === 'Not sufficient balance to start call' ||
+                res.data.serverMsg === 'Validity Date Over!'            
+            ){
                 dispatch({type: 'INT_CALL_SMS_ERR', error: res.data.serverMsg})
                 localStorage.setItem('inacall', 'false')
                 setTimeout(()=>{
@@ -97,7 +116,9 @@ export const onGoingCall = (info) => {
         .then((res)=> {
             //console.log(res)
             
-            if(res.data.serverMsg === 'Not sufficient balance to continue call'){
+            if(res.data.serverMsg === 'Not sufficient balance to continue call' ||
+                res.data.serverMsg === 'Validity Date Over!'
+            ){
                 dispatch({type: 'INT_CALL_SMS_ERR', error: res.data.serverMsg})
                 localStorage.setItem('inacall', 'false')
                 setTimeout(()=>{

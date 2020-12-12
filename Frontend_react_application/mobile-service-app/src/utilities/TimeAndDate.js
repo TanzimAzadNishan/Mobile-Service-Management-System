@@ -48,4 +48,24 @@ const getDuration = (time1, time2)=>{
     return hrFlag + hr + ':' + minFlag + min + ':' + secFlag + sec
 }
 
-export {getDate, getDuration}
+const getRechargeValidity = (rechargeDate)=>{
+    var actionDate = new Date(rechargeDate)
+    actionDate.setDate(actionDate.getDate() + 30)
+
+    console.log(actionDate)
+    return actionDate.toLocaleDateString()
+}
+
+
+const getValidityDate = (dateStr)=>{
+
+    if(dateStr != null){
+        var actionDate = new Date(dateStr)
+
+        console.log(actionDate)
+        return actionDate.toLocaleDateString()+ ' ' + actionDate.toLocaleTimeString()
+    }
+    return null
+}
+
+export {getDate, getDuration, getRechargeValidity, getValidityDate}

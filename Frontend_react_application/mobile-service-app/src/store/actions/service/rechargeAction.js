@@ -12,7 +12,22 @@ export const sendRecharge = (info) => {
                     dispatch({type: 'REFRESH_RECHARGE_ERROR'})
                 }, 3000)
             }
-            
+
+            if(res.data.serverMsg === 'This Mobile Number is not found!'){
+                dispatch({type: 'RECHARGE_FAILED', error: res.data.serverMsg})
+                setTimeout(()=>{
+                    dispatch({type: 'REFRESH_RECHARGE_ERROR'})
+                }, 3000)
+            }
+
+            if(res.data.serverMsg === 'Validity Date Over!'){
+                dispatch({type: 'RECHARGE_FAILED', error: res.data.serverMsg})
+                setTimeout(()=>{
+                    dispatch({type: 'REFRESH_RECHARGE_ERROR'})
+                }, 3000)
+            }
+
+
             
         }, ()=>{
             console.log('retrieve feedback list failed')

@@ -134,7 +134,7 @@ class Recharge extends Component{
         }
 
         else{
-            console.log('activeModal: ', this.state.activeModal)
+            //console.log('activeModal: ', this.state.activeModal)
             NProgress.done()
             return (
                 <div className="recharge">

@@ -42,6 +42,28 @@ module.exports = function(app, sio){
     app.post('/send-recharge', (req, res)=>{
         console.log(req.body)
 
+        var validityExistQuery = 
+        `
+        BEGIN
+            :ret := IS_AMOUNT_VALIDITY_EXIST(:mob, SYSDATE);
+        END;
+        `
+        var validityExistInfo = {
+            mob: req.body.sender,
+            ret: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
+        }
+
+        var mobExistQuery =
+        `
+        BEGIN
+            :ret := IS_MOBILE_NUMBER_EXIST(:receiver);
+        END;
+        `
+        var mobExistInfo = {
+            receiver: req.body.receiver,
+            ret: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
+        }
+
         var amountQuery =
         `
         BEGIN
@@ -92,27 +114,61 @@ module.exports = function(app, sio){
             mobile_number: req.body.receiver
         }
 
-        executeQuery(amountQuery, amountInfo)
-        .then((result)=>{
-            console.log(result.outBinds);
-            if(result.outBinds.msg === 'VALID'){
-                insertOperation(historyQuery, senderInfo)
-                .then((hasSenderErr)=>{
-                    if(!hasSenderErr){
-                        insertOperation(historyQuery, receiverInfo)
-                        .then((hasHistoryErr)=>{
-                            if(!hasHistoryErr){
-                                emitUpdate(req.body.receiver, sio)
+
+        executeQuery(validityExistQuery, validityExistInfo)
+        .then((validityData)=>{
+            console.log('validity exist : ', validityData.outBinds)
+
+            if(validityData.outBinds.ret === 'True'){
+
+                executeQuery(mobExistQuery, mobExistInfo)
+                .then((mobData)=>{
+                    console.log('mob num exist : ', mobData.outBinds)
+
+                    if(mobData.outBinds.ret === 'True'){
+
+                        executeQuery(amountQuery, amountInfo)
+                        .then((result)=>{
+                            console.log(result.outBinds);
+                            if(result.outBinds.msg === 'VALID'){
+                                insertOperation(historyQuery, senderInfo)
+                                .then((hasSenderErr)=>{
+                                    if(!hasSenderErr){
+                                        insertOperation(historyQuery, receiverInfo)
+                                        .then((hasHistoryErr)=>{
+                                            if(!hasHistoryErr){
+                                                emitUpdate(req.body.receiver, sio)
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                
+                            else{
+                                console.log(result.outBinds.msg)
+                                res.json({serverMsg: 'Your account does not have sufficient balance'})
                             }
                         })
+                    }
+
+                    else if(mobData.outBinds.ret === 'False'){
+                        console.log('The mob num does not exist')
+                        res.json({serverMsg: 'This Mobile Number is not found!'})
+                    }
+                    else{
+                        console.log('other mob exist query error')
                     }
                 })
             }
 
+            else if(validityData.outBinds.ret === 'False'){
+                console.log('validity date over')
+                res.json({serverMsg: 'Validity Date Over!'})
+            }
             else{
-                console.log(result.outBinds.msg)
-                res.json({serverMsg: 'Your account does not have sufficient balance'})
+                console.log('other exist query error')
             }
         })
+
     })
 }

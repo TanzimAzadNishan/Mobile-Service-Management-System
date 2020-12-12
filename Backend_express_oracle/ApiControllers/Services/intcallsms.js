@@ -417,7 +417,8 @@ function updateInternetSession(req, sio, amount, dataVolume){
     })
 }
 
-function updateCallSession(req, sio, amount, cutDuration, callType){
+function updateCallSession(req, sender, receiver, sio, amount, cutDuration, callType){
+    console.log('update call session .....................')
     var updateSessionQuery = 
     `
     UPDATE PERSON_HISTORY
@@ -447,15 +448,15 @@ function updateCallSession(req, sio, amount, cutDuration, callType){
 
     executeQuery(updateSessionQuery, updateInfo)
     .then(()=>{
-        executeQuery(accountQuery, [req.body.sender])
+        executeQuery(accountQuery, [sender])
         .then((accData)=>{
             var socketid = accData.rows[0].SOCKET_ID
 
             sio.to(socketid).emit('updated-account-balance',
             {accountInfo: accData.rows[0]})
 
-            updatedInfo.mobile_number = req.body.sender
-            updatedInfo.contact_number = req.body.sender
+            updatedInfo.mobile_number = sender
+            updatedInfo.contact_number = sender
 
             executeQuery(updatedhistoryQuery, updatedInfo)
             .then((updatedHistory)=>{
@@ -465,12 +466,12 @@ function updateCallSession(req, sio, amount, cutDuration, callType){
             })
         })
 
-        executeQuery(emitToReceiverQuery, [req.body.receiver])
+        executeQuery(emitToReceiverQuery, [receiver])
         .then((socketData)=>{
             var socketid = socketData.rows[0].SOCKET_ID
 
-            updatedInfo.mobile_number = req.body.receiver
-            updatedInfo.contact_number = req.body.receiver
+            updatedInfo.mobile_number = receiver
+            updatedInfo.contact_number = receiver
 
             executeQuery(updatedhistoryQuery, updatedInfo)
             .then((updatedHistory)=>{
@@ -536,6 +537,7 @@ module.exports = function(app, sio){
                 executeQuery(smsAllowQuery, info)
                 .then((result)=>{
                     console.log(result.outBinds);
+
                     if(result.outBinds.msg === 'True'){
                         
                         console.log('amount : ', result.outBinds.amount)
@@ -548,6 +550,11 @@ module.exports = function(app, sio){
                     else if(result.outBinds.msg === 'False'){
                         console.log('Not sufficient balance to send sms')
                         res.json({serverMsg: 'Not sufficient balance to send sms'})
+                    }
+
+                    else if(result.outBinds.msg === 'Validity Date Over!'){
+                        console.log('Validity Date Over!')
+                        res.json({serverMsg: 'Validity Date Over!'})
                     }
                     else{
                         console.log('other record error')
@@ -598,6 +605,10 @@ module.exports = function(app, sio){
                 console.log('Not sufficient balance to start session')
                 res.json({serverMsg: 'Not sufficient balance to start session'})
             }
+            else if(allowData.outBinds.msg === 'Validity Date Over!'){
+                console.log('Validity Date Over!')
+                res.json({serverMsg: 'Validity Date Over!'})
+            }
             else{
                 console.log('other session allow query error')
             }
@@ -646,6 +657,10 @@ module.exports = function(app, sio){
                 else if(allowData.outBinds.msg === 'False'){
                     console.log('Not sufficient balance to continue session')
                     res.json({serverMsg: 'Not sufficient balance to continue session'})
+                }
+                else if(result.outBinds.msg === 'Validity Date Over!'){
+                    console.log('Validity Date Over!')
+                    res.json({serverMsg: 'Validity Date Over!'})
                 }
                 else{
                     console.log('other update session allow query error')
@@ -704,6 +719,10 @@ module.exports = function(app, sio){
                         console.log('Not sufficient balance to start call')
                         res.json({serverMsg: 'Not sufficient balance to start call'})
                     }
+                    else if(allowData.outBinds.msg === 'Validity Date Over!'){
+                        console.log('Validity Date Over!')
+                        res.json({serverMsg: 'Validity Date Over!'})
+                    }
                     else{
                         console.log('other call allow query error')
                     }
@@ -724,9 +743,10 @@ module.exports = function(app, sio){
         console.log('----------ongoing call------------------')
         console.log(req.body)
 
+
         var lastupdateQuery = 
         `
-        SELECT TIME_SLOT_END
+        SELECT TIME_SLOT_END, SENDER_NUMBER, CONTACT_NUMBER
         FROM PERSON_HISTORY
         WHERE HISTORY_ID = :history_id
         `
@@ -764,8 +784,15 @@ module.exports = function(app, sio){
             ongoinginfo.stime = lastUpdate.rows[0].TIME_SLOT_END
             console.log('stime : ', ongoinginfo.stime)
 
+            callAllowInfo.sender = lastUpdate.rows[0].SENDER_NUMBER
+            ongoinginfo.sender = lastUpdate.rows[0].SENDER_NUMBER
+            callAllowInfo.receiver = lastUpdate.rows[0].CONTACT_NUMBER
+
             executeQuery(callAllowQuery, callAllowInfo)
             .then((allowData)=>{
+                console.log('inside-------')
+                console.log(allowData.outBinds)
+
                 if(allowData.outBinds.msg === 'True'){
     
                     console.log('amount : ', allowData.outBinds.amount)
@@ -784,7 +811,8 @@ module.exports = function(app, sio){
                                 callFlag = 0
                             }
                             
-                            updateCallSession(req, sio, ongoingData.outBinds.amount,
+                            updateCallSession(req, callAllowInfo.sender, callAllowInfo.receiver,
+                                sio, ongoingData.outBinds.amount,
                                 ongoingData.outBinds.duration, 'r')
 
                         }
@@ -796,6 +824,13 @@ module.exports = function(app, sio){
                             console.log('other ongoing allow query error')
                         }
                     })
+                }
+                else if(allowData.outBinds.msg === 'Validity Date Over!'){
+                    console.log('Validity Date Over!')
+                    res.json({serverMsg: 'Validity Date Over!'})
+                }
+                else{
+                    console.log('other call allow query error')
                 }
             })
         })
@@ -822,11 +857,11 @@ module.exports = function(app, sio){
             var socketid = socketData.rows[0].SOCKET_ID
             sio.to(socketid).emit('remove-cut-call')
         })
-        executeQuery(emitToReceiverQuery, [req.body.user2])
+        /*executeQuery(emitToReceiverQuery, [req.body.user2])
         .then((socketData)=>{
             var socketid = socketData.rows[0].SOCKET_ID
             sio.to(socketid).emit('remove-cut-call')
-        })
+        })*/
     })
 
     app.post('/waiting-call', (req, res)=>{

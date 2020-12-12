@@ -1,15 +1,21 @@
 
 import dashboardService from '../../utilities/Services/dashboardService'
 //import {socket} from '../../utilities/SocketIOClient'
+import {getValidityDate} from '../../utilities/TimeAndDate'
 
 export const retrieveAccountInfo = (personInfo)=>{
     return(dispatch, getState)=>{
         dashboardService.getAccountInfo(personInfo)
         .then((res)=>{
-            console.log(res)
+            console.log(res.data.accountDetails)
 
+            res.data.accountDetails.accountInfo.VALIDITY_DATE = getValidityDate(
+                res.data.accountDetails.accountInfo.VALIDITY_DATE
+            )
             dispatch({type: 'RETRIEVE_ACCOUNT_DETAILS', accountDetails: res.data.accountDetails})
-
+            
+            dispatch({type: 'UPDATE_VALIDITY_DATE', 
+            validityDate: getValidityDate(res.data.accountDetails.validityDate)})
 
         }, ()=>{
             console.log('retrieve info failed')
@@ -88,5 +94,12 @@ export const updateAccountInfo = (accountInfo)=>{
     return(dispatch, getState)=>{
 
         dispatch({type: 'UPDATE_ACCOUNT_BALANCE', accountInfo: accountInfo})
+    }
+}
+
+export const updateValidityDate = (info)=>{
+    return(dispatch, getState)=>{
+
+        dispatch({type: 'UPDATE_VALIDITY_DATE', validityDate: info})
     }
 }
