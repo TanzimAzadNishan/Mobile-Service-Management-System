@@ -44,7 +44,8 @@ module.exports = function(app){
 
         linkBuyerPlan = {
             id: id,
-            mobile_number: req.body.mobile_number
+            mobile_number: req.body.mobile_number,
+            validity: req.body.validity
         }
 
         planInfo = {
@@ -102,13 +103,13 @@ module.exports = function(app){
                         TALKTIME_QUANTITY = :talktime AND
                         SMS_QUANTITY = :sms AND
                         VALIDITY = :validity AND
-                        AMOUNT_NEEDED = :amount),SYSDATE)
+                        AMOUNT_NEEDED = :amount),SYSDATE,0, 0, 0, :validity)
         `
 
         UpdatePersonFlexiplanQuery = 
         `
         INSERT INTO PERSON_FLEXIPLAN 
-        VALUES(:mobile_number, :id, SYSDATE)
+        VALUES(:mobile_number, :id, SYSDATE,,0, 0, 0, :validity)
         `
 
         executeQuery(flexiplanExistsQuery,planInfo)

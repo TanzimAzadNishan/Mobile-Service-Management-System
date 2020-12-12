@@ -76,7 +76,8 @@ module.exports = function(app){
     app.post('/offer/buy', (req,res)=>{
         personOfferDetails = {
             offer_name : req.body.name,
-            mobile_number : req.body.mobile_number
+            mobile_number : req.body.mobile_number,
+            validity : req.body.validity
         }
 
         offerDetails = {
@@ -95,7 +96,7 @@ module.exports = function(app){
         personOfferQuery = 
         `
         INSERT INTO PERSON_OFFER
-        VALUES(:mobile_number, :offer_name, SYSDATE)
+        VALUES(:mobile_number, :offer_name, SYSDATE, 0, 0, 0, :validity)
         `
 
         updateAccountwithBalance = 
