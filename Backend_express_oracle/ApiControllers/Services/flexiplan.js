@@ -109,7 +109,7 @@ module.exports = function(app){
         UpdatePersonFlexiplanQuery = 
         `
         INSERT INTO PERSON_FLEXIPLAN 
-        VALUES(:mobile_number, :id, SYSDATE,,0, 0, 0, :validity)
+        VALUES(:mobile_number, :id, SYSDATE,0, 0, 0, :validity)
         `
 
         executeQuery(flexiplanExistsQuery,planInfo)

@@ -18,8 +18,8 @@ module.exports = function(app){
         var VALIDITY_OFFER_FLEXI_QUERY = 
         `
         BEGIN
-            CHECK_VALIDITY_OFFER(:mob);
             CHECK_VALIDITY_FLEXIPLAN(:mob);
+            CHECK_VALIDITY_OFFER(:mob);
         END;
         `
         var validityOfferflexiInfo = {

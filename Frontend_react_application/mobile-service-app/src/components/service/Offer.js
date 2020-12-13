@@ -20,7 +20,8 @@ const initialState = {
         sms: 0,
         bonus_sms: 0,
         mobile_number: '',
-        type: ''
+        type: '',
+        validity: 0
     },
 }
 
@@ -67,7 +68,8 @@ class Offer extends Component{
                 talktime: offer.MIN_BAL,
                 bonus_talktime: offer.BONUS_MIN_BAL,
                 sms: offer.SMS_BAL,
-                bonus_sms: offer.BONUS_SMS
+                bonus_sms: offer.BONUS_SMS,
+                validity: offer.VALIDITY
             }});
         }  
     }
