@@ -376,10 +376,10 @@ class UserDashboard extends Component{
                     </p>
                     <p className="remainder">
                         {this.props.validityDate ? (
-                            this.props.validityDate.toString().replace("T"," ").replace(".000Z","")
+                            this.props.validityDate
                         ) : (
                             this.props.accountInfo ? (
-                                this.props.accountInfo.VALIDITY_DATE.toString().replace("T"," ").replace(".000Z","")
+                                this.props.accountInfo.VALIDITY_DATE
                             ) : (
                                 null
                             )

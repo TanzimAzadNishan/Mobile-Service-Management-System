@@ -14,8 +14,10 @@ export const retrieveAccountInfo = (personInfo)=>{
             )
             dispatch({type: 'RETRIEVE_ACCOUNT_DETAILS', accountDetails: res.data.accountDetails})
             
-            dispatch({type: 'UPDATE_VALIDITY_DATE', 
-            validityDate: getValidityDate(res.data.accountDetails.validityDate)})
+            if(res.data.accountDetails.validityDate != null){
+                dispatch({type: 'UPDATE_VALIDITY_DATE', 
+                validityDate: getValidityDate(res.data.accountDetails.validityDate)})
+            }
 
         }, ()=>{
             console.log('retrieve info failed')
