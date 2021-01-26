@@ -26,7 +26,7 @@ If you use vscode then ctrl+ backtick will open the terminal.
 
 ```
 
-## **Project Feature**
+## **Project Features**
 
 ### Our functionalities:
 
@@ -42,3 +42,7 @@ If you use vscode then ctrl+ backtick will open the terminal.
 9. History Management
 
 ```
+
+## **Developers**
+#### [Md. Tanzim Azad](https://github.com/TanzimAzadNishan)
+#### [Prantik Paul](https://github.com/prantik-paul-99)
