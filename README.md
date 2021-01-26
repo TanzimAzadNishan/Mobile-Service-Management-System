@@ -1,5 +1,5 @@
 # Mobile-Service-Management-System
-React based application with Oracle DB in backend
+### **React based application with Nodejs and Oracle DB in backend**
 
 ## **Run the Project**
 
