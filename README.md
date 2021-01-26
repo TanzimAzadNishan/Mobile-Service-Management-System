@@ -1,7 +1,7 @@
 # Mobile-Service-Management-System
 
 ```diff
-- React based application with Nodejs and Oracle DB in backend in blue
+@@ React based application with Nodejs and Oracle DB in backend
 ```
 
 ## **Run the Project**
