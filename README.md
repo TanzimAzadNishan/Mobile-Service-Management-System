@@ -1,9 +1,8 @@
 # Mobile-Service-Management-System
 
-#### **<div class="text-blue mb-2">
+<div class="text-blue mb-2">
   React based application with Nodejs and Oracle DB in backend
 </div>
-**
 
 ## **Run the Project**
 
