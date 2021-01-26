@@ -1,8 +1,8 @@
 # Mobile-Service-Management-System
 
-<div class="text-blue mb-2">
-  React based application with Nodejs and Oracle DB in backend
-</div>
+#### ```diff
+  React based application with Nodejs and Oracle DB in backend in blue
+```
 
 ## **Run the Project**
 
