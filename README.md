@@ -13,6 +13,13 @@ If you use vscode then ctrl+ backtick will open the terminal.
 
 ```
 \Mobile-Service-Management-System> cd Backend_express_oracle
+
+```
+
+Then install dependencies and start backend server
+
+```
+\Mobile-Service-Management-System\Backend_express_oracle> npm install
 \Mobile-Service-Management-System\Backend_express_oracle> npm run server
 
 ```
@@ -25,6 +32,13 @@ If you use vscode then ctrl+ backtick will open the terminal.
 ```
 \Mobile-Service-Management-System> cd Frontend_react_application
 \Mobile-Service-Management-System\Frontend_react_application> cd mobile-service-app
+
+```
+
+Then install dependencies and start browser
+
+```
+\Mobile-Service-Management-System\Frontend_react_application\mobile-service-app> npm install
 \Mobile-Service-Management-System\Frontend_react_application\mobile-service-app> npm start
 
 ```
