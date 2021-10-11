@@ -50,11 +50,11 @@ Then install dependencies and start browser
 ```
 1. Packages, FNF, Offers set by Admin
 2. User Signup and Login
-3. Selecting Packages, Fnf plans and Offers By Users
-4. Selecting customised plans by Users # Use of Account Balance or Points to buy Offers or avail Flexiplan
+3. Selecting Packages, Fnf plans and Offers by Users
+4. Selecting customised plans by Users and usage of Account Balance or Points to buy Offers or avail Flexiplan
 5. Connecting with other Users in the system and ive and take of points
-6. Recharge system between Users
-7. User feedback to Admin nad Reply feedback system from Admin to Users
+6. Recharge facility between Users
+7. Facilities of giving feedback and responding to feedback
 8. Dummy Call, SMS and Internet Usage System
 9. History Management
 
