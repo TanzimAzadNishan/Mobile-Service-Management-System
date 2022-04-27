@@ -45,9 +45,6 @@ Then install dependencies and start browser
 
 ## **Project Features**
 
-### Our functionalities:
-
-```
 1. Packages, FNF, Offers set by Admin
 2. User Signup and Login
 3. Selecting Packages, Fnf plans and Offers by Users
@@ -58,8 +55,12 @@ Then install dependencies and start browser
 8. Dummy Call, SMS and Internet Usage System
 9. History Management
 
-```
 
+<br /><br />
+## **Project Demo**
+[![](https://github.com/TanzimAzadNishan/Mobile-Service-Management-System/blob/main/Thumbnail.png)](https://drive.google.com/drive/folders/1-NfTmo4RFpRb_fGcRmTFKU_F2IjwJzN-)
+
+<br /><br />
 ## **Developers**
 #### [Md. Tanzim Azad](https://github.com/TanzimAzadNishan)
 #### [Prantik Paul](https://github.com/prantik-paul-99)
